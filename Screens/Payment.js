@@ -1,15 +1,34 @@
 import {Image, Platform, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {colors} from '../utilies/colors';
 import {scale} from '../utilies/scale';
 import PaymentLeftView from '../Components/PaymentComponents/PaymentLeftView';
 import PaymentMiddleView from '../Components/PaymentComponents/PaymentMiddleView';
 import PaymentRightView from '../Components/PaymentComponents/PaymentRightView';
 import {icons} from '../assets/icons';
+import ServiceChargesModal from '../Components/PaymentComponents/ServiceChargesModal';
+import QrCodeScanModal from '../Components/PaymentComponents/QrCodeScanModal';
 const Payment = ({navigation}) => {
   const [isOrder, setIsOrder] = useState(false);
+  const [isShowServiceCharges, setIsShowServiceCharges] = useState(false);
+  const [isShowQrCode, setIsShowQrCode] = useState(false);
+  const [isShowZeward, setIsShowZeward] = useState(false);
+
   return (
     <View style={styles.mainContiner}>
+      <ServiceChargesModal
+        visible={isShowServiceCharges}
+        setVisible={() => setIsShowServiceCharges(false)}
+      />
+      <QrCodeScanModal
+        visible={isShowQrCode}
+        setVisible={() => setIsShowQrCode(false)}
+        qr
+      />
+      <QrCodeScanModal
+        visible={isShowZeward}
+        setVisible={() => setIsShowZeward(false)}
+      />
       {isOrder ? (
         <View style={styles.orderNo}>
           {[0, 1, 2].map(item => {
@@ -32,7 +51,12 @@ const Payment = ({navigation}) => {
       )}
       <View style={styles.subContainer}>
         <PaymentLeftView />
-        <PaymentMiddleView navigation={navigation} />
+        <PaymentMiddleView
+          navigation={navigation}
+          serviceChargesPress={() => setIsShowServiceCharges(true)}
+          qrCodePress={() => setIsShowQrCode(true)}
+          zewardPress={() => setIsShowZeward(true)}
+        />
         <PaymentRightView
           newPress={() => {
             setIsOrder(true);

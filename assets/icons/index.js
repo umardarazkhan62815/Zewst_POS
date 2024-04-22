@@ -43,4 +43,7 @@ export const icons = {
   qr: require('./qr.png'),
   nfc: require('./nfc.png'),
   card: require('./card.png'),
+  setting: require('./setting.png'),
+  fillTick: require('./fillTick.png'),
+  thumb: require('./thumb.png'),
 };

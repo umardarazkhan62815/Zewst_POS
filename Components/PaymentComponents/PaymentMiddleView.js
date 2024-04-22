@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {scale} from '../../utilies/scale';
 import {colors} from '../../utilies/colors';
@@ -18,7 +18,24 @@ const payments = [
   {name: 'QR payment', icon: icons.qr, selected: false},
   {name: 'NFC payment', icon: icons.nfc, selected: false},
 ];
-const PaymentMiddleView = ({navigation}) => {
+const PaymentMiddleView = ({
+  navigation,
+  serviceChargesPress,
+  qrCodePress,
+  zewardPress,
+}) => {
+  const handlePaymentPress = item => {
+    if (item?.name === 'QR payment') {
+      qrCodePress(true);
+    }
+  };
+  const handleBillPress = item => {
+    if (item?.name === 'Service charge') {
+      serviceChargesPress(true);
+    } else if (item?.name === 'Zewards') {
+      zewardPress();
+    }
+  };
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.registerTxt}>{'Register'}</Text>
@@ -125,14 +142,16 @@ const PaymentMiddleView = ({navigation}) => {
           <View style={{paddingTop: scale(25)}}>
             {bills.map(item => {
               return (
-                <View style={styles.takaway}>
+                <TouchableOpacity
+                  style={styles.takaway}
+                  onPress={() => handleBillPress(item)}>
                   <Image
                     source={item?.icon}
                     style={styles.takeaway}
                     resizeMode="center"
                   />
                   <Text style={styles.takeAwayTxt}>{item?.name}</Text>
-                </View>
+                </TouchableOpacity>
               );
             })}
           </View>
@@ -148,14 +167,16 @@ const PaymentMiddleView = ({navigation}) => {
       <View style={styles.paymentView}>
         {payments.map(item => {
           return (
-            <View style={item?.selected ? styles.payments : styles.payment}>
+            <TouchableOpacity
+              onPress={() => handlePaymentPress(item)}
+              style={item?.selected ? styles.payments : styles.payment}>
               <Image
                 source={item?.icon}
                 style={styles.paymentIcon}
                 resizeMode="center"
               />
               <Text style={styles.paymentTxt}>{item?.name}</Text>
-            </View>
+            </TouchableOpacity>
           );
         })}
       </View>
