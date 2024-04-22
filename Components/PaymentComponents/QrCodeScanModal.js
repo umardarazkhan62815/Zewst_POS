@@ -13,8 +13,19 @@ import {images} from '../../assets/images';
 import {icons} from '../../assets/icons';
 import FlexDirectionView from '../FlexDirectionView';
 import Slider from '@react-native-community/slider';
+import {LinearGradient} from 'react-native-linear-gradient';
 
 const QrCodeScanModal = ({visible, setVisible, qr}) => {
+  const [sliderValue, setSliderValue] = useState(0);
+  const [grayTrackWidth, setGrayTrackWidth] = useState('100%');
+
+  const onValueChange = value => {
+    console.log('VAlue', value);
+    setSliderValue(value);
+    const sV = sliderValue * 100;
+    setGrayTrackWidth(`${100 - sV}%`);
+  };
+
   return (
     <Modal animationType="fade" transparent={true} visible={visible}>
       <View style={styles.modalContainer}>
@@ -102,19 +113,37 @@ const QrCodeScanModal = ({visible, setVisible, qr}) => {
                   />
                   <Text style={styles.idTxt}>{'8833'}</Text>
                 </FlexDirectionView>
-                <Slider
-                  style={{
-                    width: scale(367),
-                    height: scale(30),
-                    alignSelf: 'center',
-                  }}
-                  minimumValue={0}
-                  maximumValue={1}
-                  minimumTrackTintColor="#8D23DD"
-                  maximumTrackTintColor="#B2B2B2"
-                  thumbTintColor={colors.purple}
-                  thumbImage={icons.thumb}
-                />
+
+                <View style={styles.sliderMainView}>
+                  <LinearGradient
+                    colors={['#01CDA8', '#8D23DD']}
+                    start={{x: 0, y: 0}}
+                    end={{x: 1, y: 0}}
+                    onValueChange={onValueChange}
+                    style={styles.linerGradient}
+                  />
+                  <View
+                    style={{
+                      alignSelf: 'flex-end',
+                      position: 'absolute',
+                      top: scale(15) - scale(4) / 2,
+                      width: grayTrackWidth,
+                      height: scale(4),
+                      backgroundColor: '#B2B2B2',
+                      zIndex: 1,
+                    }}
+                  />
+                  <Slider
+                    style={styles.slider}
+                    minimumValue={0}
+                    maximumValue={1}
+                    minimumTrackTintColor="transparent"
+                    maximumTrackTintColor="transparent"
+                    thumbTintColor="transparent"
+                    onValueChange={onValueChange}
+                    thumbImage={icons.thumb}
+                  />
+                </View>
                 <View style={styles.avaiableView}>
                   <Text style={styles.avaiableTxt}>{'Zewards Available'}</Text>
                   <FlexDirectionView Row style={styles.btnView}>
@@ -348,6 +377,28 @@ const styles = StyleSheet.create({
   },
   btnView: {
     justifyContent: 'space-between',
+  },
+  sliderMainView: {
+    width: scale(367),
+    height: scale(30),
+    alignSelf: 'center',
+    alignItems: 'center',
+  },
+  linerGradient: {
+    position: 'absolute',
+    top: scale(15) - scale(4) / 2,
+    width: '100%',
+    height: scale(4),
+    borderRadius: scale(4) / 2,
+  },
+  slider: {
+    zIndex: 1000,
+    width: '100%',
+    height: '100%',
+    // position: 'absolute',
+    top: scale(-20),
+    // paddingHorizontal: scale(0),
+    // backgroundColor: 'yellow',
   },
 });
 

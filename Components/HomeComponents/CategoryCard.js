@@ -24,6 +24,8 @@ const CategoryCard = ({item}) => {
           height={scale(10)}
           borderRadius={scale(7)}
           color={'#00A183'}
+          borderColor="rgba(56, 57, 71, 0.7)"
+          unfilledColor={colors.white}
         />
         {/* <View style={styles.progressBar}>
           <View style={[styles.progress, {width: '70%'}]} />

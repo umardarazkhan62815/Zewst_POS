@@ -8,27 +8,15 @@ import PaymentRightView from '../Components/PaymentComponents/PaymentRightView';
 import {icons} from '../assets/icons';
 import ServiceChargesModal from '../Components/PaymentComponents/ServiceChargesModal';
 import QrCodeScanModal from '../Components/PaymentComponents/QrCodeScanModal';
+import ChangeEmployee from '../Components/PaymentComponents/ChangeEmployee';
 const Payment = ({navigation}) => {
   const [isOrder, setIsOrder] = useState(false);
   const [isShowServiceCharges, setIsShowServiceCharges] = useState(false);
   const [isShowQrCode, setIsShowQrCode] = useState(false);
   const [isShowZeward, setIsShowZeward] = useState(false);
-
+  const [isChangeEmployee, setIsChangeEmployee] = useState(false);
   return (
     <View style={styles.mainContiner}>
-      <ServiceChargesModal
-        visible={isShowServiceCharges}
-        setVisible={() => setIsShowServiceCharges(false)}
-      />
-      <QrCodeScanModal
-        visible={isShowQrCode}
-        setVisible={() => setIsShowQrCode(false)}
-        qr
-      />
-      <QrCodeScanModal
-        visible={isShowZeward}
-        setVisible={() => setIsShowZeward(false)}
-      />
       {isOrder ? (
         <View style={styles.orderNo}>
           {[0, 1, 2].map(item => {
@@ -62,8 +50,29 @@ const Payment = ({navigation}) => {
             setIsOrder(true);
           }}
           isOrder={isOrder}
+          assignPress={() => {
+            setIsChangeEmployee(true);
+          }}
         />
       </View>
+
+      <ServiceChargesModal
+        visible={isShowServiceCharges}
+        setVisible={() => setIsShowServiceCharges(false)}
+      />
+      <QrCodeScanModal
+        visible={isShowQrCode}
+        setVisible={() => setIsShowQrCode(false)}
+        qr
+      />
+      <QrCodeScanModal
+        visible={isShowZeward}
+        setVisible={() => setIsShowZeward(false)}
+      />
+      <ChangeEmployee
+        setVisible={() => setIsChangeEmployee(false)}
+        visible={isChangeEmployee}
+      />
     </View>
   );
 };

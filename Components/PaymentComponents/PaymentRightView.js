@@ -1,18 +1,19 @@
-import {StyleSheet, Text, View, FlatList} from 'react-native';
+import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {scale} from '../../utilies/scale';
 import {colors} from '../../utilies/colors';
 import CustomButton from '../CustomButton';
 const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-const PaymentRightView = ({newPress, isOrder}) => {
+const PaymentRightView = ({newPress, isOrder, assignPress}) => {
   const renderItem = ({item, index}) => (
-    <View
+    <TouchableOpacity
+      onPress={() => assignPress()}
       style={[
         styles.itemView,
         {marginRight: (index + 1) % 2 === 0 ? scale(0) : scale(50)},
       ]}>
       <Text style={styles.itemTxt}>{'Reprint ticket'}</Text>
-    </View>
+    </TouchableOpacity>
   );
   return (
     <View style={styles.mainContainer}>

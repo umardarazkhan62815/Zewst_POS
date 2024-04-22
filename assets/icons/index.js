@@ -26,6 +26,7 @@ export const icons = {
   cap: require('./cap.png'),
   tickCircle: require('./tickCircle.png'),
   time: require('./time.png'),
+  table: require('./table.png'),
   tick: require('./tick.png'),
   clogo: require('./clogo.png'),
   addProfile: require('./addProfile.png'),
@@ -46,4 +47,5 @@ export const icons = {
   setting: require('./setting.png'),
   fillTick: require('./fillTick.png'),
   thumb: require('./thumb.png'),
+  mobile: require('./mobile.png'),
 };

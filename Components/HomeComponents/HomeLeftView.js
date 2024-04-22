@@ -10,15 +10,16 @@ import {
 import {icons} from '../../assets/icons';
 import {colors} from '../../utilies/colors';
 import {scale} from '../../utilies/scale';
+import FlexDirectionView from '../FlexDirectionView';
 
 const logoutMenu = [
-  {icon: icons.attendence, color: '#F9D9C9', name: ''},
-  {icon: icons.cashCircle, color: '#D1E3F4', name: ''},
-  {icon: icons.window, color: '#F9D9E7', name: ''},
-  {icon: icons.history, color: '#DDD6FC', name: ''},
-  {icon: icons.chat, color: '#F9D9C9', name: ''},
-  {icon: icons.call, color: '#D1E3F4', name: ''},
-  {icon: icons.logout, color: '#F9D9E7', name: 'logout'},
+  {icon: icons.attendence, selected: true, name: ''},
+  {icon: icons.cashCircle, selected: false, name: ''},
+  {icon: icons.window, selected: false, name: ''},
+  {icon: icons.history, selected: false, name: ''},
+  {icon: icons.chat, selected: false, name: ''},
+  {icon: icons.call, selected: false, name: ''},
+  {icon: icons.logout, selected: false, name: 'logout'},
 ];
 
 const DATA = [
@@ -32,10 +33,56 @@ const HomeLeftView = ({logoutPress, showMenu}) => {
   const renderItem = ({item}) => {
     return (
       <View style={styles.orderItem}>
+        <FlexDirectionView Row spaceBetween style={styles.topView}>
+          <View style={styles.time}>
+            <Image
+              source={icons.time}
+              style={styles.timeIcon}
+              resizeMode="center"
+            />
+            <View>
+              <Text style={styles.timeTxt}>{'18:20 PM'}</Text>
+              <Text style={styles.startTime}>{'(00:45)'}</Text>
+            </View>
+          </View>
+          <View style={styles.tableView}>
+            <FlexDirectionView Row style={{marginBottom: scale(3)}}>
+              <View style={{flex: 1}} />
+              <Image
+                source={icons.table}
+                style={styles.tableIcon}
+                resizeMode="cover"
+              />
+              <Text style={styles.tableTxt}>{'Table 5'}</Text>
+            </FlexDirectionView>
+            <FlexDirectionView Row>
+              <Image
+                source={icons.mobile}
+                style={styles.mobileIcon}
+                resizeMode="cover"
+              />
+              <Text style={styles.tableTxt}>{'DoorDash 62387'}</Text>
+            </FlexDirectionView>
+          </View>
+        </FlexDirectionView>
+        <View style={styles.sliderView}>
+          <View style={styles.processed} />
+          <View style={styles.point} />
+          <View style={styles.processing} />
+        </View>
+
+        <TouchableOpacity style={styles.readyBtn}>
+          <Image
+            style={styles.tickIcon}
+            source={icons.tick}
+            resizeMode="center"
+          />
+          <Text style={styles.readyTxt}>{'In progress'}</Text>
+        </TouchableOpacity>
         <View style={styles.itemSubView}>
           <View style={styles.itemIconView}>
             <Image
-              source={icons.delivery}
+              source={icons.dine}
               style={styles.itemIcon}
               resizeMode="cover"
             />
@@ -64,26 +111,6 @@ const HomeLeftView = ({logoutPress, showMenu}) => {
             </View>
           </View>
         </View>
-        <View style={styles.itemBtnView}>
-          <TouchableOpacity style={styles.readyBtn}>
-            <Image
-              style={styles.tickIcon}
-              source={icons.tickCircle}
-              resizeMode="center"
-            />
-            <Text style={styles.readyTxt}>{'Ready'}</Text>
-          </TouchableOpacity>
-          <View style={styles.timeView}>
-            <Image
-              style={styles.tickIcon}
-              source={icons.time}
-              resizeMode="center"
-            />
-            <Text style={[styles.readyTxt, {color: colors.black}]}>
-              {'05:23'}
-            </Text>
-          </View>
-        </View>
       </View>
     );
   };
@@ -106,27 +133,45 @@ const HomeLeftView = ({logoutPress, showMenu}) => {
             />
             <Text style={styles.takeAwayTxt}>{'Take away'}</Text>
           </View>
-          <View style={styles.recepit}>
+          {/* <View style={styles.recepit}>
             <Image
               source={icons.recepit}
               style={styles.logIcon}
               resizeMode="center"
             />
-          </View>
+          </View> */}
 
           {logoutMenu.map(item => {
             return (
               <TouchableOpacity
-                style={styles.logMenuItem}
+                style={[
+                  styles.logMenuItem,
+                  {marginTop: item?.name === 'logout' ? scale(280) : 0},
+                ]}
                 onPress={() => {
                   if (item.name == 'logout') {
                     logoutPress();
                   }
                 }}>
-                <View style={[styles.logItem, {backgroundColor: item.color}]}>
+                <View
+                  style={[
+                    styles.logItem,
+                    {
+                      backgroundColor: item?.selected
+                        ? '#EFE7F5'
+                        : colors.white,
+                    },
+                  ]}>
                   <Image
                     source={item.icon}
-                    style={styles.logIcon}
+                    style={[
+                      styles.logIcon,
+                      {
+                        tintColor: item?.selected
+                          ? colors.purple
+                          : colors.black5,
+                      },
+                    ]}
                     resizeMode="center"
                   />
                 </View>
@@ -191,7 +236,7 @@ const HomeLeftView = ({logoutPress, showMenu}) => {
               </View>
               <View style={styles.statusTxtView}>
                 <TouchableOpacity
-                  style={[styles.allbtn, {borderBottomColor: colors.black}]}>
+                  style={[styles.allbtn, {borderBottomColor: colors.green}]}>
                   <Text style={[styles.allTxt, {color: colors.black}]}>
                     {'All'}
                   </Text>
@@ -265,9 +310,9 @@ const styles = StyleSheet.create({
     height: scale(30),
   },
   logMenuItem: {
-    backgroundColor: colors.white,
-    borderWidth: 1,
-    borderColor: colors.borderGray,
+    // backgroundColor: colors.white,
+    // borderWidth: 1,
+    // borderColor: colors.borderGray,
     width: scale(90),
     height: scale(80),
     justifyContent: 'center',
@@ -278,6 +323,7 @@ const styles = StyleSheet.create({
   logItem: {
     width: scale(52),
     height: scale(52),
+    borderRadius: scale(8),
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -352,15 +398,55 @@ const styles = StyleSheet.create({
     height: scale(23),
     tintColor: '#AB587D',
   },
+  time: {
+    flexDirection: 'row',
+  },
+
+  timeIcon: {
+    width: scale(16),
+    height: scale(16),
+    marginRight: scale(6),
+  },
+  timeTxt: {
+    color: colors.black,
+    fontSize: scale(16),
+    lineHeight: scale(16),
+    fontWeight: '500',
+  },
+  startTime: {
+    color: colors.black,
+    fontSize: scale(12),
+    lineHeight: scale(12),
+    fontWeight: '500',
+    marginTop: scale(3),
+  },
+  tableTxt: {
+    color: colors.black,
+    fontSize: scale(12),
+    lineHeight: scale(14),
+    fontWeight: '500',
+  },
+  tableView: {},
+  tableIcon: {
+    width: scale(18),
+    height: scale(13),
+    marginRight: scale(5),
+  },
+  mobileIcon: {
+    width: scale(10),
+    height: scale(14),
+    marginRight: scale(5),
+  },
   orderItem: {
     borderBottomColor: colors.borderGray,
-    paddingHorizontal: scale(36),
-    paddingVertical: scale(17),
+
     borderBottomWidth: 1,
   },
   itemSubView: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingLeft: scale(16),
+    paddingBottom: scale(12),
   },
   itemIconView: {
     width: scale(36),
@@ -406,18 +492,23 @@ const styles = StyleSheet.create({
   },
 
   readyBtn: {
-    backgroundColor: '#00A183',
-    paddingHorizontal: scale(23),
+    backgroundColor: colors.white,
+    paddingHorizontal: scale(11),
+    width: scale(114),
     paddingVertical: scale(3),
     borderRadius: scale(230),
     flexDirection: 'row',
     alignItems: 'center',
+    borderWidth: scale(1),
+    borderColor: colors.borderGray,
+    marginLeft: scale(16),
+    marginBottom: scale(14),
   },
   readyTxt: {
     fontSize: scale(12),
     fontWeight: '500',
     lineHeight: scale(18),
-    color: colors.white,
+    color: colors.black,
   },
   tickIcon: {
     width: scale(13),
@@ -427,5 +518,36 @@ const styles = StyleSheet.create({
   timeView: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  topView: {
+    marginBottom: scale(11),
+    marginTop: scale(12),
+    paddingLeft: scale(16),
+    paddingRight: scale(12),
+  },
+  sliderView: {
+    width: '100%',
+    // height: scale(3),
+    backgroundColor: colors.white,
+    marginBottom: scale(14),
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  processed: {
+    width: '20%',
+    height: scale(3),
+    backgroundColor: colors.purple,
+  },
+  point: {
+    width: scale(7),
+    height: scale(7),
+    backgroundColor: colors.purple,
+    marginHorizontal: scale(2),
+    borderRadius: scale(5),
+  },
+  processing: {
+    flex: 1,
+    height: scale(3),
+    backgroundColor: colors.purpleLight,
   },
 });

@@ -68,7 +68,7 @@ export const DropdownPicker = ({
               <TouchableOpacity
                 onPress={() => handleSelectOption(item)}
                 style={styles.optionItem}>
-                <Text style={[style.nameTxt]}>{item}</Text>
+                <Text style={styles.nameTxt}>{item}</Text>
               </TouchableOpacity>
             )}
           />
