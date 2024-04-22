@@ -7,10 +7,10 @@ import {
   Touchable,
   TouchableOpacity,
 } from 'react-native';
-import {images} from '../../assets/images';
-import {scale} from '../../utilies/scale';
-import {colors} from '../../utilies/colors';
-import {icons} from '../../assets/icons';
+import {images} from '../../../assets/images';
+import {scale} from '../../../utilies/scale';
+import {colors} from '../../../utilies/colors';
+import {icons} from '../../../assets/icons';
 
 const OrderItem = ({}) => {
   return (

@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
-import {scale} from '../../utilies/scale';
-import {colors} from '../../utilies/colors';
-import {icons} from '../../assets/icons';
+import {scale} from '../../../utilies/scale';
+import {colors} from '../../../utilies/colors';
+import {icons} from '../../../assets/icons';
 
 const RecomendationCard = ({title, price}) => {
   return (

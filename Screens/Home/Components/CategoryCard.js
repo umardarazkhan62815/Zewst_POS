@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import * as Progress from 'react-native-progress';
-import {scale} from '../../utilies/scale';
-import {colors} from '../../utilies/colors';
+import {scale} from '../../../utilies/scale';
+import {colors} from '../../../utilies/colors';
 
 const CategoryCard = ({item}) => {
   return (

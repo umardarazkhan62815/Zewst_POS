@@ -1,10 +1,10 @@
 import {StyleSheet, Text, View, FlatList, Image} from 'react-native';
 import React from 'react';
-import {icons} from '../../assets/icons';
+import {icons} from '../../../assets/icons';
 import CategoryCard from './CategoryCard';
 import RecomendationCard from './RecomendationCard';
-import {scale} from '../../utilies/scale';
-import {colors} from '../../utilies/colors';
+import {scale} from '../../../utilies/scale';
+import {colors} from '../../../utilies/colors';
 
 const companies = [
   {id: '1', icon: 'ios-home', text: 'Home'},

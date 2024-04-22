@@ -1,11 +1,11 @@
 import {FlatList, Image, Platform, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
-import {scale} from '../utilies/scale';
-import {colors} from '../utilies/colors';
-import OrderItem from '../Components/PaymentSuccessComp/OrderItem';
-import CustomButton from '../Components/CustomButton';
-import {icons} from '../assets/icons';
-import {images} from '../assets/images';
+import {scale} from '../../utilies/scale';
+import {colors} from '../../utilies/colors';
+import OrderItem from './Components/OrderItem';
+import CustomButton from '../../Components/CustomButton';
+import {icons} from '../../assets/icons';
+import {images} from '../../assets/images';
 const orderItems = [1, 2, 3, 4];
 
 const PaymentSuccess = () => {

@@ -7,9 +7,9 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import {scale} from '../../utilies/scale';
-import {colors} from '../../utilies/colors';
-import {icons} from '../../assets/icons';
+import {scale} from '../../../utilies/scale';
+import {colors} from '../../../utilies/colors';
+import {icons} from '../../../assets/icons';
 import OrderItem from './OrderItem';
 const orderItems = [1, 2, 3, 4, 5];
 const PaymentLeftView = () => {

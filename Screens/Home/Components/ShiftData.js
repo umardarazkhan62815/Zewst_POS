@@ -1,8 +1,8 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {icons} from '../../assets/icons';
-import {scale} from '../../utilies/scale';
-import {colors} from '../../utilies/colors';
+import {icons} from '../../../assets/icons';
+import {scale} from '../../../utilies/scale';
+import {colors} from '../../../utilies/colors';
 
 const ShiftData = ({
   icon,

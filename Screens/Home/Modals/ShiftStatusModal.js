@@ -7,11 +7,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-import {scale} from '../../utilies/scale';
-import {colors} from '../../utilies/colors';
-import {icons} from '../../assets/icons';
-import {images} from '../../assets/images';
-import CustomButton from '../CustomButton';
+import {scale} from '../../../utilies/scale';
+import {colors} from '../../../utilies/colors';
+import {icons} from '../../../assets/icons';
+import {images} from '../../../assets/images';
+import CustomButton from '../../../Components/CustomButton';
 import * as Progress from 'react-native-progress';
 
 const ShiftStatusModal = ({visible, onPress, onEndPress}) => {

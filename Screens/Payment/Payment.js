@@ -1,14 +1,14 @@
 import {Image, Platform, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {colors} from '../utilies/colors';
-import {scale} from '../utilies/scale';
-import PaymentLeftView from '../Components/PaymentComponents/PaymentLeftView';
-import PaymentMiddleView from '../Components/PaymentComponents/PaymentMiddleView';
-import PaymentRightView from '../Components/PaymentComponents/PaymentRightView';
-import {icons} from '../assets/icons';
-import ServiceChargesModal from '../Components/PaymentComponents/ServiceChargesModal';
-import QrCodeScanModal from '../Components/PaymentComponents/QrCodeScanModal';
-import ChangeEmployee from '../Components/PaymentComponents/ChangeEmployee';
+import {colors} from '../../utilies/colors';
+import {scale} from '../../utilies/scale';
+import PaymentLeftView from './Components/PaymentLeftView';
+import PaymentMiddleView from './Components/PaymentMiddleView';
+import PaymentRightView from './Components/PaymentRightView';
+import ServiceChargesModal from './Modals/ServiceChargesModal';
+import {icons} from '../../assets/icons';
+import QrCodeScanModal from './Modals/QrCodeScanModal';
+import ChangeEmployee from './Modals/ChangeEmployee';
 const Payment = ({navigation}) => {
   const [isOrder, setIsOrder] = useState(false);
   const [isShowServiceCharges, setIsShowServiceCharges] = useState(false);

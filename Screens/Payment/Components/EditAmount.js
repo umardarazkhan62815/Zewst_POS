@@ -1,8 +1,8 @@
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import React from 'react';
-import {colors} from '../../utilies/colors';
-import {scale} from '../../utilies/scale';
-import CountButton from '../CountButton';
+import {colors} from '../../../utilies/colors';
+import {scale} from '../../../utilies/scale';
+import CountButton from '../../../Components/CountButton';
 
 const EditAmount = ({title, placeHolder, editInput}) => {
   return (

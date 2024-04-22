@@ -8,14 +8,14 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import {colors} from '../../utilies/colors';
-import {scale} from '../../utilies/scale';
-import FlexDirectionView from '../FlexDirectionView';
-import CheckButton from '../CheckButton';
-import CustomButton from '../CustomButton';
-import {DropdownPicker} from '../DropDownPicker';
-import CountButton from '../CountButton';
-import {icons} from '../../assets/icons';
+import {colors} from '../../../utilies/colors';
+import {scale} from '../../../utilies/scale';
+import FlexDirectionView from '../../../Components/FlexDirectionView';
+import CheckButton from '../../../Components/CheckButton';
+import CustomButton from '../../../Components/CustomButton';
+import {DropdownPicker} from '../../../Components/DropDownPicker';
+import CountButton from '../../../Components/CountButton';
+import {icons} from '../../../assets/icons';
 const data = ['N.Davaid', 'J.Kavin', 'L.Sam', 'P.John'];
 
 const ChangeEmployee = ({visible, setVisible}) => {

@@ -7,17 +7,17 @@ import {
   StatusBar,
   Platform,
 } from 'react-native';
-import {colors} from '../utilies/colors';
-import {scale} from '../utilies/scale';
-import ShiftStatusModal from '../Components/HomeComponents/ShiftStatusModal';
-import EndShiftModal from '../Components/HomeComponents/EndShiftModal';
-import CloseResturantModal from '../Components/HomeComponents/CloseResturantModal';
-import RecordSaleModal from '../Components/HomeComponents/RecordSaleModal';
-import CashCoinModal from '../Components/HomeComponents/CashCoinModal';
-import {icons} from '../assets/icons';
-import OrderDetails from '../Components/HomeComponents/OrderDetails';
-import HomeMiddleView from '../Components/HomeComponents/HomeMiddleView';
-import HomeLeftView from '../Components/HomeComponents/HomeLeftView';
+import {colors} from '../../utilies/colors';
+import {scale} from '../../utilies/scale';
+import ShiftStatusModal from './Modals/ShiftStatusModal';
+import EndShiftModal from './Modals/EndShiftModal';
+import CloseResturantModal from './Modals/CloseResturantModal';
+import RecordSaleModal from './Modals/RecordSaleModal';
+import CashCoinModal from './Modals/CashCoinModal';
+import {icons} from '../../assets/icons';
+import OrderDetails from './Components/OrderDetails';
+import HomeMiddleView from './Components/HomeMiddleView';
+import HomeLeftView from './Components/HomeLeftView';
 
 const Home = ({navigation}) => {
   const [statusModalvisible, setStatusModalvisible] = useState(false);

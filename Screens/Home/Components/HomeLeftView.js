@@ -7,10 +7,10 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import {icons} from '../../assets/icons';
-import {colors} from '../../utilies/colors';
-import {scale} from '../../utilies/scale';
-import FlexDirectionView from '../FlexDirectionView';
+import {icons} from '../../../assets/icons';
+import {colors} from '../../../utilies/colors';
+import {scale} from '../../../utilies/scale';
+import FlexDirectionView from '../../../Components/FlexDirectionView';
 
 const logoutMenu = [
   {icon: icons.attendence, selected: true, name: ''},

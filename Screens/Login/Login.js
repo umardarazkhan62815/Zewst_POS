@@ -8,13 +8,13 @@ import {
   View,
 } from 'react-native';
 import React, {useState} from 'react';
-import {images} from '../assets/images';
-import {scale} from '../utilies/scale';
-import {DropdownPicker} from '../Components/DropDownPicker';
-import CustomButton from '../Components/CustomButton';
-import CountButton from '../Components/CountButton';
-import {colors} from '../utilies/colors';
-import {icons} from '../assets/icons';
+import {images} from '../../assets/images';
+import {scale} from '../../utilies/scale';
+import {DropdownPicker} from '../../Components/DropDownPicker';
+import CustomButton from '../../Components/CustomButton';
+import CountButton from '../../Components/CountButton';
+import {colors} from '../../utilies/colors';
+import {icons} from '../../assets/icons';
 const Login = ({navigation}) => {
   const [name, setName] = useState('');
   let [code, setCode] = useState([10, 10, 10, 10]);

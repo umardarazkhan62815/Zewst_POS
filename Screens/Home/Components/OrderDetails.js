@@ -8,9 +8,9 @@ import {
   Image,
 } from 'react-native';
 
-import {scale} from '../../utilies/scale';
-import {colors} from '../../utilies/colors';
-import {icons} from '../../assets/icons';
+import {scale} from '../../../utilies/scale';
+import {colors} from '../../../utilies/colors';
+import {icons} from '../../../assets/icons';
 import OrderItem from './OrderItem';
 
 const OrderDetails = ({navigation}) => {

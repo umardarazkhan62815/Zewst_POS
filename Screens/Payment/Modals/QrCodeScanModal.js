@@ -7,11 +7,11 @@ import {
   StyleSheet,
   Image,
 } from 'react-native';
-import {colors} from '../../utilies/colors';
-import {scale} from '../../utilies/scale';
-import {images} from '../../assets/images';
-import {icons} from '../../assets/icons';
-import FlexDirectionView from '../FlexDirectionView';
+import {colors} from '../../../utilies/colors';
+import {scale} from '../../../utilies/scale';
+import {images} from '../../../assets/images';
+import {icons} from '../../../assets/icons';
+import FlexDirectionView from '../../../Components/FlexDirectionView';
 import Slider from '@react-native-community/slider';
 import {LinearGradient} from 'react-native-linear-gradient';
 

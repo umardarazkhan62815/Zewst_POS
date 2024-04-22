@@ -1,11 +1,11 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {scale} from '../../utilies/scale';
-import {colors} from '../../utilies/colors';
+import {scale} from '../../../utilies/scale';
+import {colors} from '../../../utilies/colors';
 import EditAmount from './EditAmount';
-import CountButton from '../CountButton';
-import {icons} from '../../assets/icons';
-import CustomButton from '../CustomButton';
+import CountButton from '../../../Components/CountButton';
+import {icons} from '../../../assets/icons';
+import CustomButton from '../../../Components/CustomButton';
 
 const bills = [
   {name: 'Zewards', icon: icons.run},
