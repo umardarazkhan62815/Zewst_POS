@@ -12,9 +12,9 @@ import {scale} from '../../../utilies/scale';
 import {colors} from '../../../utilies/colors';
 import {icons} from '../../../assets/icons';
 
-const OrderItem = ({item}) => {
+const OrderItem = ({item, style}) => {
   return (
-    <View style={styles.mainContainer}>
+    <View style={[styles.mainContainer, style]}>
       <View style={styles.container}>
         <View style={styles.imageContainer}>
           <Image source={images.profile} style={styles.image} />

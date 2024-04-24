@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,16 +12,6 @@ import {colors} from '../../../utilies/colors';
 import {scale} from '../../../utilies/scale';
 import FlexDirectionView from '../../../Components/FlexDirectionView';
 
-const logoutMenu = [
-  {icon: icons.attendence, selected: true, name: ''},
-  {icon: icons.cashCircle, selected: false, name: ''},
-  {icon: icons.window, selected: false, name: ''},
-  {icon: icons.history, selected: false, name: ''},
-  {icon: icons.chat, selected: false, name: ''},
-  {icon: icons.call, selected: false, name: ''},
-  {icon: icons.logout, selected: false, name: 'logout'},
-];
-
 const DATA = [
   {id: '1', title: 'Item 1'},
   {id: '2', title: 'Item 2'},
@@ -29,7 +19,31 @@ const DATA = [
   {id: '4', title: 'Item 4'},
   {id: '5', title: 'Item 5'},
 ];
-const HomeLeftView = ({logoutPress, showMenu}) => {
+const HomeLeftView = ({logoutPress, showMenu, transctionPress}) => {
+  const [logoutMenu, setLogoutMenu] = useState([
+    {icon: icons.attendence, selected: true, name: 'home'},
+    {icon: icons.cashCircle, selected: false, name: 'transcation'},
+    {icon: icons.window, selected: false, name: ''},
+    {icon: icons.history, selected: false, name: ''},
+    {icon: icons.chat, selected: false, name: ''},
+    {icon: icons.call, selected: false, name: ''},
+    {icon: icons.logout, selected: false, name: 'logout'},
+  ]);
+  const menuPress = selectedItem => {
+    const updatedMenuItems = logoutMenu.map(item =>
+      item.name === selectedItem.name
+        ? {...item, selected: true}
+        : {...item, selected: false},
+    );
+    setLogoutMenu(updatedMenuItems);
+    if (selectedItem.name === 'logout') {
+      logoutPress();
+    } else if (selectedItem?.name === 'transcation') {
+      transctionPress('transcation');
+    } else if (selectedItem?.name === 'home') {
+      transctionPress('home');
+    }
+  };
   const renderItem = ({item}) => {
     return (
       <View style={styles.orderItem}>
@@ -148,11 +162,7 @@ const HomeLeftView = ({logoutPress, showMenu}) => {
                   styles.logMenuItem,
                   {marginTop: item?.name === 'logout' ? scale(280) : 0},
                 ]}
-                onPress={() => {
-                  if (item.name == 'logout') {
-                    logoutPress();
-                  }
-                }}>
+                onPress={() => menuPress(item)}>
                 <View
                   style={[
                     styles.logItem,

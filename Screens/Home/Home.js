@@ -18,6 +18,7 @@ import {icons} from '../../assets/icons';
 import OrderDetails from './Components/OrderDetails';
 import HomeMiddleView from './Components/HomeMiddleView';
 import HomeLeftView from './Components/HomeLeftView';
+import Transcation from '../Transaction/Transcation';
 
 const Home = ({navigation}) => {
   const [statusModalvisible, setStatusModalvisible] = useState(false);
@@ -26,7 +27,7 @@ const Home = ({navigation}) => {
   const [showSaleModal, setShowSaleModal] = useState(false);
   const [showCashModal, setShowCashModal] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-
+  const [screen, setScreen] = useState('home');
   return (
     <View style={styles.mainContainer}>
       <StatusBar backgroundColor={colors.purpleLight} barStyle="dark-content" />
@@ -86,12 +87,19 @@ const Home = ({navigation}) => {
           <HomeLeftView
             logoutPress={() => setStatusModalvisible(true)}
             showMenu={() => setShowMenu(true)}
+            transctionPress={val => setScreen(val)}
           />
         )}
-        <HomeMiddleView />
-        <View style={styles.rightView}>
-          <OrderDetails navigation={navigation} />
-        </View>
+        {screen === 'home' ? (
+          <>
+            <HomeMiddleView />
+            <View style={styles.rightView}>
+              <OrderDetails navigation={navigation} />
+            </View>
+          </>
+        ) : (
+          <Transcation />
+        )}
       </View>
     </View>
   );

@@ -55,8 +55,12 @@ const Login = ({navigation}) => {
         <ImageBackground source={images.wave} style={styles.bgImage1}>
           <ImageBackground source={images.wave2} style={styles.bgImage2}>
             <Image
-              source={images.zewst}
-              style={{width: scale(288), height: scale(83)}}
+              source={icons.zewst}
+              style={{
+                width: scale(288),
+                height: scale(83),
+                tintColor: colors.white,
+              }}
               resizeMode="contain"
             />
             <View>
@@ -152,13 +156,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(157,86,212,0.8)',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '56%',
+    width: '50%',
   },
   rightSideView: {
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '44%',
+    width: '50%',
     paddingHorizontal: scale(143),
     paddingVertical: scale(92),
   },
@@ -199,9 +203,9 @@ const styles = StyleSheet.create({
     borderRadius: scale(10),
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowOpacity: 0.05,
+    shadowRadius: 2.84,
+    elevation: 2,
     paddingVertical: scale(58),
     paddingHorizontal: scale(111),
   },

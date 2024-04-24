@@ -1,12 +1,22 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {scale} from '../../../utilies/scale';
 import {colors} from '../../../utilies/colors';
 
-const CategoryCard = ({item}) => {
-  return (
-    <View style={styles.container}>
+const CategoryCard = ({item, selectedItem, style, type}) => {
+  const pressHandle = () => {
+    selectedItem('Rolls');
+  };
+  return type ? (
+    <View style={styles.mainContainer1}>
+      <Text style={styles.title1}>{'title'}</Text>
+      <Text style={styles.itemTxt}>{'4 items'}</Text>
+    </View>
+  ) : (
+    <TouchableOpacity
+      style={[styles.container, style]}
+      onPress={() => pressHandle()}>
       <Text style={styles.title}>{'title'}</Text>
       <View style={styles.divider} />
       <View style={styles.progressView}>
@@ -31,7 +41,7 @@ const CategoryCard = ({item}) => {
           <View style={[styles.progress, {width: '70%'}]} />
         </View> */}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -44,12 +54,30 @@ const styles = StyleSheet.create({
     marginBottom: scale(30),
     marginRight: scale(30),
   },
+  mainContainer1: {
+    backgroundColor: '#DAAFAF',
+    paddingVertical: scale(21),
+    paddingHorizontal: scale(10),
+    borderRadius: scale(10),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: scale(30),
+    marginRight: scale(30),
+    width: scale(261),
+  },
   title: {
     fontSize: scale(42),
     fontWeight: '500',
     marginBottom: scale(30),
     color: colors.white,
     lineHeight: scale(63),
+  },
+  title1: {
+    fontSize: scale(24),
+    fontWeight: '700',
+    color: colors.white,
+    lineHeight: scale(40),
   },
   divider: {
     borderTopColor: colors.white,
@@ -66,6 +94,7 @@ const styles = StyleSheet.create({
     lineHeight: scale(27),
     fontWeight: '500',
   },
+
   itemCount: {
     fontSize: 16,
     marginBottom: 10,

@@ -12,15 +12,13 @@ import {scale} from '../../../utilies/scale';
 import {images} from '../../../assets/images';
 import {icons} from '../../../assets/icons';
 import FlexDirectionView from '../../../Components/FlexDirectionView';
-import Slider from '@react-native-community/slider';
 import {LinearGradient} from 'react-native-linear-gradient';
-
+import {Slider} from '@rneui/themed';
 const QrCodeScanModal = ({visible, setVisible, qr}) => {
   const [sliderValue, setSliderValue] = useState(0);
   const [grayTrackWidth, setGrayTrackWidth] = useState('100%');
 
   const onValueChange = value => {
-    console.log('VAlue', value);
     setSliderValue(value);
     const sV = sliderValue * 100;
     setGrayTrackWidth(`${100 - sV}%`);
@@ -115,11 +113,18 @@ const QrCodeScanModal = ({visible, setVisible, qr}) => {
                 </FlexDirectionView>
 
                 <View style={styles.sliderMainView}>
+                  <Slider
+                    value={sliderValue}
+                    onValueChange={val => onValueChange(val)}
+                    maximumValue={1}
+                    minimumValue={0}
+                    trackStyle={styles.slider}
+                    thumbStyle={styles.thumb}
+                  />
                   <LinearGradient
                     colors={['#01CDA8', '#8D23DD']}
                     start={{x: 0, y: 0}}
                     end={{x: 1, y: 0}}
-                    onValueChange={onValueChange}
                     style={styles.linerGradient}
                   />
                   <View
@@ -132,16 +137,6 @@ const QrCodeScanModal = ({visible, setVisible, qr}) => {
                       backgroundColor: '#B2B2B2',
                       zIndex: 1,
                     }}
-                  />
-                  <Slider
-                    style={styles.slider}
-                    minimumValue={0}
-                    maximumValue={1}
-                    minimumTrackTintColor="transparent"
-                    maximumTrackTintColor="transparent"
-                    thumbTintColor="transparent"
-                    onValueChange={onValueChange}
-                    thumbImage={icons.thumb}
                   />
                 </View>
                 <View style={styles.avaiableView}>
@@ -382,7 +377,7 @@ const styles = StyleSheet.create({
     width: scale(367),
     height: scale(30),
     alignSelf: 'center',
-    alignItems: 'center',
+    justifyContent: 'center',
   },
   linerGradient: {
     position: 'absolute',
@@ -392,13 +387,14 @@ const styles = StyleSheet.create({
     borderRadius: scale(4) / 2,
   },
   slider: {
-    zIndex: 1000,
+    height: scale(4),
     width: '100%',
-    height: '100%',
-    // position: 'absolute',
-    top: scale(-20),
-    // paddingHorizontal: scale(0),
-    // backgroundColor: 'yellow',
+    backgroundColor: 'transparent',
+  },
+  thumb: {
+    height: scale(20),
+    width: scale(20),
+    backgroundColor: colors.purple,
   },
 });
 
