@@ -299,6 +299,7 @@ const styles = StyleSheet.create({
     borderRadius: scale(6),
   },
   takeAwayTxt: {
+    color: colors.black,
     fontWeight: '500',
     fontSize: scale(12),
     lineHeight: scale(18),

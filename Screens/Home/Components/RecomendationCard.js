@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import {scale} from '../../../utilies/scale';
 import {colors} from '../../../utilies/colors';
 import {icons} from '../../../assets/icons';
 
 const RecomendationCard = ({title, price, setOrder}) => {
+  const [quantity, setQuantity] = useState(0);
   const handlePress = () => {
     setOrder('http');
   };
@@ -24,15 +25,25 @@ const RecomendationCard = ({title, price, setOrder}) => {
         <Text style={styles.leftTxt}>{'251 Items left'}</Text>
       </View>
       <View style={styles.quantityContainer}>
-        <TouchableOpacity style={styles.button}>
-          <Image
-            style={styles.minus}
-            source={icons.minus}
-            resizeMode="center"
-          />
-        </TouchableOpacity>
-        <Text style={styles.quantity}>01</Text>
-        <TouchableOpacity style={styles.button}>
+        {quantity > 0 ? (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => setQuantity(quantity - 1)}>
+            <Image
+              style={styles.plus}
+              source={icons.minus}
+              resizeMode="center"
+            />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity style={styles.button1} />
+        )}
+        <Text style={styles.quantity}>
+          {`${quantity < 10 ? '0' : ''}${quantity}`}
+        </Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => setQuantity(quantity + 1)}>
           <Image style={styles.plus} source={icons.plus} resizeMode="center" />
         </TouchableOpacity>
       </View>
@@ -105,6 +116,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: scale(4),
   },
+  button1: {
+    backgroundColor: colors.white,
+    borderColor: colors.borderGray,
+    width: scale(32),
+    height: scale(32),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: scale(4),
+  },
   plus: {
     width: scale(9),
     height: scale(9),
@@ -112,6 +132,7 @@ const styles = StyleSheet.create({
   minus: {
     width: scale(9),
     height: scale(1),
+    tintColor: colors.black,
   },
   zeward: {
     width: scale(80),

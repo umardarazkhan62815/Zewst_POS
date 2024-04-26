@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import {scale} from '../../../utilies/scale';
 import {colors} from '../../../utilies/colors';
 import {icons} from '../../../assets/icons';
 
 const ToppingCard = ({title, price, setTopping}) => {
+  const [quantity, setQuantity] = useState(0);
   const handlePress = () => {
     setTopping('');
   };
@@ -16,15 +17,25 @@ const ToppingCard = ({title, price, setTopping}) => {
         <Text style={styles.price}>{'$1'}</Text>
       </View>
       <View style={styles.quantityContainer}>
-        <TouchableOpacity style={styles.button}>
-          <Image
-            style={styles.minus}
-            source={icons.minus}
-            resizeMode="center"
-          />
-        </TouchableOpacity>
-        <Text style={styles.quantity}>01</Text>
-        <TouchableOpacity style={styles.button}>
+        {quantity > 0 ? (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => setQuantity(quantity - 1)}>
+            <Image
+              style={styles.plus}
+              source={icons.minus}
+              resizeMode="center"
+            />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity style={styles.button1} />
+        )}
+        <Text style={styles.quantity}>{`${
+          quantity < 10 ? '0' : ''
+        }${quantity}`}</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => setQuantity(quantity + 1)}>
           <Image style={styles.plus} source={icons.plus} resizeMode="center" />
         </TouchableOpacity>
       </View>
@@ -77,6 +88,15 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderColor: colors.borderGray,
     borderWidth: 1,
+    width: scale(32),
+    height: scale(32),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: scale(4),
+  },
+  button1: {
+    backgroundColor: colors.white,
+    borderColor: colors.borderGray,
     width: scale(32),
     height: scale(32),
     justifyContent: 'center',

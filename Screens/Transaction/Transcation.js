@@ -6,7 +6,6 @@ import TranscationRightView from './Components/TranscationRightView';
 const Transcation = () => {
   return (
     <View style={styles.mainContainer}>
-      {/* <TranscationLeftView /> */}
       <TranscationRightView />
     </View>
   );

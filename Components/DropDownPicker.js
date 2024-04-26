@@ -17,6 +17,8 @@ export const DropdownPicker = ({
   selectedValue,
   style,
   dropStyle,
+  textStyle,
+  itemTxtStyle,
   label,
 }) => {
   const [showOptions, setShowOptions] = useState(false);
@@ -35,8 +37,8 @@ export const DropdownPicker = ({
       <View
         style={[
           styles.dropdownHeader,
-          style,
           {backgroundColor: selectedValue ? colors.purple : colors.white},
+          style,
         ]}>
         <TouchableOpacity
           style={styles.selectedView}
@@ -45,6 +47,7 @@ export const DropdownPicker = ({
             style={[
               styles.selectedText,
               {color: selectedValue ? colors.white : colors.black},
+              textStyle,
             ]}>
             {selectedValue ? selectedValue : 'Select '}
           </Text>
@@ -68,7 +71,7 @@ export const DropdownPicker = ({
               <TouchableOpacity
                 onPress={() => handleSelectOption(item)}
                 style={styles.optionItem}>
-                <Text style={styles.nameTxt}>{item}</Text>
+                <Text style={[styles.nameTxt, itemTxtStyle]}>{item}</Text>
               </TouchableOpacity>
             )}
           />

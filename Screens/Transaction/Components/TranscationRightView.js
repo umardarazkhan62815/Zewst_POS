@@ -16,6 +16,7 @@ import FlexDirectionView from '../../../Components/FlexDirectionView';
 import CustomButton from '../../../Components/CustomButton';
 import TranscationCard from './TranscationCard';
 import OrderItem from '../../PaymentSuccess/Components/OrderItem';
+import IssueRefundModal from '../Modal/IssueRefundModal';
 
 const duration = ['Today', 'Yesterday', 'Week', 'Month'];
 
@@ -30,47 +31,14 @@ const data = [
 ];
 const TranscationRightView = () => {
   const [isfulfilled, setIsFulFilled] = useState(true);
+  const [visible, setVisible] = useState(false);
+
   return (
     <View style={styles.mainContainer}>
-      {/* <View style={styles.headerView}>
-        <TouchableOpacity style={styles.iconView}>
-          <Image
-            source={icons.plus}
-            style={styles.headerIcon}
-            resizeMode="center"
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.iconView}>
-          <Image
-            source={icons.search}
-            style={styles.headerIcon}
-            resizeMode="center"
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.iconView}>
-          <Image
-            source={icons.message}
-            style={styles.headerIcon}
-            resizeMode="center"
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.iconView}>
-          <Image
-            source={icons.bell}
-            style={styles.headerIcon}
-            resizeMode="center"
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.profileView}>
-          <Image
-            source={images.profile}
-            style={styles.profileImage}
-            resizeMode="center"
-          />
-          <View style={styles.onlineView}></View>
-        </TouchableOpacity>
-      </View> */}
+      <IssueRefundModal
+        visible={visible}
+        setVisible={() => setVisible(false)}
+      />
       <View style={styles.container}>
         <FlexDirectionView Row spaceBetween>
           <View>
@@ -168,6 +136,7 @@ const TranscationRightView = () => {
                   title={'Issue refund'}
                   style={styles.refundBtnIssue}
                   titleStyle={styles.refundTxt}
+                  onPress={() => setVisible(true)}
                 />
               </FlexDirectionView>
             ) : null}
@@ -279,8 +248,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     paddingHorizontal: scale(18),
-    paddingVertical: scale(14),
+    // paddingVertical: scale(14),
     marginTop: scale(34),
+    height: scale(58),
   },
   input: {
     color: colors.black,
@@ -288,6 +258,8 @@ const styles = StyleSheet.create({
     lineHeight: scale(27),
     fontWeight: '300',
     paddingLeft: scale(11),
+    height: scale(56),
+    flex: 1,
   },
   leftView: {
     marginTop: scale(27),
