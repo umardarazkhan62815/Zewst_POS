@@ -19,6 +19,7 @@ export const DropdownPicker = ({
   dropStyle,
   textStyle,
   itemTxtStyle,
+  tintColor,
   label,
 }) => {
   const [showOptions, setShowOptions] = useState(false);
@@ -58,7 +59,13 @@ export const DropdownPicker = ({
               styles.icon,
               {transform: [{rotate: !showOptions ? '180deg' : '0deg'}]},
             ]}
-            tintColor={selectedValue ? colors.white : colors.black}
+            tintColor={
+              tintColor
+                ? tintColor
+                : selectedValue
+                ? colors.white
+                : colors.black
+            }
           />
         </TouchableOpacity>
       </View>

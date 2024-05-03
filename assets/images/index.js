@@ -4,4 +4,7 @@ export const images = {
   zewst: require('./zewst.png'),
   clock: require('./clock.png'),
   profile: require('./profile.png'),
+  product: require('./product.png'),
+  qrCode: require('./qrCode.png'),
+  barcode: require('./barcode.png'),
 };

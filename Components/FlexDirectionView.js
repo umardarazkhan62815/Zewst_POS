@@ -7,6 +7,7 @@ const FlexDirectionView = props => {
       style={[
         props.style,
         {
+          alignItems: 'center',
           flexDirection: props.Row ? 'row' : 'column',
           justifyContent: props.spaceBetween
             ? 'space-between'

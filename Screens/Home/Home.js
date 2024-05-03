@@ -19,6 +19,8 @@ import OrderDetails from './Components/OrderDetails';
 import HomeMiddleView from './Components/HomeMiddleView';
 import HomeLeftView from './Components/HomeLeftView';
 import Transcation from '../Transaction/Transcation';
+import Reservation from '../Reservation/Reservation';
+import Food from '../Food/Food';
 
 const Home = ({navigation}) => {
   const [statusModalvisible, setStatusModalvisible] = useState(false);
@@ -85,6 +87,7 @@ const Home = ({navigation}) => {
           </TouchableOpacity>
         ) : (
           <HomeLeftView
+            navigation={navigation}
             logoutPress={() => setStatusModalvisible(true)}
             showMenu={() => setShowMenu(true)}
             transctionPress={val => setScreen(val)}
@@ -97,6 +100,10 @@ const Home = ({navigation}) => {
               <OrderDetails navigation={navigation} />
             </View>
           </>
+        ) : screen === 'more' ? (
+          <Reservation />
+        ) : screen === 'food' ? (
+          <Food />
         ) : (
           <Transcation />
         )}
