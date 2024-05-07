@@ -1,8 +1,8 @@
 import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
 import React from 'react';
-import {scale} from '../../../utilies/scale';
+import {scale} from '../../../utilities/scale';
 import {icons} from '../../../assets/icons';
-import {colors} from '../../../utilies/colors';
+import {colors} from '../../../utilities/colors';
 
 const Search = ({placeholder}) => {
   return (

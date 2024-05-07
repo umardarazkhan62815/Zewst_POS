@@ -1,7 +1,7 @@
 import {Image, Platform, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {colors} from '../../utilies/colors';
-import {scale} from '../../utilies/scale';
+import {colors} from '../../utilities/colors';
+import {scale} from '../../utilities/scale';
 import PaymentLeftView from './Components/PaymentLeftView';
 import PaymentMiddleView from './Components/PaymentMiddleView';
 import PaymentRightView from './Components/PaymentRightView';

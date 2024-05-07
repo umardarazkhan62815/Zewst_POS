@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-import {scale} from '../../../utilies/scale';
-import {colors} from '../../../utilies/colors';
+import {scale} from '../../../utilities/scale';
+import {colors} from '../../../utilities/colors';
 import {icons} from '../../../assets/icons';
 import {images} from '../../../assets/images';
 import CustomButton from '../../../Components/CustomButton';

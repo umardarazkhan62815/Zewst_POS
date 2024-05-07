@@ -8,8 +8,8 @@ import {
   Image,
 } from 'react-native';
 
-import {scale} from '../../../utilies/scale';
-import {colors} from '../../../utilies/colors';
+import {scale} from '../../../utilities/scale';
+import {colors} from '../../../utilities/colors';
 import {icons} from '../../../assets/icons';
 import OrderItem from './OrderItem';
 

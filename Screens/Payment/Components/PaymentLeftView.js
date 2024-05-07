@@ -7,8 +7,8 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import {scale} from '../../../utilies/scale';
-import {colors} from '../../../utilies/colors';
+import {scale} from '../../../utilities/scale';
+import {colors} from '../../../utilities/colors';
 import {icons} from '../../../assets/icons';
 import OrderItem from './OrderItem';
 const orderItems = [1, 2, 3, 4, 5];

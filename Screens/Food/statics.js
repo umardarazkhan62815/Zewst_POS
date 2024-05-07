@@ -1,5 +1,5 @@
 import {icons} from '../../assets/icons';
-import {colors} from '../../utilies/colors';
+import {colors} from '../../utilities/colors';
 export const productTypes = [
   {
     id: '1',

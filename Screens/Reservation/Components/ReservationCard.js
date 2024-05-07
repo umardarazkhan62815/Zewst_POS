@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {icons} from '../../../assets/icons';
-import {scale} from '../../../utilies/scale';
-import {colors} from '../../../utilies/colors';
+import {scale} from '../../../utilities/scale';
+import {colors} from '../../../utilities/colors';
 import FlexDirectionView from '../../../Components/FlexDirectionView';
 
 const ReservationCard = ({onPress}) => {

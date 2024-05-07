@@ -1,7 +1,7 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {scale} from '../utilies/scale';
-import {colors} from '../utilies/colors';
+import {scale} from '../utilities/scale';
+import {colors} from '../utilities/colors';
 import {Image} from '@rneui/base/dist/Image/Image';
 import {icons} from '../assets/icons';
 

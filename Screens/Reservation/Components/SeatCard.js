@@ -1,7 +1,7 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {colors} from '../../../utilies/colors';
-import {scale} from '../../../utilies/scale';
+import {colors} from '../../../utilities/colors';
+import {scale} from '../../../utilities/scale';
 
 const SeatCard = ({item, onPress}) => {
   return (

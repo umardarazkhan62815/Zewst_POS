@@ -1,7 +1,7 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {scale} from '../../../utilies/scale';
-import {colors} from '../../../utilies/colors';
+import {scale} from '../../../utilities/scale';
+import {colors} from '../../../utilities/colors';
 import FlexDirectionView from '../../../Components/FlexDirectionView';
 import {icons} from '../../../assets/icons';
 import CustomButton from '../../../Components/CustomButton';
@@ -184,7 +184,7 @@ const ReservationRightView = () => {
                     style={styles.selectedStyle}
                     onPress={() => setTime('')}>
                     <Text style={styles.selectedTxt}>{'3 Selected'}</Text>
-                    <Image source={icons.cross} style={styles.cross} />
+                    <Image source={icons.crossRound} style={styles.cross} />
                   </TouchableOpacity>
                 ) : null}
               </FlexDirectionView>
@@ -505,6 +505,9 @@ const styles = StyleSheet.create({
   },
   selectedTxt: {
     color: colors.white,
+    fontSize: scale(12),
+    lineHeight: scale(18),
+    fontWeight: '500',
   },
   cross: {
     width: scale(18),

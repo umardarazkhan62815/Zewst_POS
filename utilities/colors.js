@@ -4,6 +4,7 @@ export const colors = {
   black5: 'rgba(0, 0, 0, 0.5)',
   black025: 'rgba(0, 0, 0, 0.25)',
   black03: 'rgba(0, 0, 0, 0.03)',
+  black4: 'rgba(0, 0, 0, 0.4)',
   purple: '#A561D8',
   purple05: 'rgba(143, 73, 222, 0.5)',
   purple39: 'rgba(208, 159, 244, 0.39)',

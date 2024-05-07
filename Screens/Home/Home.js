@@ -7,8 +7,8 @@ import {
   StatusBar,
   Platform,
 } from 'react-native';
-import {colors} from '../../utilies/colors';
-import {scale} from '../../utilies/scale';
+import {colors} from '../../utilities/colors';
+import {scale} from '../../utilities/scale';
 import ShiftStatusModal from './Modals/ShiftStatusModal';
 import EndShiftModal from './Modals/EndShiftModal';
 import CloseResturantModal from './Modals/CloseResturantModal';
@@ -21,6 +21,7 @@ import HomeLeftView from './Components/HomeLeftView';
 import Transcation from '../Transaction/Transcation';
 import Reservation from '../Reservation/Reservation';
 import Food from '../Food/Food';
+import Reports from '../Reports/Reports';
 
 const Home = ({navigation}) => {
   const [statusModalvisible, setStatusModalvisible] = useState(false);
@@ -104,6 +105,8 @@ const Home = ({navigation}) => {
           <Reservation />
         ) : screen === 'food' ? (
           <Food />
+        ) : screen === 'report' ? (
+          <Reports />
         ) : (
           <Transcation />
         )}

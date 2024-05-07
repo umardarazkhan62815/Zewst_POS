@@ -8,8 +8,8 @@ import {
   View,
 } from 'react-native';
 import React, {useState} from 'react';
-import {colors} from '../../../utilies/colors';
-import {scale} from '../../../utilies/scale';
+import {colors} from '../../../utilities/colors';
+import {scale} from '../../../utilities/scale';
 import {icons} from '../../../assets/icons';
 import {images} from '../../../assets/images';
 import FlexDirectionView from '../../../Components/FlexDirectionView';

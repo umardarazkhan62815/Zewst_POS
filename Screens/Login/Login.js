@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {images} from '../../assets/images';
-import {scale} from '../../utilies/scale';
+import {scale} from '../../utilities/scale';
 import {DropdownPicker} from '../../Components/DropDownPicker';
 import CustomButton from '../../Components/CustomButton';
 import CountButton from '../../Components/CountButton';
-import {colors} from '../../utilies/colors';
+import {colors} from '../../utilities/colors';
 import {icons} from '../../assets/icons';
 const Login = ({navigation}) => {
   const [name, setName] = useState('');

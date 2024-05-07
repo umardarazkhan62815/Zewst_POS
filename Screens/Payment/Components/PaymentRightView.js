@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {scale} from '../../../utilies/scale';
-import {colors} from '../../../utilies/colors';
+import {scale} from '../../../utilities/scale';
+import {colors} from '../../../utilities/colors';
 import CustomButton from '../../../Components/CustomButton';
 const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 const PaymentRightView = ({newPress, isOrder, assignPress}) => {

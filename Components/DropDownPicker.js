@@ -7,9 +7,9 @@ import {
   StyleSheet,
   Image,
 } from 'react-native';
-import {scale} from '../utilies/scale';
+import {scale} from '../utilities/scale';
 import {images} from '../assets/images';
-import {colors} from '../utilies/colors';
+import {colors} from '../utilities/colors';
 import {icons} from '../assets/icons';
 export const DropdownPicker = ({
   options,

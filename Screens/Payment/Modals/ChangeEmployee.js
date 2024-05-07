@@ -8,8 +8,8 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import {colors} from '../../../utilies/colors';
-import {scale} from '../../../utilies/scale';
+import {colors} from '../../../utilities/colors';
+import {scale} from '../../../utilities/scale';
 import FlexDirectionView from '../../../Components/FlexDirectionView';
 import CheckButton from '../../../Components/CheckButton';
 import CustomButton from '../../../Components/CustomButton';

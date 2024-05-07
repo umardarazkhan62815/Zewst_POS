@@ -20,20 +20,10 @@ const OrderItem = ({}) => {
           <Image source={images.profile} style={styles.image} />
         </View>
         <View style={styles.detailsContainer}>
-          <View style={styles.quantityView}>
-            <Text style={styles.quantity}>{'1'}</Text>
-          </View>
           <Text style={styles.name}>{'Lamb Seekh Kabab Roll'}</Text>
           <Text style={styles.price}>{'$12.00'}</Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.btn}>
-        <Image
-          style={styles.icon}
-          source={icons.dropDown}
-          resizeMode="center"
-        />
-      </TouchableOpacity>
     </View>
   );
 };
@@ -43,8 +33,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderRadius: scale(10),
     padding: scale(20),
-    marginBottom: scale(12),
+    marginTop: scale(18),
     elevation: 2,
+    borderColor: colors.borderGray,
+    borderWidth: 1,
+    height: scale(99),
   },
   container: {
     flexDirection: 'row',
@@ -55,8 +48,8 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   image: {
-    width: scale(87),
-    height: scale(87),
+    width: scale(71),
+    height: scale(61),
     borderRadius: scale(9),
   },
   detailsContainer: {
@@ -79,27 +72,17 @@ const styles = StyleSheet.create({
     lineHeight: scale(45),
   },
   name: {
-    color: colors.black,
-
-    fontSize: scale(24),
-    fontWeight: '500',
-    lineHeight: scale(36),
+    color: '#49586E',
+    fontSize: scale(20),
+    fontWeight: '400',
+    lineHeight: scale(30),
     flex: 1,
   },
   price: {
-    color: colors.black,
-
-    fontSize: scale(24),
-    fontWeight: '500',
-    lineHeight: scale(36),
-  },
-  btn: {
-    alignSelf: 'center',
-  },
-  icon: {
-    width: scale(15),
-    height: scale(10),
-    tintColor: colors.black,
+    color: '#49586E',
+    fontSize: scale(20),
+    fontWeight: '400',
+    lineHeight: scale(30),
   },
 });
 

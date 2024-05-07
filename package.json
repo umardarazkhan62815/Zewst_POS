@@ -17,6 +17,7 @@
     "@rneui/themed": "^0.0.0-edge.2",
     "react": "18.2.0",
     "react-native": "0.71.0",
+    "react-native-gifted-charts": "^1.4.10",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-paper": "^5.12.3",
     "react-native-progress": "^5.0.1",

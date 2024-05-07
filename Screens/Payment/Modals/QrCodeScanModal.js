@@ -7,8 +7,8 @@ import {
   StyleSheet,
   Image,
 } from 'react-native';
-import {colors} from '../../../utilies/colors';
-import {scale} from '../../../utilies/scale';
+import {colors} from '../../../utilities/colors';
+import {scale} from '../../../utilities/scale';
 import {images} from '../../../assets/images';
 import {icons} from '../../../assets/icons';
 import FlexDirectionView from '../../../Components/FlexDirectionView';

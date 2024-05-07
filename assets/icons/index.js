@@ -88,4 +88,13 @@ export const icons = {
   waste: require('./waste.png'),
   product: require('./product.png'),
   filter: require('./filter.png'),
+  crossRound: require('./crossRound.png'),
+  average: require('./average.png'),
+  gross: require('./gross.png'),
+  refund: require('./refund.png'),
+  discount: require('./discount.png'),
+  sale: require('./sale.png'),
+  netSale: require('./netSale.png'),
+  streamline: require('./streamline.png'),
+  wave1: require('./wave1.png'),
 };

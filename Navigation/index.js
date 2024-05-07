@@ -7,6 +7,8 @@ import Payment from '../Screens/Payment/Payment';
 import PaymentSuccess from '../Screens/PaymentSuccess/PaymentSuccess';
 import Transcation from '../Screens/Transaction/Transcation';
 import Reservation from '../Screens/Reservation/Reservation';
+import Report from '../Screens/Reports/Reports';
+import Reports from '../Screens/Reports/Reports';
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
@@ -19,6 +21,7 @@ const Navigation = () => {
         <Stack.Screen name="PaymentSuccess" component={PaymentSuccess} />
         <Stack.Screen name="Transcation" component={Transcation} />
         <Stack.Screen name="Reservation" component={Reservation} />
+        <Stack.Screen name="Reports" component={Reports} />
       </Stack.Navigator>
     </NavigationContainer>
   );

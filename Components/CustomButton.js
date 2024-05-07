@@ -1,7 +1,7 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {scale} from '../utilies/scale';
-import {colors} from '../utilies/colors';
+import {scale} from '../utilities/scale';
+import {colors} from '../utilities/colors';
 
 const CustomButton = ({style, titleStyle, title, onPress, icon}) => {
   return (

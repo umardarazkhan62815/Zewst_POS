@@ -2,12 +2,12 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import FlexDirectionView from '../../../Components/FlexDirectionView';
 import {images} from '../../../assets/images';
-import {scale} from '../../../utilies/scale';
-import {colors} from '../../../utilies/colors';
+import {scale} from '../../../utilities/scale';
+import {colors} from '../../../utilities/colors';
 import ProductInput from './ProductInput';
 import CustomButton from '../../../Components/CustomButton';
 
-const WasteCard = ({onPress}) => {
+const WasteCard = ({onPress, type}) => {
   return (
     <View style={styles.container}>
       <FlexDirectionView Row style={styles.mainContainer}>
@@ -43,11 +43,33 @@ const WasteCard = ({onPress}) => {
             <View style={styles.dot} />
             <Text style={styles.nameTxt}>{'300'}</Text>
           </FlexDirectionView>
-          <ProductInput title={'Spillage'} value={'100'} />
-          <ProductInput title={'Expired'} value={'100'} />
-          <ProductInput title={'Supply Chain Losses'} value={'100'} />
-          <ProductInput title={'Lack of Preservation'} value={'100'} />
-          <ProductInput title={'Others'} value={'100'} />
+          {type == 'FoodLog' ? (
+            <>
+              <ProductInput title={'Previous count'} value={'100'} />
+              <ProductInput title={'new addition'} value={'100'} />
+              <Text style={styles.salesTxt}>{'Sales'}</Text>
+
+              <FlexDirectionView Row style={{marginTop: scale(10)}}>
+                <View style={styles.dot} />
+                <Text style={styles.nameTxt}>{'190'}</Text>
+              </FlexDirectionView>
+              <Text style={styles.salesTxt}>{'Stock left'}</Text>
+
+              <FlexDirectionView Row style={{marginTop: scale(10)}}>
+                <View style={styles.dot} />
+                <Text style={styles.nameTxt}>{'110'}</Text>
+              </FlexDirectionView>
+              <ProductInput title={'Actual stock left'} value={'100'} />
+            </>
+          ) : (
+            <>
+              <ProductInput title={'Spillage'} value={'100'} />
+              <ProductInput title={'Expired'} value={'100'} />
+              <ProductInput title={'Supply Chain Losses'} value={'100'} />
+              <ProductInput title={'Lack of Preservation'} value={'100'} />
+              <ProductInput title={'Others'} value={'100'} />
+            </>
+          )}
         </View>
         <View style={styles.rightView}>
           <Image
@@ -63,7 +85,7 @@ const WasteCard = ({onPress}) => {
         </View>
       </FlexDirectionView>
       <CustomButton
-        title={'Update food waste'}
+        title={type == 'FoodLog' ? 'save' : 'Update food waste'}
         style={styles.btn}
         titleStyle={styles.btnTxt}
         onPress={onPress}
@@ -133,6 +155,13 @@ const styles = StyleSheet.create({
     fontSize: scale(16),
     lineHeight: scale(24),
     color: '#49586E',
+  },
+  salesTxt: {
+    fontWeight: '400',
+    fontSize: scale(16),
+    lineHeight: scale(24),
+    color: '#49586E',
+    marginTop: scale(12),
   },
   boxView: {
     marginRight: scale(170),

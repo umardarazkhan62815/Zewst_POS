@@ -7,9 +7,9 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import {scale} from '../../../utilies/scale';
+import {scale} from '../../../utilities/scale';
 import CustomButton from '../../../Components/CustomButton';
-import {colors} from '../../../utilies/colors';
+import {colors} from '../../../utilities/colors';
 import {icons} from '../../../assets/icons';
 import FlexDirectionView from '../../../Components/FlexDirectionView';
 

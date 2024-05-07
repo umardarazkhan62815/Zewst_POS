@@ -2,14 +2,14 @@ import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {Image} from 'react-native';
 import {icons} from '../../assets/icons';
-import {scale} from '../../utilies/scale';
-import FoodCard from './Componenets/FoodCard';
+import {scale} from '../../utilities/scale';
+import FoodCard from './Components/FoodCard';
 import {productTypes} from './statics';
-import {colors} from '../../utilies/colors';
-import Search from './Componenets/Search';
-import ProductCard from './Componenets/ProductCard';
+import {colors} from '../../utilities/colors';
+import Search from './Components/Search';
+import ProductCard from './Components/ProductCard';
 import FlexDirectionView from '../../Components/FlexDirectionView';
-import WasteCard from './Componenets/WasteCard';
+import WasteCard from './Components/WasteCard';
 
 const Food = () => {
   const [product, setProduct] = useState('');
@@ -47,6 +47,12 @@ const Food = () => {
             numColumns={2}
             columnWrapperStyle={{gap: scale(40)}}
           />
+        </View>
+      ) : product.text === 'Food log' ? (
+        <View style={styles.productsList}>
+          <Text style={styles.heading1}>{product?.text}</Text>
+
+          <WasteCard onPress={() => setProduct('')} type={'FoodLog'} />
         </View>
       ) : (
         <View style={styles.productsList}>
@@ -152,6 +158,14 @@ const styles = StyleSheet.create({
     marginTop: scale(20),
     marginBottom: scale(57),
     flex: 1,
+  },
+  heading1: {
+    fontWeight: '600',
+    fontSize: scale(43),
+    lineHeight: scale(65),
+    color: '#171725',
+    marginTop: scale(20),
+    marginBottom: scale(57),
   },
   foodWasteBtn: {
     backgroundColor: colors.purple,

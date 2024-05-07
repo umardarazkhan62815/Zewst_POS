@@ -8,8 +8,8 @@ import {
   Image,
 } from 'react-native';
 import {icons} from '../../../assets/icons';
-import {colors} from '../../../utilies/colors';
-import {scale} from '../../../utilies/scale';
+import {colors} from '../../../utilities/colors';
+import {scale} from '../../../utilities/scale';
 import FlexDirectionView from '../../../Components/FlexDirectionView';
 
 const DATA = [
@@ -30,7 +30,7 @@ const HomeLeftView = ({navigation, logoutPress, showMenu, transctionPress}) => {
     {icon: icons.dropDown, selected: false, name: 'more'},
     {icon: icons.reserve, selected: false, name: 'reserve'},
     {icon: icons.time, selected: false, name: 'food'},
-    {icon: icons.setting, selected: false, name: 'setting'},
+    {icon: icons.setting, selected: false, name: 'report'},
     {icon: icons.logout, selected: false, name: 'logout'},
   ]);
   const [isMore, setIsMore] = useState(false);
@@ -54,6 +54,8 @@ const HomeLeftView = ({navigation, logoutPress, showMenu, transctionPress}) => {
       transctionPress('more');
     } else if (selectedItem?.name == 'food') {
       transctionPress('food');
+    } else if (selectedItem?.name == 'report') {
+      transctionPress('report');
     }
   };
   const renderItem = ({item}) => {
@@ -174,7 +176,7 @@ const HomeLeftView = ({navigation, logoutPress, showMenu, transctionPress}) => {
                 onPress={() => menuPress(item)}>
                 {(item?.name === 'reserve' ||
                   item?.name === 'food' ||
-                  item?.name === 'setting') &&
+                  item?.name === 'report') &&
                 !isMore ? null : (
                   <View
                     style={[

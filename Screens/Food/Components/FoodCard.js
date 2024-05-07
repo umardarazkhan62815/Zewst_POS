@@ -1,8 +1,8 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {scale} from '../../../utilies/scale';
+import {scale} from '../../../utilities/scale';
 import FlexDirectionView from '../../../Components/FlexDirectionView';
-import {colors} from '../../../utilies/colors';
+import {colors} from '../../../utilities/colors';
 import {icons} from '../../../assets/icons';
 
 const FoodCard = ({item, onPress}) => {

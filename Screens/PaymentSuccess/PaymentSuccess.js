@@ -1,7 +1,7 @@
 import {FlatList, Image, Platform, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
-import {scale} from '../../utilies/scale';
-import {colors} from '../../utilies/colors';
+import {scale} from '../../utilities/scale';
+import {colors} from '../../utilities/colors';
 import OrderItem from './Components/OrderItem';
 import CustomButton from '../../Components/CustomButton';
 import {icons} from '../../assets/icons';
