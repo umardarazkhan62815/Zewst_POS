@@ -97,4 +97,10 @@ export const icons = {
   netSale: require('./netSale.png'),
   streamline: require('./streamline.png'),
   wave1: require('./wave1.png'),
+  edit1: require('./edit1.png'),
+  delete1: require('./delete1.png'),
+  eye: require('./eye.png'),
+  camera: require('./camera.png'),
+  uploadButton: require('./uploadButton.png'),
+  download: require('./download.png'),
 };

@@ -16,11 +16,14 @@ export const DropdownPicker = ({
   onSelect,
   selectedValue,
   style,
+  mainStyle,
   dropStyle,
+  valStyle,
   textStyle,
   itemTxtStyle,
   tintColor,
   label,
+  placeholder,
 }) => {
   const [showOptions, setShowOptions] = useState(false);
 
@@ -34,7 +37,7 @@ export const DropdownPicker = ({
   };
 
   return (
-    <View style={styles.dropdownContainer}>
+    <View style={[styles.dropdownContainer, mainStyle]}>
       <View
         style={[
           styles.dropdownHeader,
@@ -42,15 +45,19 @@ export const DropdownPicker = ({
           style,
         ]}>
         <TouchableOpacity
-          style={styles.selectedView}
+          style={[styles.selectedView, valStyle]}
           onPress={handleToggleOptions}>
           <Text
             style={[
               styles.selectedText,
-              {color: selectedValue ? colors.white : colors.black},
+              {color: selectedValue ? colors.white : '#A2A1A8CC'},
               textStyle,
             ]}>
-            {selectedValue ? selectedValue : 'Select '}
+            {selectedValue
+              ? selectedValue
+              : placeholder
+              ? placeholder
+              : 'Select '}
           </Text>
 
           <Image
@@ -104,7 +111,6 @@ const styles = StyleSheet.create({
     marginLeft: scale(12),
   },
   label: {
-    // backgroundColor: themeColor.white,
     paddingHorizontal: scale(4),
   },
   selectedView: {
@@ -126,8 +132,6 @@ const styles = StyleSheet.create({
     borderColor: colors.black025,
     borderWidth: 1,
     borderRadius: scale(8),
-    // position: 'absolute',
-    // top: scale(65),
   },
   optionItem: {
     padding: 10,

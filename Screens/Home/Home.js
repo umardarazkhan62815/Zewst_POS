@@ -22,6 +22,7 @@ import Transcation from '../Transaction/Transcation';
 import Reservation from '../Reservation/Reservation';
 import Food from '../Food/Food';
 import Reports from '../Reports/Reports';
+import Employee from '../Employee/Employee';
 
 const Home = ({navigation}) => {
   const [statusModalvisible, setStatusModalvisible] = useState(false);
@@ -107,6 +108,8 @@ const Home = ({navigation}) => {
           <Food />
         ) : screen === 'report' ? (
           <Reports />
+        ) : screen === 'employee' ? (
+          <Employee />
         ) : (
           <Transcation />
         )}

@@ -3,10 +3,16 @@ import React from 'react';
 import {scale} from '../utilities/scale';
 import {colors} from '../utilities/colors';
 
-const CustomButton = ({style, titleStyle, title, onPress, icon}) => {
+const CustomButton = ({style, titleStyle, title, onPress, iconStyle, icon}) => {
   return (
     <TouchableOpacity onPress={onPress} style={[styles.mainContainer, style]}>
-      {icon ? <Image source={icon} style={styles.icon} /> : null}
+      {icon ? (
+        <Image
+          source={icon}
+          style={[styles.icon, iconStyle]}
+          resizeMode="center"
+        />
+      ) : null}
       <Text style={[styles.title, titleStyle]}>{title}</Text>
     </TouchableOpacity>
   );

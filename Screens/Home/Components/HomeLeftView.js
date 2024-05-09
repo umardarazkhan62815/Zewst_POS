@@ -31,6 +31,8 @@ const HomeLeftView = ({navigation, logoutPress, showMenu, transctionPress}) => {
     {icon: icons.reserve, selected: false, name: 'reserve'},
     {icon: icons.time, selected: false, name: 'food'},
     {icon: icons.setting, selected: false, name: 'report'},
+    {icon: icons.addProfile, selected: false, name: 'employee'},
+
     {icon: icons.logout, selected: false, name: 'logout'},
   ]);
   const [isMore, setIsMore] = useState(false);
@@ -50,12 +52,14 @@ const HomeLeftView = ({navigation, logoutPress, showMenu, transctionPress}) => {
       transctionPress('home');
     } else if (selectedItem?.name === 'more') {
       setIsMore(!isMore);
-    } else if (selectedItem?.name == 'reserve') {
+    } else if (selectedItem?.name === 'reserve') {
       transctionPress('more');
-    } else if (selectedItem?.name == 'food') {
+    } else if (selectedItem?.name === 'food') {
       transctionPress('food');
-    } else if (selectedItem?.name == 'report') {
+    } else if (selectedItem?.name === 'report') {
       transctionPress('report');
+    } else if (selectedItem?.name === 'employee') {
+      transctionPress('employee');
     }
   };
   const renderItem = ({item}) => {
@@ -176,7 +180,8 @@ const HomeLeftView = ({navigation, logoutPress, showMenu, transctionPress}) => {
                 onPress={() => menuPress(item)}>
                 {(item?.name === 'reserve' ||
                   item?.name === 'food' ||
-                  item?.name === 'report') &&
+                  item?.name === 'report' ||
+                  item?.name === 'employee') &&
                 !isMore ? null : (
                   <View
                     style={[
