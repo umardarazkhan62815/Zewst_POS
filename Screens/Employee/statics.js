@@ -35,3 +35,13 @@ export const profileSteps = [
   {icon: icons.bag, name: 'Attendance'},
   {icon: icons.document, name: 'Role'},
 ];
+
+export const permissions = [
+  {id: '0', name: 'Zewst Phone'},
+  {id: '1', name: 'Inventory Management'},
+  {id: '2', name: 'Menu Engineering'},
+  {id: '3', name: 'Recipe Engineering'},
+  {id: '4', name: 'Employee Management'},
+  {id: '5', name: 'Portfolio'},
+  {id: '6', name: 'Cloud Kitchen'},
+];

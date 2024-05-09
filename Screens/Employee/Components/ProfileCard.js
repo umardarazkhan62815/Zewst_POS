@@ -8,6 +8,8 @@ import {icons} from '../../../assets/icons';
 import CustomButton from '../../../Components/CustomButton';
 import {profileSteps} from '../statics';
 import PersonalInfoCard from './PersonalInfoCard';
+import AttendanceCard from './AttendanceCard';
+import RoleCard from './RoleCard';
 
 const ProfileCard = () => {
   const [type, setType] = useState(profileSteps[0]);
@@ -43,7 +45,7 @@ const ProfileCard = () => {
           iconStyle={styles.iconEdit}
         />
       </View>
-      <FlexDirectionView Row>
+      <View style={styles.container}>
         <View style={styles.attendenceView}>
           {profileSteps.map(item => {
             return (
@@ -61,10 +63,16 @@ const ProfileCard = () => {
             );
           })}
         </View>
-        <View>
-          <PersonalInfoCard />
+        <View style={{flex: 1}}>
+          {type === profileSteps[0] ? (
+            <PersonalInfoCard />
+          ) : type === profileSteps[1] ? (
+            <AttendanceCard />
+          ) : (
+            <RoleCard />
+          )}
         </View>
-      </FlexDirectionView>
+      </View>
     </View>
   );
 };
@@ -177,5 +185,10 @@ const styles = StyleSheet.create({
     fontSize: scale(20),
     lineHeight: scale(24),
     marginLeft: scale(12),
+  },
+  container: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    flex: 1,
   },
 });

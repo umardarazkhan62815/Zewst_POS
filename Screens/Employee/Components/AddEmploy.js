@@ -10,6 +10,7 @@ import {DropdownPicker} from '../../../Components/DropDownPicker';
 import CustomButton from '../../../Components/CustomButton';
 import ProfessionalForm from './ProfessionalForm';
 import Document from './Document';
+import CustomDatePicker from '../../../Components/DatePicker';
 const AddEmploy = ({onCancelPress}) => {
   const [step, setStep] = useState(steps[0]);
 
@@ -57,7 +58,10 @@ const AddEmploy = ({onCancelPress}) => {
             <EditText placeholder={'Email Address'} style={styles.input1} />
           </FlexDirectionView>
           <View style={styles.numberView}>
-            <EditText placeholder={'Date of Birth'} style={styles.input} />
+            <CustomDatePicker
+              style={styles.dateView}
+              placeHolder={'Date of Birth'}
+            />
             <DropdownPicker
               options={['Status1', 'Status2']}
               onSelect={val => console.log(val)}
@@ -240,6 +244,12 @@ const styles = StyleSheet.create({
     height: scale(69),
     borderColor: '#A2A1A833',
     justifyContent: 'center',
+    width: scale(627),
+  },
+  dateView: {
+    height: scale(69),
+    borderColor: '#A2A1A833',
+    // justifyContent: 'center',
     width: scale(627),
   },
   dropDownR: {

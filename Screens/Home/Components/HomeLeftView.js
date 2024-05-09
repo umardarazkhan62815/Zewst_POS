@@ -157,14 +157,14 @@ const HomeLeftView = ({navigation, logoutPress, showMenu, transctionPress}) => {
               resizeMode="center"
             />
           </TouchableOpacity>
-          <View style={styles.takaway}>
+          {/* <View style={styles.takaway}>
             <Image
               source={icons.takeaway}
               style={styles.takeaway}
               resizeMode="center"
             />
             <Text style={styles.takeAwayTxt}>{'Take away'}</Text>
-          </View>
+          </View> */}
           {/* <View style={styles.recepit}>
             <Image
               source={icons.recepit}
@@ -215,7 +215,7 @@ const HomeLeftView = ({navigation, logoutPress, showMenu, transctionPress}) => {
             <Image source={icons.order} style={styles.orderIcon} />
             <Text style={styles.newTxt}>{'New Order'}</Text>
           </View>
-          <View style={styles.orderType}>
+          {/* <View style={styles.orderType}>
             <View style={styles.takaway}>
               <Image
                 source={icons.delivery}
@@ -248,7 +248,7 @@ const HomeLeftView = ({navigation, logoutPress, showMenu, transctionPress}) => {
               />
               <Text style={styles.takeAwayTxt}>{'Reserve Slot'}</Text>
             </View>
-          </View>
+          </View> */}
           <View style={styles.openOrderView}>
             <View style={styles.orderTypea}>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -280,7 +280,7 @@ const HomeLeftView = ({navigation, logoutPress, showMenu, transctionPress}) => {
                 </TouchableOpacity>
               </View>
             </View>
-            <View>
+            <View style={styles.flatListView}>
               <FlatList
                 data={DATA}
                 renderItem={renderItem}
@@ -441,8 +441,8 @@ const styles = StyleSheet.create({
   },
   timeTxt: {
     color: colors.black,
-    fontSize: scale(16),
-    lineHeight: scale(16),
+    fontSize: scale(14),
+    lineHeight: scale(14),
     fontWeight: '500',
   },
   startTime: {
@@ -458,7 +458,9 @@ const styles = StyleSheet.create({
     lineHeight: scale(14),
     fontWeight: '500',
   },
-  tableView: {},
+  tableView: {
+    // backgroundColor: 'red',
+  },
   tableIcon: {
     width: scale(18),
     height: scale(13),
@@ -471,13 +473,17 @@ const styles = StyleSheet.create({
   },
   orderItem: {
     borderBottomColor: colors.borderGray,
-
+    backgroundColor: colors.white,
     borderBottomWidth: 1,
+    marginBottom: scale(20),
+    borderRadius: scale(12),
+    paddingLeft: scale(4),
+    paddingRight: scale(8),
   },
   itemSubView: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: scale(16),
+    // paddingLeft: scale(16),
     paddingBottom: scale(12),
   },
   itemIconView: {
@@ -533,7 +539,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: scale(1),
     borderColor: colors.borderGray,
-    marginLeft: scale(16),
+    // marginLeft: scale(16),
     marginBottom: scale(14),
   },
   readyTxt: {
@@ -596,5 +602,10 @@ const styles = StyleSheet.create({
   },
   reservationTxt: {
     color: colors.purple,
+  },
+  flatListView: {
+    backgroundColor: colors.purpleLight,
+    paddingTop: scale(17),
+    paddingHorizontal: scale(12),
   },
 });

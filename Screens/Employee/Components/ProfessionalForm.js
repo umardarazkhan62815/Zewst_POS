@@ -5,6 +5,7 @@ import EditText from '../../../Components/EditText';
 import {DropdownPicker} from '../../../Components/DropDownPicker';
 import {Slider} from '@rneui/themed';
 import {colors} from '../../../utilities/colors';
+import CustomDatePicker from '../../../Components/DatePicker';
 const ProfessionalForm = () => {
   const [sliderValue, setSliderValue] = useState(0);
   const onValueChange = value => {
@@ -50,13 +51,9 @@ const ProfessionalForm = () => {
           placeholder={'Select Working Days'}
           dropStyle={styles.flatList1}
         />
-        <DropdownPicker
-          options={['Status1', 'Status2']}
-          onSelect={val => console.log(val)}
-          style={styles.dropDown}
-          valStyle={styles.valStyle}
-          placeholder={'Select Joining Date'}
-          dropStyle={styles.flatList1}
+        <CustomDatePicker
+          style={styles.dateView}
+          placeHolder={'Select Joining Date'}
         />
       </View>
       <View style={styles.rateView}>
@@ -153,5 +150,10 @@ const styles = StyleSheet.create({
   },
   sliderView: {
     color: colors.purple,
+  },
+  dateView: {
+    height: scale(69),
+    borderColor: '#A2A1A833',
+    width: scale(627),
   },
 });

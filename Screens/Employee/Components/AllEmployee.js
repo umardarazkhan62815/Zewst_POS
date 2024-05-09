@@ -18,6 +18,20 @@ import EmployCard from './EmployCard';
 const AllEmployee = ({onAddPress, eyePress}) => {
   const [digit, setDigit] = useState(1);
 
+  const EmptyList = () => {
+    return (
+      <View style={styles.emptyListContainer}>
+        <View style={styles.plusView}>
+          <Image source={icons.plus} style={styles.plusIcon} />
+        </View>
+        <CustomButton
+          title={'add new employee'}
+          style={styles.addBtn1}
+          titleStyle={styles.addTxt1}
+        />
+      </View>
+    );
+  };
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.heading}>{'All Employees'}</Text>
@@ -58,6 +72,7 @@ const AllEmployee = ({onAddPress, eyePress}) => {
             )}
             keyExtractor={item => item.id}
             showsVerticalScrollIndicator={false}
+            ListEmptyComponent={EmptyList}
           />
         </View>
         <FlexDirectionView Row style={styles.footer}>
@@ -305,5 +320,38 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: scale(16),
     lineHeight: scale(25),
+  },
+  emptyListContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  plusView: {
+    width: scale(100),
+    height: scale(100),
+    backgroundColor: colors.purpleLight,
+    borderRadius: scale(50),
+    marginTop: scale(230),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  plusIcon: {
+    tintColor: colors.purple,
+    width: scale(50),
+    height: scale(50),
+  },
+  addBtn1: {
+    marginTop: scale(113),
+    backgroundColor: colors.purpleLight,
+    height: scale(64),
+    width: scale(270),
+    borderRadius: scale(11),
+  },
+  addTxt1: {
+    color: colors.purple,
+    fontWeight: '500',
+    fontSize: scale(15),
+    lineHeight: scale(45),
   },
 });

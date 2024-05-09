@@ -103,4 +103,5 @@ export const icons = {
   camera: require('./camera.png'),
   uploadButton: require('./uploadButton.png'),
   download: require('./download.png'),
+  calendar1: require('./calendar1.png'),
 };
