@@ -65,7 +65,7 @@ const AddEmploy = ({onCancelPress}) => {
             <DropdownPicker
               options={['Status1', 'Status2']}
               onSelect={val => console.log(val)}
-              style={styles.dropDown}
+              style={[styles.dropDown, {marginLeft: scale(25)}]}
               valStyle={styles.valStyle}
               dropStyle={styles.flatList1}
             />
@@ -83,7 +83,7 @@ const AddEmploy = ({onCancelPress}) => {
             <DropdownPicker
               options={['Status1', 'Status2']}
               onSelect={val => console.log(val)}
-              style={styles.dropDownR}
+              style={[styles.dropDownR, {marginLeft: scale(25)}]}
               valStyle={styles.valStyle}
               placeholder={'Nationality'}
               dropStyle={styles.flatList1}
@@ -112,7 +112,7 @@ const AddEmploy = ({onCancelPress}) => {
             <DropdownPicker
               options={['Status1', 'Status2']}
               onSelect={val => console.log(val)}
-              style={styles.dropDownB}
+              style={[styles.dropDownB, {marginRight: 0}]}
               valStyle={styles.valStyle}
               placeholder={'Code'}
               dropStyle={styles.flatList}
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.borderGray,
     borderRadius: scale(11),
-    flex: 1,
+    // flex: 1,
     padding: scale(24),
   },
   stepView: {
@@ -229,16 +229,16 @@ const styles = StyleSheet.create({
     marginTop: scale(25),
     flexDirection: 'row',
     alignItems: 'flex-start',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
   },
   numberView1: {
     marginTop: scale(25),
     flexDirection: 'row',
     alignItems: 'flex-start',
-    justifyContent: 'space-between',
   },
   address: {
     marginTop: scale(25),
+    width: scale(1283),
   },
   dropDown: {
     height: scale(69),
@@ -263,6 +263,7 @@ const styles = StyleSheet.create({
     borderColor: '#A2A1A833',
     justifyContent: 'center',
     width: scale(410),
+    marginRight: scale(25),
   },
   flatList: {
     width: scale(410),

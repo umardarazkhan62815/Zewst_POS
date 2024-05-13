@@ -4732,6 +4732,11 @@ jest@^29.2.1:
     import-local "^3.0.2"
     jest-cli "^29.7.0"
 
+jetify@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/jetify/-/jetify-1.0.2.tgz#f0c8558d97abeecd8cd374ecb6a301afdef4a7de"
+  integrity sha512-LmeaeeM5l37oZRs6O0O0jMafEw7ra1++YJN2tnbCPnfjulnXryMlQKRib/4e64fJ2rzOWomyDsSFjD+7ZSXyKg==
+
 joi@^17.2.1:
   version "17.12.3"
   resolved "https://registry.yarnpkg.com/joi/-/joi-17.12.3.tgz#944646979cd3b460178547b12ba37aca8482f63d"

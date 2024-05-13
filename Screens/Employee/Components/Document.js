@@ -8,11 +8,11 @@ const Document = () => {
     <View style={styles.mainContainer}>
       <FlexDirectionView Row spaceBetween>
         <UploadCard title={'Upload Appointment Letter'} />
-        <UploadCard title={'Upload Salary Slips'} />
+        <UploadCard title={'Upload Salary Slips'} style={styles.card} />
       </FlexDirectionView>
       <FlexDirectionView Row spaceBetween style={styles.uploadView}>
         <UploadCard title={'Upload Reliving Letter'} />
-        <UploadCard title={'Upload Experience Letter'} />
+        <UploadCard title={'Upload Experience Letter'} style={styles.card} />
       </FlexDirectionView>
     </View>
   );
@@ -26,5 +26,8 @@ const styles = StyleSheet.create({
   },
   uploadView: {
     marginTop: scale(25),
+  },
+  card: {
+    marginLeft: scale(25),
   },
 });

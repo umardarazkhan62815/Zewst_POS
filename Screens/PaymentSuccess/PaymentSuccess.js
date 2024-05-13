@@ -1,14 +1,17 @@
 import {FlatList, Image, Platform, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
 import {scale} from '../../utilities/scale';
 import {colors} from '../../utilities/colors';
 import OrderItem from './Components/OrderItem';
 import CustomButton from '../../Components/CustomButton';
 import {icons} from '../../assets/icons';
 import {images} from '../../assets/images';
+
 const orderItems = [1, 2, 3, 4];
 
 const PaymentSuccess = () => {
+  const navigation = useNavigation();
   const [customerType, setCustomerType] = useState('zeward');
   return (
     <View style={styles.mainContainer}>
@@ -148,6 +151,7 @@ const PaymentSuccess = () => {
               title={'Main menu'}
               style={styles.menuBtn}
               titleStyle={{color: colors.purple}}
+              onPress={() => navigation.navigate('Home')}
             />
           </View>
           <CustomButton

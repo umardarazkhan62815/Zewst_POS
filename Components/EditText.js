@@ -1,12 +1,16 @@
-import {StyleSheet, Text, TextInput, View} from 'react-native';
-import React from 'react';
+import {StyleSheet, TextInput, View} from 'react-native';
+import React, {cloneElement} from 'react';
 import {scale} from '../utilities/scale';
 import {colors} from '../utilities/colors';
 
 const EditText = ({style, placeholder}) => {
   return (
     <View style={[styles.mainContainer, style]}>
-      <TextInput placeholder={placeholder} style={styles.input} />
+      <TextInput
+        placeholder={placeholder}
+        style={styles.input}
+        placeholderTextColor={'#A2A1A8CC'}
+      />
     </View>
   );
 };
@@ -23,5 +27,10 @@ const styles = StyleSheet.create({
   },
   input: {
     paddingHorizontal: scale(20),
+    fontSize: scale(20),
+    lineHeight: scale(20),
+    fontWeight: '300',
+    color: colors.black,
+    padding: 0,
   },
 });

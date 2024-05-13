@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, ScrollView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {scale} from '../../utilities/scale';
 import ReportCard from './Components/ReportCard';
@@ -107,140 +107,151 @@ const Reports = () => {
     <View style={styles.mainContainer}>
       <Text style={styles.heading}>{'Overview'}</Text>
       <Text style={styles.reportTxt}> {'Overview of reports'}</Text>
-      <View style={styles.flatListView}>
-        <FlatList
-          data={data}
-          renderItem={({item}) => <ReportCard item={item} />}
-          keyExtractor={item => item.id}
-          numColumns={3}
-          columnWrapperStyle={{gap: scale(30)}}
-          contentContainerStyle={{gap: scale(16)}}
-        />
-      </View>
-      <FlexDirectionView Row style={styles.chartView}>
-        <View style={styles.barChartView}>
-          <FlexDirectionView Row style={styles.valueView}>
-            <Text style={styles.dailyTxt}>{'Daily gross sales'}</Text>
-            <FlexDirectionView Row>
-              <View style={styles.dot} />
-              <Text style={styles.valTxt}>{'$198.49'}</Text>
-              <View style={styles.dot1} />
+      <ScrollView>
+        <View style={styles.flatListView}>
+          <FlatList
+            data={data}
+            renderItem={({item}) => <ReportCard item={item} />}
+            keyExtractor={item => item.id}
+            numColumns={3}
+            columnWrapperStyle={{gap: scale(30)}}
+            contentContainerStyle={{gap: scale(16)}}
+          />
+        </View>
+        <FlexDirectionView Row style={styles.chartView}>
+          <View style={styles.barChartView}>
+            <FlexDirectionView Row style={styles.valueView}>
+              <Text style={styles.dailyTxt}>{'Daily gross sales'}</Text>
+              <FlexDirectionView Row>
+                <View style={styles.dot} />
+                <Text style={styles.valTxt}>{'$198.49'}</Text>
+                <View style={styles.dot1} />
 
-              <Text style={[styles.valTxt, {color: colors.purple}]}>
-                {'$267.18'}
+                <Text style={[styles.valTxt, {color: colors.purple}]}>
+                  {'$267.18'}
+                </Text>
+              </FlexDirectionView>
+            </FlexDirectionView>
+            <BarChart
+              height={scale(250)}
+              width={scale(700)}
+              data={chartValue}
+              barWidth={scale(24)}
+              initialSpacing={scale(30)}
+              spacing={scale(50)}
+              barBorderRadius={scale(6)}
+              yAxisThickness={0}
+              xAxisType={'solid'}
+              xAxisColor={'lightgray'}
+              yAxisTextStyle={{
+                color: 'lightgray',
+                textAlign: 'center',
+                fontSize: scale(12),
+                lineHeight: scale(14),
+                fontWeight: '400',
+              }}
+              stepValue={100000}
+              maxValue={500000}
+              noOfSections={5}
+              yAxisLabelTexts={[0, 100000, 200000, 300000, 400000, 500000]}
+              labelWidth={40}
+              xAxisLabelTextStyle={{
+                color: '#333333',
+                textAlign: 'center',
+                fontSize: scale(12),
+                lineHeight: scale(14),
+                fontWeight: '400',
+              }}
+              yaTxts
+            />
+          </View>
+          <View style={styles.pieChartView}>
+            <Text style={styles.dailyTxt}>{'Sales by payments'}</Text>
+            <PieChart
+              isThreeD
+              showText
+              textColor={colors.white}
+              radius={scale(150)}
+              textSize={scale(20)}
+              data={pieData}
+            />
+            <FlexDirectionView Row style={{marginTop: scale(40)}}>
+              <View
+                style={[styles.dot, {backgroundColor: 'rgba(38,17,188,1)'}]}
+              />
+              <Text style={styles.cardTxt}>{'Visa card'}</Text>
+              <View
+                style={[styles.dot1, {backgroundColor: 'rgba(209,35,17,1)'}]}
+              />
+
+              <Text style={[styles.cardTxt, {color: colors.purple}]}>
+                {'Cash'}
+              </Text>
+              <View
+                style={[styles.dot1, {backgroundColor: 'rgba(253,134,8,1)'}]}
+              />
+
+              <Text style={[styles.cardTxt, {color: colors.purple}]}>
+                {'Master card'}
               </Text>
             </FlexDirectionView>
-          </FlexDirectionView>
-          <BarChart
-            height={scale(250)}
-            width={scale(700)}
-            data={chartValue}
-            barWidth={scale(24)}
-            initialSpacing={scale(30)}
-            spacing={scale(50)}
-            barBorderRadius={scale(6)}
-            yAxisThickness={0}
-            xAxisType={'solid'}
-            xAxisColor={'lightgray'}
-            yAxisTextStyle={{color: 'lightgray'}}
-            stepValue={100000}
-            maxValue={500000}
-            noOfSections={5}
-            yAxisLabelTexts={[0, 100000, 200000, 300000, 400000, 500000]}
-            labelWidth={40}
-            xAxisLabelTextStyle={{
-              color: '#333333',
-              textAlign: 'center',
-              fontSize: scale(12),
-              lineHeight: scale(14),
-              fontWeight: '400',
-            }}
-          />
-        </View>
-        <View style={styles.pieChartView}>
-          <Text style={styles.dailyTxt}>{'Sales by payments'}</Text>
-          <PieChart
-            isThreeD
-            showText
-            textColor={colors.white}
-            radius={scale(150)}
-            textSize={scale(20)}
-            data={pieData}
-          />
-          <FlexDirectionView Row style={{marginTop: scale(40)}}>
-            <View
-              style={[styles.dot, {backgroundColor: 'rgba(38,17,188,1)'}]}
-            />
-            <Text style={styles.cardTxt}>{'Visa card'}</Text>
-            <View
-              style={[styles.dot1, {backgroundColor: 'rgba(209,35,17,1)'}]}
-            />
-
-            <Text style={[styles.cardTxt, {color: colors.purple}]}>
-              {'Cash'}
-            </Text>
-            <View
-              style={[styles.dot1, {backgroundColor: 'rgba(253,134,8,1)'}]}
-            />
-
-            <Text style={[styles.cardTxt, {color: colors.purple}]}>
-              {'Master card'}
-            </Text>
-          </FlexDirectionView>
-        </View>
-      </FlexDirectionView>
-      <FlexDirectionView Row style={styles.topView}>
-        <View style={styles.topItemView}>
-          <FlexDirectionView Row>
-            <Text style={styles.topTxt}>{'Top items'}</Text>
-            <View style={{flex: 1}} />
-            <CustomButton
-              style={styles.grossBtn}
-              title={'Gross'}
-              titleStyle={styles.grossTxt}
-            />
-            <CustomButton
-              style={styles.countBtn}
-              title={'Count'}
-              titleStyle={styles.countTxt}
-            />
-          </FlexDirectionView>
-          <View style={styles.fltList}>
-            <FlatList
-              data={[0, 1, 2]}
-              renderItem={({item}) => <OrderItem item={item} />}
-              keyExtractor={item => item.id}
-              contentContainerStyle={{gap: scale(16)}}
-              showsVerticalScrollIndicator={false}
-            />
           </View>
-        </View>
-        <View style={styles.topCategoryView}>
-          <FlexDirectionView Row>
-            <Text style={styles.topTxt}>{'Top categories'}</Text>
-            <View style={{flex: 1}} />
-            <CustomButton
-              style={styles.countBtn}
-              title={'Gross'}
-              titleStyle={styles.countTxt}
-            />
-            <CustomButton
-              style={styles.grossBtn}
-              title={'Count'}
-              titleStyle={styles.grossTxt}
-            />
-          </FlexDirectionView>
-          <View style={styles.fltList}>
-            <FlatList
-              data={[0, 1, 2]}
-              renderItem={({item}) => <OrderItem item={item} />}
-              keyExtractor={item => item.id}
-              contentContainerStyle={{gap: scale(16)}}
-              showsVerticalScrollIndicator={false}
-            />
+        </FlexDirectionView>
+        <FlexDirectionView Row style={styles.topView}>
+          <View style={styles.topItemView}>
+            <FlexDirectionView Row>
+              <Text style={styles.topTxt}>{'Top items'}</Text>
+              <View style={{flex: 1}} />
+              <CustomButton
+                style={styles.grossBtn}
+                title={'Gross'}
+                titleStyle={styles.grossTxt}
+              />
+              <CustomButton
+                style={styles.countBtn}
+                title={'Count'}
+                titleStyle={styles.countTxt}
+              />
+            </FlexDirectionView>
+            <View style={styles.fltList}>
+              <FlatList
+                data={[0, 1, 2]}
+                renderItem={({item}) => <OrderItem item={item} />}
+                keyExtractor={item => item.id}
+                contentContainerStyle={{gap: scale(16)}}
+                showsVerticalScrollIndicator={false}
+                nestedScrollEnabled
+              />
+            </View>
           </View>
-        </View>
-      </FlexDirectionView>
+          <View style={styles.topCategoryView}>
+            <FlexDirectionView Row>
+              <Text style={styles.topTxt}>{'Top categories'}</Text>
+              <View style={{flex: 1}} />
+              <CustomButton
+                style={styles.countBtn}
+                title={'Gross'}
+                titleStyle={styles.countTxt}
+              />
+              <CustomButton
+                style={styles.grossBtn}
+                title={'Count'}
+                titleStyle={styles.grossTxt}
+              />
+            </FlexDirectionView>
+            <View style={styles.fltList}>
+              <FlatList
+                data={[0, 1, 2]}
+                renderItem={({item}) => <OrderItem item={item} />}
+                keyExtractor={item => item.id}
+                contentContainerStyle={{gap: scale(16)}}
+                showsVerticalScrollIndicator={false}
+                nestedScrollEnabled
+              />
+            </View>
+          </View>
+        </FlexDirectionView>
+      </ScrollView>
     </View>
   );
 };
@@ -253,6 +264,7 @@ const styles = StyleSheet.create({
     paddingLeft: scale(126),
     paddingTop: scale(84),
     backgroundColor: '#FAFAFA',
+    marginBottom: scale(20),
   },
   heading: {
     color: '#16151C',

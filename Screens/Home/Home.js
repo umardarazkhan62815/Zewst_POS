@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
@@ -6,6 +6,7 @@ import {
   Image,
   StatusBar,
   Platform,
+  BackHandler,
 } from 'react-native';
 import {colors} from '../../utilities/colors';
 import {scale} from '../../utilities/scale';
@@ -32,6 +33,19 @@ const Home = ({navigation}) => {
   const [showCashModal, setShowCashModal] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [screen, setScreen] = useState('home');
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        return true;
+      },
+    );
+
+    return () => {
+      backHandler.remove();
+    };
+  }, []);
   return (
     <View style={styles.mainContainer}>
       <StatusBar backgroundColor={colors.purpleLight} barStyle="dark-content" />

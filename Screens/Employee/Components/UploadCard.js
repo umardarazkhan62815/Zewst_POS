@@ -4,9 +4,9 @@ import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
 import {icons} from '../../../assets/icons';
 
-const UploadCard = ({title}) => {
+const UploadCard = ({title, style}) => {
   return (
-    <View style={styles.mainContainer}>
+    <View style={[styles.mainContainer, style]}>
       <Text style={styles.headingText}>{title}</Text>
       <View style={styles.cardView}>
         <Image source={icons.uploadButton} style={styles.btnStyle} />

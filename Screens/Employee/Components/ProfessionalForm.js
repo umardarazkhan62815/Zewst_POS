@@ -131,13 +131,11 @@ const styles = StyleSheet.create({
     color: '#A2A1A8CC',
     fontWeight: '300',
     fontSize: scale(20),
-    height: scale(30),
     padding: scale(20),
   },
   slider: {
     height: scale(10),
     backgroundColor: 'transparent',
-    marginTop: scale(20),
     width: '98%',
     alignSelf: 'center',
   },

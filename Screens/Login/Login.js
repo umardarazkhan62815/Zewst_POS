@@ -42,7 +42,7 @@ const Login = ({navigation}) => {
       setCount(0);
       setCode([10, 10, 10, 10]);
       setName('');
-      navigation.navigate('Home');
+      navigation.replace('Home');
       // console.log('Hir', code);
     }
   };

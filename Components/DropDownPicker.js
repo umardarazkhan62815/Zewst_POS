@@ -121,6 +121,9 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     flex: 1,
+    fontSize: scale(20),
+    lineHeight: scale(30),
+    fontWeight: '300',
   },
   icon: {
     width: scale(15),

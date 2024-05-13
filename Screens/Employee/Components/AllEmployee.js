@@ -305,7 +305,6 @@ const styles = StyleSheet.create({
     borderRadius: scale(6),
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: scale,
   },
   count1: {
     width: scale(40),
@@ -313,7 +312,6 @@ const styles = StyleSheet.create({
     borderRadius: scale(6),
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: scale,
   },
   countTxt: {
     color: colors.black,
