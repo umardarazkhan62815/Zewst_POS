@@ -1,11 +1,20 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useState} from 'react';
 import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
 import EditAmount from './EditAmount';
 import CountButton from '../../../Components/CountButton';
 import {icons} from '../../../assets/icons';
 import CustomButton from '../../../Components/CustomButton';
+import SplitBillModal from '../Modals/SplitBillModal';
+import {DropdownPicker} from '../../../Components/DropDownPicker';
 
 const bills = [
   {name: 'Zewards', icon: icons.run},
@@ -23,169 +32,260 @@ const PaymentMiddleView = ({
   serviceChargesPress,
   qrCodePress,
   zewardPress,
+  screen,
+  sendLink,
 }) => {
+  const [balance, setBalance] = useState('');
+  const [tenderedAmount, setTenderedAmount] = useState('');
+  const [tip, setTip] = useState('');
+  const [focus, setFocus] = useState('');
+  const [isSplit, setIsSplit] = useState(false);
+  const [isGenerateLink, setIsGenerateLink] = useState(false);
+  const [linkType, setLinkType] = useState('');
+  const [email, setEmail] = useState('');
+
   const handlePaymentPress = item => {
     if (item?.name === 'QR payment') {
       qrCodePress(true);
     }
   };
+
   const handleBillPress = item => {
     if (item?.name === 'Service charge') {
       serviceChargesPress(true);
     } else if (item?.name === 'Zewards') {
       zewardPress();
+    } else if (item?.name === 'Bill Split') {
+      setIsSplit(true);
+    }
+  };
+
+  const checkFoucs = type => {
+    setFocus(type);
+    console.log('Type', type);
+  };
+
+  const valueCheck = val => {
+    if (val === 11) {
+      if (focus === 'balance') {
+        setBalance(prevBalance => prevBalance.slice(0, -1));
+      } else if (focus === 'amount') {
+        setTenderedAmount(prevAmount => prevAmount.slice(0, -1));
+      } else if (focus === 'tip') {
+        setTip(prevTip => prevTip.slice(0, -1));
+      }
+    } else {
+      const newVal = val.toString();
+      if (focus === 'balance') {
+        setBalance(prevBalance => prevBalance + newVal);
+      } else if (focus === 'amount') {
+        setTenderedAmount(prevAmount => prevAmount + newVal);
+      } else if (focus === 'tip') {
+        setTip(prevTip => prevTip + newVal);
+      } else {
+        console.log(newVal);
+      }
     }
   };
   return (
     <View style={styles.mainContainer}>
-      <Text style={styles.registerTxt}>{'Register'}</Text>
-      <View style={styles.calculatorView}>
-        <View style={styles.inputViews}>
-          <EditAmount
-            title={'Balance'}
-            placeHolder={'18.00'}
-            editInput={styles.blanceInput}
+      <SplitBillModal visible={isSplit} onClose={() => setIsSplit(false)} />
+      {screen === 'Payment link' ? (
+        <>
+          <Text style={styles.registerTxt}>{'Create Payment link'}</Text>
+          <DropdownPicker
+            options={['Email', 'Phone']}
+            onSelect={val => setLinkType(val)}
+            style={styles.dropdown}
+            dropStyle={styles.dropStyle}
+            placeholder={'Through email address'}
+            selectedValue={linkType}
           />
-          <EditAmount
-            title={'Tendered amount'}
-            placeHolder={'18.00'}
-            editInput={styles.tendInput}
+          <TextInput
+            placeholder={
+              email === 'Email' ? 'Enter email address' : 'Enter Number'
+            }
+            style={styles.input}
+            placeholderTextColor={'#A2A1A8CC'}
+            onChangeText={val => setEmail(val)}
           />
-          <EditAmount
-            title={'Tip'}
-            placeHolder={'18.00'}
-            editInput={[styles.blanceInput, {marginRight: 0}]}
+          <View style={{flex: 1}} />
+          <CustomButton
+            title={'Send'}
+            style={email === '' ? styles.paymentBtn2 : styles.paymentBtn1}
+            onPress={() => {
+              email === '' ? null : sendLink('link');
+            }}
+            titleStyle={{fontSize: scale(40)}}
           />
-        </View>
-        <View style={styles.padView}>
-          <View style={styles.keyBoard}>
-            <View style={styles.rowCount}>
-              <CountButton
-                value={1}
-                style={styles.countbtn}
-                valueStyle={styles.val}
-                onSelect={val => console.log(val)}
+        </>
+      ) : (
+        <>
+          <Text style={styles.registerTxt}>{'Register'}</Text>
+          <View style={styles.calculatorView}>
+            <View style={styles.inputViews}>
+              <EditAmount
+                title={'Balance'}
+                placeHolder={'18.00'}
+                editInput={styles.blanceInput}
+                value={balance}
+                onFocus={() => checkFoucs('balance')}
+                onBlur={() => {
+                  setFocus('');
+                }}
               />
-              <CountButton
-                value={2}
-                style={styles.countbtn}
-                valueStyle={styles.val}
-                onSelect={val => console.log(val)}
+              <EditAmount
+                title={'Tendered amount'}
+                placeHolder={'18.00'}
+                editInput={styles.tendInput}
+                value={tenderedAmount}
+                onFocus={() => checkFoucs('amount')}
+                onBlur={() => {
+                  setFocus('');
+                }}
               />
-              <CountButton
-                value={3}
-                style={styles.countbtn}
-                valueStyle={styles.val}
-                onSelect={val => console.log(val)}
-              />
-              <CountButton
-                value={4}
-                style={styles.countbtn}
-                valueStyle={styles.val}
-                onSelect={val => console.log(val)}
+              <EditAmount
+                title={'Tip'}
+                placeHolder={'18.00'}
+                editInput={[styles.blanceInput, {marginRight: 0}]}
+                value={tip}
+                onFocus={() => checkFoucs('tip')}
+                onBlur={() => {
+                  setFocus('');
+                }}
               />
             </View>
-            <View style={styles.rowCount}>
-              <CountButton
-                value={5}
-                style={styles.countbtn}
-                valueStyle={styles.val}
-                onSelect={val => console.log(val)}
-              />
-              <CountButton
-                value={6}
-                style={styles.countbtn}
-                valueStyle={styles.val}
-                onSelect={val => console.log(val)}
-              />
-              <CountButton
-                value={7}
-                style={styles.countbtn}
-                valueStyle={styles.val}
-                onSelect={val => console.log(val)}
-              />
-              <CountButton
-                value={8}
-                style={styles.countbtn}
-                valueStyle={styles.val}
-                onSelect={val => console.log(val)}
-              />
-            </View>
-            <View style={styles.rowCount}>
-              <CountButton
-                value={9}
-                style={styles.countbtnl}
-                valueStyle={styles.val}
-                onSelect={val => console.log(val)}
-              />
-              <CountButton
-                value={0}
-                style={styles.countbtnl}
-                valueStyle={styles.val}
-                onSelect={val => console.log(val)}
-              />
-              <CountButton
-                value={'00'}
-                style={styles.countbtnl}
-                valueStyle={styles.val}
-                onSelect={val => console.log(val)}
-              />
-              <CountButton
-                value={4}
-                style={styles.countbtnl}
-                valueStyle={styles.val}
-                onSelect={val => console.log(val)}
-                del
-              />
+            <View style={styles.padView}>
+              <View style={styles.keyBoard}>
+                <View style={styles.rowCount}>
+                  <CountButton
+                    value={1}
+                    style={styles.countbtn}
+                    valueStyle={styles.val}
+                    onSelect={val => valueCheck(val)}
+                  />
+                  <CountButton
+                    value={2}
+                    style={styles.countbtn}
+                    valueStyle={styles.val}
+                    onSelect={val => valueCheck(val)}
+                  />
+                  <CountButton
+                    value={3}
+                    style={styles.countbtn}
+                    valueStyle={styles.val}
+                    onSelect={val => valueCheck(val)}
+                  />
+                  <CountButton
+                    value={4}
+                    style={styles.countbtn}
+                    valueStyle={styles.val}
+                    onSelect={val => valueCheck(val)}
+                  />
+                </View>
+                <View style={styles.rowCount}>
+                  <CountButton
+                    value={5}
+                    style={styles.countbtn}
+                    valueStyle={styles.val}
+                    onSelect={val => valueCheck(val)}
+                  />
+                  <CountButton
+                    value={6}
+                    style={styles.countbtn}
+                    valueStyle={styles.val}
+                    onSelect={val => valueCheck(val)}
+                  />
+                  <CountButton
+                    value={7}
+                    style={styles.countbtn}
+                    valueStyle={styles.val}
+                    onSelect={val => valueCheck(val)}
+                  />
+                  <CountButton
+                    value={8}
+                    style={styles.countbtn}
+                    valueStyle={styles.val}
+                    onSelect={val => valueCheck(val)}
+                  />
+                </View>
+                <View style={styles.rowCount}>
+                  <CountButton
+                    value={9}
+                    style={styles.countbtnl}
+                    valueStyle={styles.val}
+                    onSelect={val => valueCheck(val)}
+                  />
+                  <CountButton
+                    value={0}
+                    style={styles.countbtnl}
+                    valueStyle={styles.val}
+                    onSelect={val => valueCheck(val)}
+                  />
+                  <CountButton
+                    value={'00'}
+                    style={styles.countbtnl}
+                    valueStyle={styles.val}
+                    onSelect={val => valueCheck(val)}
+                  />
+                  <CountButton
+                    value={11}
+                    style={styles.countbtnl}
+                    valueStyle={styles.val}
+                    onSelect={val => valueCheck(val)}
+                    del
+                  />
+                </View>
+              </View>
+              <View style={{paddingTop: scale(25)}}>
+                {bills.map(item => {
+                  return (
+                    <TouchableOpacity
+                      style={styles.takaway}
+                      onPress={() => handleBillPress(item)}>
+                      <Image
+                        source={item?.icon}
+                        style={styles.takeaway}
+                        resizeMode="center"
+                      />
+                      <Text style={styles.takeAwayTxt}>{item?.name}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
             </View>
           </View>
-          <View style={{paddingTop: scale(25)}}>
-            {bills.map(item => {
+          <Text
+            style={[
+              styles.registerTxt,
+              {marginTop: scale(11), marginBottom: scale(36)},
+            ]}>
+            {'Payment'}
+          </Text>
+          <View style={styles.paymentView}>
+            {payments.map(item => {
               return (
                 <TouchableOpacity
-                  style={styles.takaway}
-                  onPress={() => handleBillPress(item)}>
+                  onPress={() => handlePaymentPress(item)}
+                  style={item?.selected ? styles.payments : styles.payment}>
                   <Image
                     source={item?.icon}
-                    style={styles.takeaway}
+                    style={styles.paymentIcon}
                     resizeMode="center"
                   />
-                  <Text style={styles.takeAwayTxt}>{item?.name}</Text>
+                  <Text style={styles.paymentTxt}>{item?.name}</Text>
                 </TouchableOpacity>
               );
             })}
           </View>
-        </View>
-      </View>
-      <Text
-        style={[
-          styles.registerTxt,
-          {marginTop: scale(11), marginBottom: scale(36)},
-        ]}>
-        {'Payment'}
-      </Text>
-      <View style={styles.paymentView}>
-        {payments.map(item => {
-          return (
-            <TouchableOpacity
-              onPress={() => handlePaymentPress(item)}
-              style={item?.selected ? styles.payments : styles.payment}>
-              <Image
-                source={item?.icon}
-                style={styles.paymentIcon}
-                resizeMode="center"
-              />
-              <Text style={styles.paymentTxt}>{item?.name}</Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-      <CustomButton
-        title={'Pay'}
-        style={styles.paymentBtn}
-        onPress={() => navigation.navigate('PaymentSuccess')}
-        titleStyle={{fontSize: scale(40)}}
-      />
+          <CustomButton
+            title={'Pay'}
+            style={styles.paymentBtn}
+            onPress={() => navigation.navigate('PaymentSuccess')}
+            titleStyle={{fontSize: scale(40)}}
+          />
+        </>
+      )}
     </View>
   );
 };
@@ -226,6 +326,7 @@ const styles = StyleSheet.create({
   blanceInput: {
     width: scale(182),
     marginRight: scale(24),
+    color: colors.black,
   },
   tendInput: {
     width: scale(248),
@@ -328,5 +429,39 @@ const styles = StyleSheet.create({
     backgroundColor: colors.purple,
     marginTop: scale(52),
     borderRadius: 0,
+  },
+  paymentBtn1: {
+    width: '100%',
+    height: scale(76),
+    backgroundColor: colors.purple,
+    marginBottom: scale(52),
+    borderRadius: 0,
+  },
+  paymentBtn2: {
+    width: '100%',
+    height: scale(76),
+    backgroundColor: colors.borderGray,
+    marginBottom: scale(52),
+    borderRadius: 0,
+  },
+  dropdown: {
+    height: scale(69),
+    width: '100%',
+    justifyContent: 'center',
+  },
+  dropStyle: {
+    width: '100%',
+  },
+  input: {
+    marginTop: scale(25),
+    borderRadius: scale(11),
+    borderColor: colors.borderGray,
+    borderWidth: 1,
+    height: scale(69),
+    paddingHorizontal: scale(15),
+    padding: 0,
+    fontSize: scale(20),
+    fontWeight: '500',
+    color: colors.black,
   },
 });

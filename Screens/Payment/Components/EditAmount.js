@@ -4,12 +4,28 @@ import {colors} from '../../../utilities/colors';
 import {scale} from '../../../utilities/scale';
 import CountButton from '../../../Components/CountButton';
 
-const EditAmount = ({title, placeHolder, editInput}) => {
+const EditAmount = ({
+  title,
+  placeHolder,
+  editInput,
+  value,
+  onChangeText,
+  onFocus,
+  onBlur,
+}) => {
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.titleTxt}>{title}</Text>
       <View style={[styles.editInput, editInput]}>
-        <TextInput placeholder={placeHolder} style={styles.input} />
+        <TextInput
+          placeholder={placeHolder}
+          style={styles.input}
+          value={value}
+          onChangeText={() => onChangeText()}
+          onFocus={() => onFocus()}
+          onBlur={() => onBlur()}
+          placeholderTextColor={colors.borderGray}
+        />
         <Text style={styles.doller}>{'$'}</Text>
       </View>
     </View>
@@ -39,6 +55,8 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: scale(24),
     color: colors.black,
+    fontWeight: '500',
+    padding: 0,
   },
   doller: {
     fontWeight: '500',

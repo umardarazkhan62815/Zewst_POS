@@ -24,6 +24,8 @@ import Reservation from '../Reservation/Reservation';
 import Food from '../Food/Food';
 import Reports from '../Reports/Reports';
 import Employee from '../Employee/Employee';
+import Setting from '../Setting/Setting';
+import CallModal from './Modals/CallModal';
 
 const Home = ({navigation}) => {
   const [statusModalvisible, setStatusModalvisible] = useState(false);
@@ -124,6 +126,8 @@ const Home = ({navigation}) => {
           <Reports />
         ) : screen === 'employee' ? (
           <Employee />
+        ) : screen === 'setting' ? (
+          <Setting />
         ) : (
           <Transcation />
         )}

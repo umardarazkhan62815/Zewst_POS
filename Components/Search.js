@@ -42,5 +42,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: scale(14),
     color: colors.black,
+    margin: 0,
+    padding: 0,
+    fontSize: scale(18),
+    fontWeight: '500',
   },
 });

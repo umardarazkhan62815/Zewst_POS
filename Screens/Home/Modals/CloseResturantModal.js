@@ -9,12 +9,9 @@ import {
 import React from 'react';
 import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
-import {icons} from '../../../assets/icons';
-import {images} from '../../../assets/images';
 import CustomButton from '../../../Components/CustomButton';
 import {DropdownPicker} from '../../../Components/DropDownPicker';
 import ShiftData from '../Components/ShiftData';
-import CountButton from '../../../Components/CountButton';
 
 const CloseResturantModal = ({visible, onPress, onClosePress}) => {
   return (
@@ -124,12 +121,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.2)',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: scale(500),
-    paddingVertical: scale(70),
   },
   modalView: {
-    width: '100%',
-    height: '100%',
+    width: scale(1147),
+    height: scale(1056),
     backgroundColor: colors.white,
     alignItems: 'center',
     paddingVertical: scale(35),
@@ -143,7 +138,7 @@ const styles = StyleSheet.create({
   dropDown: {
     width: scale(426),
     height: scale(53),
-    marginTop: scale(20),
+    // marginTop: scale(20),
   },
   shiftView: {
     borderColor: colors.purple,
@@ -158,12 +153,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: scale(40),
+    marginTop: scale(20),
   },
   totalSale: {
     width: scale(426),
     alignSelf: 'center',
-    marginTop: scale(40),
+    marginTop: scale(20),
   },
   totalTxt: {
     fontWeight: '700',
@@ -171,7 +166,7 @@ const styles = StyleSheet.create({
   closeView: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: scale(70),
+    marginTop: scale(40),
     justifyContent: 'center',
   },
   shiftBtn: {

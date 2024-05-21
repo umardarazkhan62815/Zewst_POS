@@ -3,16 +3,27 @@ import React from 'react';
 import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
 import CustomButton from '../../../Components/CustomButton';
-const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+const data = [
+  'Split bill',
+  'Assign to',
+  'Move',
+  'Reprint ticket',
+  'Payment link',
+  'Gift card',
+  'Gift card',
+  'Gift card',
+  'Gift card',
+  'Gift card',
+];
 const PaymentRightView = ({newPress, isOrder, assignPress}) => {
   const renderItem = ({item, index}) => (
     <TouchableOpacity
-      onPress={() => assignPress()}
+      onPress={() => assignPress(item)}
       style={[
         styles.itemView,
         {marginRight: (index + 1) % 2 === 0 ? scale(0) : scale(50)},
       ]}>
-      <Text style={styles.itemTxt}>{'Reprint ticket'}</Text>
+      <Text style={styles.itemTxt}>{item}</Text>
     </TouchableOpacity>
   );
   return (

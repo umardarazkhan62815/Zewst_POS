@@ -166,12 +166,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.2)',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: scale(435),
-    paddingVertical: scale(82),
   },
   modalView: {
-    width: '100%',
-    height: '100%',
+    width: scale(1290),
+    height: scale(1028),
     backgroundColor: colors.white,
     padding: scale(30),
   },
@@ -182,7 +180,7 @@ const styles = StyleSheet.create({
   },
   mainContent: {
     paddingHorizontal: scale(70),
-    paddingTop: scale(40),
+    paddingTop: scale(20),
   },
   parts: {
     flexDirection: 'row',
@@ -199,7 +197,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    paddingVertical: scale(30),
+    paddingTop: scale(30),
     paddingHorizontal: scale(40),
   },
   employeeTxt: {
@@ -221,6 +219,9 @@ const styles = StyleSheet.create({
   },
   totalTxt: {
     fontWeight: '700',
+    color: colors.black,
+    fontSize: scale(26),
+    lineHeight: scale(28),
   },
   rowView: {
     flexDirection: 'row',
@@ -228,8 +229,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   count: {
-    width: scale(96),
-    height: scale(99),
+    width: scale(90),
+    height: scale(93),
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FAF7FD',
@@ -255,10 +256,11 @@ const styles = StyleSheet.create({
     fontSize: scale(28),
   },
   fundBtn: {
-    backgroundColor: colors.purple05,
+    backgroundColor: colors.purpleLight,
     borderWidth: 1,
     borderColor: colors.purple,
     borderRadius: scale(7),
+    marginBottom: scale(10),
   },
   fundTxt: {
     color: colors.purple,
@@ -280,7 +282,7 @@ const styles = StyleSheet.create({
   closeBtn: {
     width: scale(413),
     height: scale(77),
-    backgroundColor: colors.purple05,
+    backgroundColor: colors.purpleLight,
     borderWidth: 1,
     borderColor: colors.purple,
     borderRadius: scale(7),

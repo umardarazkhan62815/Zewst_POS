@@ -27,6 +27,8 @@ const HomeLeftView = ({navigation, logoutPress, showMenu, transctionPress}) => {
     {icon: icons.history, selected: false, name: ''},
     {icon: icons.chat, selected: false, name: ''},
     {icon: icons.call, selected: false, name: ''},
+    {icon: icons.setting, selected: false, name: 'setting'},
+
     {icon: icons.dropDown, selected: false, name: 'more'},
     {icon: icons.reserve, selected: false, name: 'reserve'},
     {icon: icons.time, selected: false, name: 'food'},
@@ -60,6 +62,8 @@ const HomeLeftView = ({navigation, logoutPress, showMenu, transctionPress}) => {
       transctionPress('report');
     } else if (selectedItem?.name === 'employee') {
       transctionPress('employee');
+    } else if (selectedItem?.name === 'setting') {
+      transctionPress('setting');
     }
   };
   const renderItem = ({item}) => {

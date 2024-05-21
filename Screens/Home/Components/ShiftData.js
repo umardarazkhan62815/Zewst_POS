@@ -19,7 +19,7 @@ const ShiftData = ({
         {icon ? (
           <Image source={icons.lock} style={styles.icon} resizeMode="center" />
         ) : null}
-        <Text style={(styles.label, labelStyle)}>{label}</Text>
+        <Text style={[styles.label, labelStyle]}>{label}</Text>
       </View>
       <View style={[styles.valueView, valueStyle]}>
         <Text style={[styles.vlaueTxt, valTxtStyle]}>{value}</Text>
@@ -32,7 +32,7 @@ const ShiftData = ({
 export default ShiftData;
 
 const styles = StyleSheet.create({
-  mainContainer: {},
+  mainContainer: {height: scale(99)},
   labelView: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -54,8 +54,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: scale(7),
     borderColor: colors.purple05,
+    height: scale(56),
     paddingHorizontal: scale(21),
-    paddingVertical: scale(13),
     marginTop: scale(20),
   },
   vlaueTxt: {

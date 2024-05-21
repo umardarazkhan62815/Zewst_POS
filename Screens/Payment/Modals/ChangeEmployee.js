@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     width: scale(723),
     height: scale(53),
     marginTop: scale(20),
-    backgroundColor: colors.white,
+    // backgroundColor: colors.white,
   },
   padView: {
     marginTop: scale(70),

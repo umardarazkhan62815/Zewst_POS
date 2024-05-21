@@ -1,6 +1,9 @@
 export const colors = {
   white: '#fff',
+  placeHolder: '#A2A1A8',
   black: '#000',
+  blackV: '#16151C',
+  black06: 'rgba(0, 0, 0, 0.7)',
   black5: 'rgba(0, 0, 0, 0.5)',
   black025: 'rgba(0, 0, 0, 0.25)',
   black03: 'rgba(0, 0, 0, 0.03)',

@@ -10,10 +10,8 @@ import React from 'react';
 import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
 import {icons} from '../../../assets/icons';
-import {images} from '../../../assets/images';
 import CustomButton from '../../../Components/CustomButton';
 import {DropdownPicker} from '../../../Components/DropDownPicker';
-import ShiftData from '../Components/ShiftData';
 
 const CashCoinModal = ({visible, onPress, cashPress}) => {
   return (
@@ -72,12 +70,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.2)',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: scale(580),
-    paddingVertical: scale(390),
   },
   modalView: {
-    width: '100%',
-    height: '100%',
+    width: scale(963),
+    height: scale(612),
     backgroundColor: colors.white,
     alignItems: 'center',
     paddingVertical: scale(35),

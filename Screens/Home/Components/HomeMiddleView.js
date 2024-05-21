@@ -14,6 +14,7 @@ import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
 import {Dimensions} from 'react-native';
 import ToppingCard from './ToppingCard';
+import CallModal from '../Modals/CallModal';
 const companies = [
   {id: '1', icon: 'ios-home', text: 'Home'},
   {id: '2', icon: 'ios-settings', text: 'Settings'},
@@ -33,7 +34,6 @@ const HomeMiddleView = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [topping, setTopping] = useState('');
   const [order, setOrder] = useState('');
-
   const renderCompnies = ({item}) => (
     <View style={styles.companyItem}>
       <Image style={styles.clogo} source={icons.clogo} resizeMode="center" />
@@ -55,7 +55,10 @@ const HomeMiddleView = () => {
       <View style={{maxHeight: screenHeight}}>
         <Text style={styles.categoryTxt}>{'Categories'}</Text>
         {selectedCategory !== '' ? (
-          <CategoryCard style={{width: scale(286)}} />
+          <CategoryCard
+            style={{width: scale(286)}}
+            selectedItem={val => console.log(val)}
+          />
         ) : null}
         <FlatList
           data={companies}

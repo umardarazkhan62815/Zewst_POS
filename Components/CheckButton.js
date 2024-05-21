@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   mainContainer1: {
     height: scale(24),
     width: scale(24),
-    borderWidth: scale(1),
+    borderWidth: 1,
     borderRadius: scale(4),
     borderColor: colors.purple,
   },

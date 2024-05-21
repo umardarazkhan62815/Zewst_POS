@@ -9,12 +9,15 @@ import ServiceChargesModal from './Modals/ServiceChargesModal';
 import {icons} from '../../assets/icons';
 import QrCodeScanModal from './Modals/QrCodeScanModal';
 import ChangeEmployee from './Modals/ChangeEmployee';
+import SentLinkView from './Components/SentLinkView';
 const Payment = ({navigation}) => {
   const [isOrder, setIsOrder] = useState(false);
   const [isShowServiceCharges, setIsShowServiceCharges] = useState(false);
   const [isShowQrCode, setIsShowQrCode] = useState(false);
   const [isShowZeward, setIsShowZeward] = useState(false);
   const [isChangeEmployee, setIsChangeEmployee] = useState(false);
+  const [screen, setScreen] = useState('');
+  const [linkScreen, setLinkScreen] = useState(false);
   return (
     <View style={styles.mainContiner}>
       {isOrder ? (
@@ -39,21 +42,36 @@ const Payment = ({navigation}) => {
       )}
       <View style={styles.subContainer}>
         <PaymentLeftView />
-        <PaymentMiddleView
-          navigation={navigation}
-          serviceChargesPress={() => setIsShowServiceCharges(true)}
-          qrCodePress={() => setIsShowQrCode(true)}
-          zewardPress={() => setIsShowZeward(true)}
-        />
-        <PaymentRightView
-          newPress={() => {
-            setIsOrder(true);
-          }}
-          isOrder={isOrder}
-          assignPress={() => {
-            setIsChangeEmployee(true);
-          }}
-        />
+        {linkScreen ? (
+          <SentLinkView backPress={() => setLinkScreen(false)} />
+        ) : (
+          <>
+            <PaymentMiddleView
+              navigation={navigation}
+              serviceChargesPress={() => setIsShowServiceCharges(true)}
+              qrCodePress={() => setIsShowQrCode(true)}
+              zewardPress={() => setIsShowZeward(true)}
+              screen={screen}
+              sendLink={val => {
+                setScreen('');
+                setLinkScreen(true);
+              }}
+            />
+            <PaymentRightView
+              newPress={() => {
+                setIsOrder(true);
+              }}
+              isOrder={isOrder}
+              assignPress={val => {
+                if (val === 'Assign to') {
+                  setIsChangeEmployee(true);
+                } else if (val === 'Payment link') {
+                  setScreen(val);
+                }
+              }}
+            />
+          </>
+        )}
       </View>
 
       <ServiceChargesModal

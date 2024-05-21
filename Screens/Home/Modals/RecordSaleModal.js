@@ -1,16 +1,7 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Modal,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, Text, View, Modal} from 'react-native';
 import React from 'react';
 import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
-import {icons} from '../../../assets/icons';
-import {images} from '../../../assets/images';
 import CustomButton from '../../../Components/CustomButton';
 import {DropdownPicker} from '../../../Components/DropDownPicker';
 import ShiftData from '../Components/ShiftData';
@@ -49,28 +40,16 @@ const RecordSaleModal = ({visible, onPress, onRecordPress}) => {
             <View style={styles.rowView}>
               <ShiftData
                 style={{width: scale(426)}}
-                label={'1 $'}
-                value={'123.00'}
-              />
-              <ShiftData
-                style={{width: scale(426)}}
-                label={'5 $'}
-                value={'123.00'}
-              />
-            </View>
-
-            <View style={styles.rowView}>
-              <ShiftData
-                style={{width: scale(426)}}
                 label={'10 $'}
                 value={'123.00'}
               />
               <ShiftData
                 style={{width: scale(426)}}
-                label={'20 $'}
+                label={'25 $'}
                 value={'123.00'}
               />
             </View>
+
             <ShiftData
               style={styles.totalSale}
               label={'Total sales'}
@@ -101,12 +80,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.2)',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: scale(500),
-    paddingVertical: scale(138),
   },
   modalView: {
-    width: '100%',
-    height: '100%',
+    width: scale(1147),
+    height: scale(776),
     backgroundColor: colors.white,
     alignItems: 'center',
     paddingVertical: scale(35),
@@ -135,7 +112,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: scale(40),
+    marginTop: scale(20),
   },
   totalSale: {
     width: scale(426),

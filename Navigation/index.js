@@ -10,6 +10,7 @@ import Reservation from '../Screens/Reservation/Reservation';
 import Report from '../Screens/Reports/Reports';
 import Reports from '../Screens/Reports/Reports';
 import Employee from '../Screens/Employee/Employee';
+import Setting from '../Screens/Setting/Setting';
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
@@ -24,6 +25,7 @@ const Navigation = () => {
         <Stack.Screen name="Reservation" component={Reservation} />
         <Stack.Screen name="Reports" component={Reports} />
         <Stack.Screen name="Employee" component={Employee} />
+        <Stack.Screen name="Setting" component={Setting} />
       </Stack.Navigator>
     </NavigationContainer>
   );
