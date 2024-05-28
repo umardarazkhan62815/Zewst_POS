@@ -6,7 +6,7 @@ import {Image} from 'react-native';
 import {images} from '../../../assets/images';
 import {colors} from '../../../utilities/colors';
 import {icons} from '../../../assets/icons';
-const EmployCard = ({item, eyePress, onEditPress}) => {
+const CustomerCard = ({item, eyePress, onEditPress}) => {
   return (
     <FlexDirectionView Row style={styles.mainContainer}>
       <Image
@@ -16,6 +16,8 @@ const EmployCard = ({item, eyePress, onEditPress}) => {
       />
       <Text style={styles.nameTxt}>{item?.name}</Text>
       <View style={{flex: 1}} />
+      <Text style={styles.nameId}>{'..........  8785'}</Text>
+
       <Text style={styles.nameId}>{'345321231'}</Text>
       <Text style={styles.department}>{'Design'}</Text>
       <Text style={styles.role}>{'UI/UX Designer'}</Text>
@@ -45,7 +47,7 @@ const EmployCard = ({item, eyePress, onEditPress}) => {
   );
 };
 
-export default EmployCard;
+export default CustomerCard;
 
 const styles = StyleSheet.create({
   mainContainer: {

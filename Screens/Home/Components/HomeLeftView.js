@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -19,13 +19,19 @@ const DATA = [
   {id: '4', title: 'Item 4'},
   {id: '5', title: 'Item 5'},
 ];
-const HomeLeftView = ({navigation, logoutPress, showMenu, transctionPress}) => {
+const HomeLeftView = ({
+  navigation,
+  logoutPress,
+  showMenu,
+  transctionPress,
+  screen,
+}) => {
   const [logoutMenu, setLogoutMenu] = useState([
     {icon: icons.attendence, selected: true, name: 'home'},
     {icon: icons.cashCircle, selected: false, name: 'transcation'},
     {icon: icons.window, selected: false, name: ''},
     {icon: icons.history, selected: false, name: ''},
-    {icon: icons.chat, selected: false, name: ''},
+    {icon: icons.customer, selected: false, name: 'customer'},
     {icon: icons.call, selected: false, name: ''},
     {icon: icons.setting, selected: false, name: 'setting'},
 
@@ -38,7 +44,15 @@ const HomeLeftView = ({navigation, logoutPress, showMenu, transctionPress}) => {
     {icon: icons.logout, selected: false, name: 'logout'},
   ]);
   const [isMore, setIsMore] = useState(false);
+  const [isShowOrder, setIsShowOrder] = useState(true);
 
+  useEffect(() => {
+    logoutMenu.map(item => {
+      if (item.name === screen) {
+        menuPress(item);
+      }
+    });
+  }, [screen]);
   const menuPress = selectedItem => {
     const updatedMenuItems = logoutMenu.map(item =>
       item.name === selectedItem.name
@@ -64,6 +78,8 @@ const HomeLeftView = ({navigation, logoutPress, showMenu, transctionPress}) => {
       transctionPress('employee');
     } else if (selectedItem?.name === 'setting') {
       transctionPress('setting');
+    } else if (selectedItem?.name === 'customer') {
+      transctionPress('customer');
     }
   };
   const renderItem = ({item}) => {
@@ -151,10 +167,12 @@ const HomeLeftView = ({navigation, logoutPress, showMenu, transctionPress}) => {
     );
   };
   return (
-    <View style={styles.leftView}>
+    <View style={isShowOrder ? styles.leftView : styles.leftView1}>
       <View style={{flexDirection: 'row'}}>
         <View>
-          <TouchableOpacity style={styles.menuView} onPress={showMenu}>
+          <TouchableOpacity
+            style={styles.menuView}
+            onPress={() => setIsShowOrder(!isShowOrder)}>
             <Image
               source={icons.menu}
               style={styles.menuBtn}
@@ -214,12 +232,13 @@ const HomeLeftView = ({navigation, logoutPress, showMenu, transctionPress}) => {
             );
           })}
         </View>
-        <View style={{flex: 1}}>
-          <View style={styles.newOrderView}>
-            <Image source={icons.order} style={styles.orderIcon} />
-            <Text style={styles.newTxt}>{'New Order'}</Text>
-          </View>
-          {/* <View style={styles.orderType}>
+        {isShowOrder ? (
+          <View style={{flex: 1}}>
+            <View style={styles.newOrderView}>
+              <Image source={icons.order} style={styles.orderIcon} />
+              <Text style={styles.newTxt}>{'New Order'}</Text>
+            </View>
+            {/* <View style={styles.orderType}>
             <View style={styles.takaway}>
               <Image
                 source={icons.delivery}
@@ -253,46 +272,47 @@ const HomeLeftView = ({navigation, logoutPress, showMenu, transctionPress}) => {
               <Text style={styles.takeAwayTxt}>{'Reserve Slot'}</Text>
             </View>
           </View> */}
-          <View style={styles.openOrderView}>
-            <View style={styles.orderTypea}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Image
-                  source={icons.attendence}
-                  style={styles.attend}
-                  resizeMode="center"
-                />
-                <Text style={styles.openTxt}>{'Open Orders'}</Text>
-                <View style={{flex: 1}} />
-                <Image
-                  source={icons.leftArrow}
-                  style={styles.leftArrow}
-                  resizeMode="center"
+            <View style={styles.openOrderView}>
+              <View style={styles.orderTypea}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Image
+                    source={icons.attendence}
+                    style={styles.attend}
+                    resizeMode="center"
+                  />
+                  <Text style={styles.openTxt}>{'Open Orders'}</Text>
+                  <View style={{flex: 1}} />
+                  <Image
+                    source={icons.leftArrow}
+                    style={styles.leftArrow}
+                    resizeMode="center"
+                  />
+                </View>
+                <View style={styles.statusTxtView}>
+                  <TouchableOpacity
+                    style={[styles.allbtn, {borderBottomColor: colors.green}]}>
+                    <Text style={[styles.allTxt, {color: colors.black}]}>
+                      {'All'}
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.allbtn}>
+                    <Text style={styles.allTxt}>{'Ready to Pick'}</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.allbtn}>
+                    <Text style={styles.allTxt}>{'In Progress'}</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View style={styles.flatListView}>
+                <FlatList
+                  data={DATA}
+                  renderItem={renderItem}
+                  keyExtractor={item => item.id}
                 />
               </View>
-              <View style={styles.statusTxtView}>
-                <TouchableOpacity
-                  style={[styles.allbtn, {borderBottomColor: colors.green}]}>
-                  <Text style={[styles.allTxt, {color: colors.black}]}>
-                    {'All'}
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.allbtn}>
-                  <Text style={styles.allTxt}>{'Ready to Pick'}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.allbtn}>
-                  <Text style={styles.allTxt}>{'In Progress'}</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={styles.flatListView}>
-              <FlatList
-                data={DATA}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-              />
             </View>
           </View>
-        </View>
+        ) : null}
       </View>
     </View>
   );
@@ -303,6 +323,9 @@ export default HomeLeftView;
 const styles = StyleSheet.create({
   leftView: {
     width: '17%',
+  },
+  leftView1: {
+    width: '5%',
   },
   menuView: {
     backgroundColor: colors.white,

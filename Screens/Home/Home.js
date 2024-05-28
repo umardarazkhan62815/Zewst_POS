@@ -26,6 +26,7 @@ import Reports from '../Reports/Reports';
 import Employee from '../Employee/Employee';
 import Setting from '../Setting/Setting';
 import CallModal from './Modals/CallModal';
+import Customer from '../Customer/Customer';
 
 const Home = ({navigation}) => {
   const [statusModalvisible, setStatusModalvisible] = useState(false);
@@ -93,7 +94,7 @@ const Home = ({navigation}) => {
         }}
       />
       <View style={styles.subContainer}>
-        {showMenu ? (
+        {/* {showMenu ? (
           <TouchableOpacity
             style={styles.menuView}
             onPress={() => setShowMenu(false)}>
@@ -103,19 +104,23 @@ const Home = ({navigation}) => {
               resizeMode="center"
             />
           </TouchableOpacity>
-        ) : (
-          <HomeLeftView
-            navigation={navigation}
-            logoutPress={() => setStatusModalvisible(true)}
-            showMenu={() => setShowMenu(true)}
-            transctionPress={val => setScreen(val)}
-          />
-        )}
+        ) : ( */}
+        <HomeLeftView
+          navigation={navigation}
+          logoutPress={() => setStatusModalvisible(true)}
+          showMenu={() => setShowMenu(true)}
+          transctionPress={val => setScreen(val)}
+          screen={screen}
+        />
+
         {screen === 'home' ? (
           <>
             <HomeMiddleView />
             <View style={styles.rightView}>
-              <OrderDetails navigation={navigation} />
+              <OrderDetails
+                navigation={navigation}
+                addCustomerPress={() => setScreen('customer')}
+              />
             </View>
           </>
         ) : screen === 'more' ? (
@@ -128,6 +133,8 @@ const Home = ({navigation}) => {
           <Employee />
         ) : screen === 'setting' ? (
           <Setting />
+        ) : screen === 'customer' ? (
+          <Customer />
         ) : (
           <Transcation />
         )}

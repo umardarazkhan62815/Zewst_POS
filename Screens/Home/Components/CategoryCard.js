@@ -1,10 +1,18 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
+import {icons} from '../../../assets/icons';
 
-const CategoryCard = ({item, selectedItem, style, type}) => {
+const CategoryCard = ({
+  item,
+  selectedItem,
+  style,
+  type,
+  cross,
+  onCrossPress,
+}) => {
   const pressHandle = () => {
     selectedItem('Rolls');
   };
@@ -17,6 +25,17 @@ const CategoryCard = ({item, selectedItem, style, type}) => {
     <TouchableOpacity
       style={[styles.container, style]}
       onPress={() => pressHandle()}>
+      {cross ? (
+        <TouchableOpacity
+          style={styles.crossIcon}
+          onPress={() => onCrossPress()}>
+          <Image
+            source={icons.cross}
+            style={styles.cross}
+            resizeMode="center"
+          />
+        </TouchableOpacity>
+      ) : null}
       <Text style={styles.title}>{'title'}</Text>
       <View style={styles.divider} />
       <View style={styles.progressView}>
@@ -53,6 +72,22 @@ const styles = StyleSheet.create({
     paddingVertical: scale(30),
     marginBottom: scale(30),
     marginRight: scale(30),
+  },
+  crossIcon: {
+    width: scale(30),
+    height: scale(30),
+    backgroundColor: 'red',
+    position: 'absolute',
+    right: scale(-7),
+    top: scale(-7),
+    borderRadius: scale(15),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cross: {
+    width: scale(15),
+    height: scale(15),
+    tintColor: colors.white,
   },
   mainContainer1: {
     backgroundColor: '#DAAFAF',

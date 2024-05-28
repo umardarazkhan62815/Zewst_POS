@@ -39,5 +39,8 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: scale(14),
     color: colors.black,
+    padding: 0,
+    fontSize: scale(24),
+    fontWeight: '300',
   },
 });

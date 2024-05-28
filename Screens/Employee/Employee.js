@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import AllEmployee from './Components/AllEmployee';
 import AddEmploy from './Components/AddEmploy';
 import ProfileCard from './Components/ProfileCard';
-const Employee = () => {
+const Customer = () => {
   const [card, setCard] = useState('all');
   return (
     <>
@@ -15,12 +15,12 @@ const Employee = () => {
       ) : card === 'add' ? (
         <AddEmploy onCancelPress={() => setCard('all')} />
       ) : (
-        <ProfileCard />
+        <ProfileCard onEditPress={() => setCard('add')} />
       )}
     </>
   );
 };
 
-export default Employee;
+export default Customer;
 
 const styles = StyleSheet.create({});

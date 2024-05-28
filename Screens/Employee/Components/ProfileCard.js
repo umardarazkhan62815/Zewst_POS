@@ -11,7 +11,7 @@ import PersonalInfoCard from './PersonalInfoCard';
 import AttendanceCard from './AttendanceCard';
 import RoleCard from './RoleCard';
 
-const ProfileCard = () => {
+const ProfileCard = ({onEditPress}) => {
   const [type, setType] = useState(profileSteps[0]);
   return (
     <View style={styles.mainContainer}>
@@ -43,6 +43,7 @@ const ProfileCard = () => {
           style={styles.editBtn}
           icon={icons.edit1}
           iconStyle={styles.iconEdit}
+          onPress={() => onEditPress()}
         />
       </View>
       <View style={styles.container}>
@@ -125,6 +126,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: scale(24),
     lineHeight: scale(30),
+    color: colors.black,
   },
   emailView: {
     marginTop: scale(10),

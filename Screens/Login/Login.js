@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {images} from '../../assets/images';
 import {scale} from '../../utilities/scale';
 import {DropdownPicker} from '../../Components/DropDownPicker';
@@ -17,38 +17,45 @@ import {colors} from '../../utilities/colors';
 import {icons} from '../../assets/icons';
 const Login = ({navigation}) => {
   const [name, setName] = useState('');
-  let [code, setCode] = useState([10, 10, 10, 10]);
+  const [code, setCode] = useState([]);
+  let pinLength = 4;
   const [count, setCount] = useState(0);
-  const handlePress = val => {
-    if (count < 3) {
-      if (code.length > 5) {
-      } else {
-        setCode(prevCode => {
-          const newCode = [...prevCode];
-          newCode[count] = val;
-          setCount(count + 1);
 
-          return newCode;
-        });
-      }
-    } else {
-      setCode(prevCode => {
-        const newCode = [...prevCode];
-        newCode[count] = val;
-        setCount(count + 1);
-
-        return newCode;
-      });
-      setCount(0);
-      setCode([10, 10, 10, 10]);
-      setName('');
-      navigation.replace('Home');
-      // console.log('Hir', code);
+  useEffect(() => {
+    if (code.length == 4) {
+      setTimeout(() => {
+        navigation.replace('Home');
+      }, 100);
     }
+  }, [code]);
+  const handlePress = val => {
+    setCode(prevCode => [...prevCode, val]);
+    // if (count < 3) {
+    //   if (code.length > 5) {
+    //   } else {
+    //     setCode(prevCode => {
+    //       const newCode = [...prevCode];
+    //       newCode[count] = val;
+    //       setCount(count + 1);
+
+    //       return newCode;
+    //     });
+    //   }
+    // } else {
+    //   setCode(prevCode => {
+    //     const newCode = [...prevCode];
+    //     newCode[count] = val;
+    //     setCount(count + 1);
+
+    //     return newCode;
+    //   });
+    //   setCount(0);
+    //   setCode([10, 10, 10, 10]);
+    //   setName('');
+    //   navigation.replace('Home');
+    // }
   };
-  const renderItem = item => {
-    return <CountButton value={item} onSelect={val => handlePress(val)} />;
-  };
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.leftSideView}>
@@ -90,10 +97,12 @@ const Login = ({navigation}) => {
             /> */}
             {/* {name.length > 0 ? ( */}
             <View style={styles.codeView}>
-              {code.map((item, index) => {
+              {[...Array(pinLength).keys()].map(index => {
+                const isSelected = index < code.length;
+
                 return (
-                  <View style={styles.codeItem}>
-                    {item !== 10 ? <View style={styles.codeFill} /> : null}
+                  <View key={index} style={[styles.codeItem]}>
+                    {isSelected ? <View style={styles.codeFill} /> : null}
                   </View>
                 );
               })}

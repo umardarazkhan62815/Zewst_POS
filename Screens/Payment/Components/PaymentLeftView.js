@@ -11,13 +11,23 @@ import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
 import {icons} from '../../../assets/icons';
 import OrderItem from './OrderItem';
+import FlexDirectionView from '../../../Components/FlexDirectionView';
 const orderItems = [1, 2, 3, 4, 5];
-const PaymentLeftView = () => {
+const PaymentLeftView = ({navigation}) => {
   return (
     <View style={styles.mainContainer}>
       <View style={{flex: 1}}>
         <View style={styles.orderDetailView}>
-          <Text style={styles.orderTxt}>{'Order Details'}</Text>
+          <FlexDirectionView Row style={styles.backView}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image
+                source={icons.rightArrow}
+                style={styles.backBtn}
+                resizeMode="center"
+              />
+            </TouchableOpacity>
+            <Text style={styles.orderTxt}>{'Order Details'}</Text>
+          </FlexDirectionView>
           <TouchableOpacity>
             <Image
               style={styles.edit}
@@ -115,5 +125,16 @@ const styles = StyleSheet.create({
     height: '60%',
     marginTop: '12%',
     borderRadius: scale(10),
+  },
+  backView: {
+    // marginBottom: scale(70),
+  },
+  backBtn: {
+    width: scale(25),
+    height: scale(30),
+    tintColor: colors.black,
+    transform: [{rotate: '180deg'}],
+    // paddingVertical: scale(20),
+    marginRight: scale(20),
   },
 });

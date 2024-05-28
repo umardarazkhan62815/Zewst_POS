@@ -18,12 +18,13 @@ import CustomButton from '../../../Components/CustomButton';
 import DiscountModal from '../Modals/DiscountModal';
 import {images} from '../../../assets/images';
 import CallModal from '../Modals/CallModal';
+import AddressModal from '../Modals/AddressModal';
 
-const OrderDetails = ({navigation}) => {
+const OrderDetails = ({navigation, addCustomerPress}) => {
   const [visible, setVisible] = useState(false);
   const [isAttend, setIsAttend] = useState(false);
-  const [isCall, setIsCall] = useState(true);
-
+  const [isCall, setIsCall] = useState(false);
+  const [isAddress, setIsAddress] = useState(false);
   const data = [
     {
       id: '1',
@@ -57,11 +58,18 @@ const OrderDetails = ({navigation}) => {
       <CallModal
         visible={isCall}
         setVisible={val => {
-          setIsCall(val);
-          setIsAttend(!val);
+          if (val === 'yes') {
+            setIsCall(false);
+            setIsAttend(true);
+          } else {
+            setIsCall(false);
+          }
         }}
       />
-
+      <AddressModal
+        visible={isAddress}
+        setVisible={() => setIsAddress(false)}
+      />
       {isAttend ? (
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
@@ -92,14 +100,16 @@ const OrderDetails = ({navigation}) => {
           </View>
         </View>
       ) : (
-        <View style={styles.addCustomerView}>
+        <TouchableOpacity
+          style={styles.addCustomerView}
+          onPress={() => addCustomerPress()}>
           <Image
             source={icons.addProfile}
             style={styles.profile}
             resizeMode="center"
           />
           <Text style={styles.orderId}>{'Add a customer'}</Text>
-        </View>
+        </TouchableOpacity>
       )}
       <FlatList
         data={data}
@@ -129,6 +139,7 @@ const OrderDetails = ({navigation}) => {
                 titleStyle={styles.sendButtonText}
                 icon={icons.email}
                 iconStyle={styles.send}
+                onPress={() => setIsAddress(true)}
               />
               <CustomButton
                 title={'Hold'}

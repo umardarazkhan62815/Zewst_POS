@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
     fontWeight: '300',
     fontSize: scale(16),
     lineHeight: scale(24),
+    padding: 0,
   },
   applyBtn: {
     backgroundColor: colors.purple,

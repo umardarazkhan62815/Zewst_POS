@@ -1,25 +1,39 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {colors} from '../../../utilities/colors';
 import {scale} from '../../../utilities/scale';
 import CustomButton from '../../../Components/CustomButton';
-const data = [1];
+import TaxModal from '../Modal/TaxModal';
+const data = [{type: 'Vat1', tax: '10%'}];
 const Taxes = () => {
-  const renderItem = () => {
+  const [isAdd, setIsAdd] = useState(false);
+
+  const renderItem = ({item}) => {
     return (
       <View style={styles.item}>
-        <Text style={styles.nameTxt}>{'VAT'}</Text>
-        <Text style={styles.nameTxt}>{'20%'}</Text>
+        <Text style={styles.nameTxt}>{item?.type}</Text>
+        <Text style={styles.nameTxt}>{item?.tax}</Text>
       </View>
     );
   };
   return (
     <View style={styles.mainContainer}>
+      <TaxModal
+        visible={isAdd}
+        setVisible={val => {
+          data.push(val);
+          setIsAdd(false);
+        }}
+      />
       <Text style={styles.header}>{'Payment types'}</Text>
       <View style={styles.flatList}>
         <FlatList data={data} renderItem={renderItem} />
       </View>
-      <CustomButton title={'Add a new tax'} style={styles.addBtn} />
+      <CustomButton
+        title={'Add a new tax'}
+        style={styles.addBtn}
+        onPress={() => setIsAdd(true)}
+      />
     </View>
   );
 };
@@ -50,6 +64,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.borderGray,
     paddingBottom: scale(20),
+    marginTop: scale(20),
   },
   nameTxt: {
     fontWeight: '400',

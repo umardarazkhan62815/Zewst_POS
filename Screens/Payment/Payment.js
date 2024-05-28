@@ -1,4 +1,11 @@
-import {Image, Platform, StyleSheet, Text, View} from 'react-native';
+import {
+  BackHandler,
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {colors} from '../../utilities/colors';
 import {scale} from '../../utilities/scale';
@@ -11,6 +18,20 @@ import QrCodeScanModal from './Modals/QrCodeScanModal';
 import ChangeEmployee from './Modals/ChangeEmployee';
 import SentLinkView from './Components/SentLinkView';
 const Payment = ({navigation}) => {
+  useEffect(() => {
+    const backAction = () => {
+      navigation.goBack();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   const [isOrder, setIsOrder] = useState(false);
   const [isShowServiceCharges, setIsShowServiceCharges] = useState(false);
   const [isShowQrCode, setIsShowQrCode] = useState(false);
@@ -41,7 +62,7 @@ const Payment = ({navigation}) => {
         <View style={{height: scale(76), backgroundColor: 'white'}} />
       )}
       <View style={styles.subContainer}>
-        <PaymentLeftView />
+        <PaymentLeftView navigation={navigation} />
         {linkScreen ? (
           <SentLinkView backPress={() => setLinkScreen(false)} />
         ) : (

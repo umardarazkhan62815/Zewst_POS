@@ -1,4 +1,12 @@
-import {FlatList, Image, Platform, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {scale} from '../../utilities/scale';
@@ -7,6 +15,7 @@ import OrderItem from './Components/OrderItem';
 import CustomButton from '../../Components/CustomButton';
 import {icons} from '../../assets/icons';
 import {images} from '../../assets/images';
+import FlexDirectionView from '../../Components/FlexDirectionView';
 
 const orderItems = [1, 2, 3, 4];
 
@@ -16,7 +25,16 @@ const PaymentSuccess = () => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.leftView}>
-        <Text style={styles.orderTxt}>{'Order Details'}</Text>
+        <FlexDirectionView Row style={styles.backView}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image
+              source={icons.rightArrow}
+              style={styles.backBtn}
+              resizeMode="center"
+            />
+          </TouchableOpacity>
+          <Text style={styles.orderTxt}>{'Order Details'}</Text>
+        </FlexDirectionView>
         <View style={{flex: 1, marginRight: scale(140)}}>
           <FlatList
             data={orderItems}
@@ -171,14 +189,24 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     backgroundColor: colors.purpleLight,
-    paddingTop: Platform.OS === 'ios' ? scale(50) : 0,
+    paddingTop: Platform.OS === 'ios' ? scale(30) : 0,
     flexDirection: 'row',
+  },
+  backBtn: {
+    width: scale(25),
+    height: scale(30),
+    tintColor: colors.black,
+    transform: [{rotate: '180deg'}],
+    paddingVertical: scale(20),
   },
   leftView: {
     backgroundColor: colors.white,
     width: '48%',
-    paddingTop: scale(80),
+    paddingTop: scale(40),
     paddingLeft: scale(50),
+  },
+  backView: {
+    marginBottom: scale(70),
   },
   rightView: {
     backgroundColor: 'white',
@@ -196,7 +224,7 @@ const styles = StyleSheet.create({
     fontSize: scale(42),
     lineHeight: scale(63),
     fontWeight: '500',
-    marginBottom: scale(70),
+    marginLeft: scale(20),
   },
   billDetailView: {
     backgroundColor: colors.white,

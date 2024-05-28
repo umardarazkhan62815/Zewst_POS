@@ -1,17 +1,8 @@
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, Image, StyleSheet, Text, TextInput, View} from 'react-native';
 import React, {useState} from 'react';
 import {colors} from '../../../utilities/colors';
 import {scale} from '../../../utilities/scale';
 import {icons} from '../../../assets/icons';
-import {images} from '../../../assets/images';
 import FlexDirectionView from '../../../Components/FlexDirectionView';
 import CustomButton from '../../../Components/CustomButton';
 import TranscationCard from './TranscationCard';
@@ -32,7 +23,7 @@ const data = [
 const TranscationRightView = () => {
   const [isfulfilled, setIsFulFilled] = useState(true);
   const [visible, setVisible] = useState(false);
-
+  const [selectedTranscation, setSelectedTranscation] = useState(data[0]);
   return (
     <View style={styles.mainContainer}>
       <IssueRefundModal
@@ -78,19 +69,31 @@ const TranscationRightView = () => {
                 title={'Fulfilled'}
                 style={isfulfilled ? styles.fulfilBtn : styles.fulfilBtn1}
                 titleStyle={isfulfilled ? styles.fulfilTxt : styles.refundTxt}
-                onPress={() => setIsFulFilled(true)}
+                onPress={() => {
+                  setIsFulFilled(true);
+                  setSelectedTranscation(data[0]);
+                }}
               />
               <CustomButton
                 title={'Refund'}
                 style={isfulfilled ? styles.refundBtn : styles.refundBtn1}
                 titleStyle={isfulfilled ? styles.refundTxt : styles.fulfilTxt}
-                onPress={() => setIsFulFilled(false)}
+                onPress={() => {
+                  setIsFulFilled(false);
+                  setSelectedTranscation(data[0]);
+                }}
               />
             </FlexDirectionView>
             <View style={styles.flatListView}>
               <FlatList
                 data={data}
-                renderItem={item => <TranscationCard item={item} />}
+                renderItem={({item}) => (
+                  <TranscationCard
+                    item={item}
+                    selectedItem={selectedTranscation}
+                    setSelectedItem={val => setSelectedTranscation(val)}
+                  />
+                )}
                 keyExtractor={item => item.id}
               />
             </View>
@@ -260,6 +263,7 @@ const styles = StyleSheet.create({
     paddingLeft: scale(11),
     height: scale(56),
     flex: 1,
+    padding: 0,
   },
   leftView: {
     marginTop: scale(27),

@@ -1,12 +1,14 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {icons} from '../../../assets/icons';
 import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
 
-const TranscationCard = ({item}) => {
+const TranscationCard = ({item, selectedItem, setSelectedItem}) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      onPress={() => setSelectedItem(item)}
+      style={item === selectedItem ? styles.container1 : styles.container}>
       <Image
         source={icons.masterCard}
         style={styles.card}
@@ -22,7 +24,7 @@ const TranscationCard = ({item}) => {
         <Text style={styles.idTxt}>{'ID: #12718235825'}</Text>
         <Text style={styles.dateTxt}>{'Saturday, December 23th, 2023'}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -34,6 +36,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: scale(10),
     width: scale(507),
+  },
+  container1: {
+    flexDirection: 'row',
+    paddingHorizontal: scale(26),
+    paddingVertical: scale(16),
+    alignItems: 'center',
+    marginBottom: scale(10),
+    width: scale(507),
+    backgroundColor: '#E2E2E2',
   },
   card: {
     width: scale(22),

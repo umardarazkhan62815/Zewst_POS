@@ -43,10 +43,10 @@ const CallModal = ({visible, setVisible}) => {
           <Text style={styles.durationText}>{'00:43'}</Text>
           <Text style={styles.numberText}>{'(000) 123 4567'}</Text>
           <View style={styles.decisionView}>
-            <TouchableOpacity onPress={() => setVisible(true)}>
+            <TouchableOpacity onPress={() => setVisible('no')}>
               <Image source={icons.CutCall} style={styles.callIcon} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setVisible(false)}>
+            <TouchableOpacity onPress={() => setVisible('yes')}>
               <Image source={icons.PickCall} style={styles.callIcon} />
             </TouchableOpacity>
           </View>

@@ -14,8 +14,8 @@ import Search from '../../../Components/Search';
 import CustomButton from '../../../Components/CustomButton';
 import {icons} from '../../../assets/icons';
 import {employee} from '../statics';
-import EmployCard from './EmployCard';
-const AllEmployee = ({onAddPress, eyePress}) => {
+import CustomerCard from './CustomerCard';
+const AllCustomer = ({onAddPress, eyePress, onEditPress}) => {
   const [digit, setDigit] = useState(1);
 
   const EmptyList = () => {
@@ -25,7 +25,7 @@ const AllEmployee = ({onAddPress, eyePress}) => {
           <Image source={icons.plus} style={styles.plusIcon} />
         </View>
         <CustomButton
-          title={'add new employee'}
+          title={'Add New Customer'}
           style={styles.addBtn1}
           titleStyle={styles.addTxt1}
         />
@@ -34,13 +34,13 @@ const AllEmployee = ({onAddPress, eyePress}) => {
   };
   return (
     <View style={styles.mainContainer}>
-      <Text style={styles.heading}>{'All Employees'}</Text>
-      <Text style={styles.infoTxt}>{'All Employee Information'}</Text>
+      <Text style={styles.heading}>{'All Customers'}</Text>
+      <Text style={styles.infoTxt}>{'All Customers Information'}</Text>
       <View style={styles.container}>
         <FlexDirectionView Row style={styles.searchView}>
           <Search iconStyle={styles.searchIcon} placeholder={'Search'} />
           <CustomButton
-            title={'Add New Employee'}
+            title={'Add New Customer'}
             style={styles.addBtn}
             icon={icons.plus}
             titleStyle={styles.addTxt}
@@ -57,9 +57,11 @@ const AllEmployee = ({onAddPress, eyePress}) => {
         </FlexDirectionView>
         <View style={styles.flatList}>
           <FlexDirectionView Row style={styles.userView}>
-            <Text style={styles.nameTxt}>{'Employee Name'}</Text>
+            <Text style={styles.nameTxt}>{'Customer name'}</Text>
             <View style={{flex: 1}} />
-            <Text style={styles.nameId}>{'Employee ID'}</Text>
+            <Text style={styles.nameId}>{' Card number'}</Text>
+
+            <Text style={styles.nameId}>{'Customer ID'}</Text>
             <Text style={styles.department}>{'Department'}</Text>
             <Text style={styles.role}>{'Roles'}</Text>
             <Text style={styles.status}>{'Status'}</Text>
@@ -68,10 +70,10 @@ const AllEmployee = ({onAddPress, eyePress}) => {
           <FlatList
             data={employee}
             renderItem={({item}) => (
-              <EmployCard
+              <CustomerCard
                 item={item}
                 eyePress={() => eyePress()}
-                onEditPress={() => onAddPress()}
+                onEditPress={() => onEditPress()}
               />
             )}
             keyExtractor={item => item.id}
@@ -119,7 +121,7 @@ const AllEmployee = ({onAddPress, eyePress}) => {
   );
 };
 
-export default AllEmployee;
+export default AllCustomer;
 
 const styles = StyleSheet.create({
   mainContainer: {
