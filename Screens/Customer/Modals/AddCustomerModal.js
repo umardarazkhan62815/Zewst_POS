@@ -1,45 +1,170 @@
-import React from 'react';
-import {Modal, Text, View, StyleSheet, Platform} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  Modal,
+  Text,
+  View,
+  StyleSheet,
+  Platform,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
 import EditText from '../../../Components/EditText';
 import FlexDirectionView from '../../../Components/FlexDirectionView';
 import CustomButton from '../../../Components/CustomButton';
+import {CreateCustomer} from '../../../src/APICalling/APIs';
+import {isValidEmail} from '../../../utilities/Convertor';
+import Toast from 'react-native-toast-message';
 
 const AddCustomerModal = ({visible, setVisible}) => {
+  const [fullName, setFullName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [address1, setAddress1] = useState('');
+  const [address2, setAddress2] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+  const [enable, setEnable] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const isValid = isValidEmail(email);
+    if (phone !== '' && isValid) {
+      setEnable(true);
+    } else {
+      setEnable(false);
+    }
+  }, [email, phone]);
+  const savePress = async () => {
+    setIsLoading(true);
+    const data = {
+      fullName: fullName,
+      email: email,
+      guest: false,
+      contactNumber: phone,
+      addressLine1: address1,
+      addressLine2: address2,
+      zipCode: postalCode,
+      city: city,
+      State: state,
+    };
+    try {
+      const res = await CreateCustomer(data);
+      console.log('CreateCustomer_response', res);
+
+      if (res?.message === 'Customer already exists.') {
+        setIsLoading(false);
+        Toast.show({
+          type: 'error',
+          text1: 'Zewst',
+          text2: 'Customer already exists',
+        });
+        // setVisible();
+      } else {
+        setIsLoading(false);
+
+        Toast.show({
+          type: 'success',
+          text1: 'Zewst',
+          text2: 'Customer Created Successfully',
+        });
+        setAddress1('');
+        setAddress2('');
+        setCity('');
+        setState('');
+        setFullName('');
+        setEmail('');
+        setPhone('');
+        setPostalCode('');
+        setVisible();
+      }
+    } catch (error) {
+      setIsLoading(false);
+      Toast.show({
+        type: 'error',
+        text1: 'Zewst',
+        text2: 'Error in Creating Customer',
+      });
+      console.log('CreateCustomer_Error', error.message);
+    }
+  };
   return (
     <Modal
-      animationType="fade"
+      animationType="slide"
       transparent={true}
       visible={visible}
       onRequestClose={() => {
         setVisible();
       }}>
-      <View style={styles.modalContainer}>
-        <View style={styles.modalContent}>
+      <TouchableOpacity
+        style={styles.modalContainer}
+        onPress={() => setVisible()}>
+        <Pressable style={styles.modalContent} onPress={() => {}}>
           <Text style={styles.customerTxt}>{'Customer Details'}</Text>
-          <EditText placeholder={'Full name'} style={styles.input} />
-          <EditText placeholder={'Phone no'} style={styles.input} />
-          <EditText placeholder={'Email ID'} style={styles.input} />
+          <EditText
+            placeholder={'Full name'}
+            style={styles.input}
+            value={fullName}
+            onChangeText={val => setFullName(val)}
+          />
+          <EditText
+            placeholder={'Phone no'}
+            style={styles.input}
+            value={phone}
+            onChangeText={val => setPhone(val)}
+          />
+          <EditText
+            placeholder={'Email ID'}
+            style={styles.input}
+            value={email}
+            onChangeText={val => setEmail(val)}
+          />
           <Text style={styles.BillingTxt}>{'Billing Address'}</Text>
-          <EditText placeholder={'Address line 1'} style={styles.input} />
-          <EditText placeholder={'Address line 1'} style={styles.input} />
+          <EditText
+            placeholder={'Address line 1'}
+            style={styles.input}
+            value={address1}
+            onChangeText={val => setAddress1(val)}
+          />
+          <EditText
+            placeholder={'Address line 2'}
+            style={styles.input}
+            value={address2}
+            onChangeText={val => setAddress2(val)}
+          />
           <FlexDirectionView Row>
             <EditText
               placeholder={'City'}
               style={[styles.input1, {marginRight: scale(10)}]}
+              value={city}
+              onChangeText={val => setCity(val)}
             />
-            <EditText placeholder={'State'} style={styles.input1} />
+            <EditText
+              placeholder={'State'}
+              style={styles.input1}
+              value={state}
+              onChangeText={val => setState(val)}
+            />
           </FlexDirectionView>
-          <EditText placeholder={'Postal code'} style={styles.input} />
+          <EditText
+            placeholder={'Postal code'}
+            style={styles.input}
+            value={postalCode}
+            onChangeText={val => setPostalCode(val)}
+          />
           <CustomButton
             title={'Save customer'}
-            style={styles.btn}
+            style={enable ? styles.btn : styles.btn1}
             titleStyle={styles.btnTxt}
-            onPress={() => setVisible()}
+            onPress={() => {
+              enable ? savePress() : null;
+            }}
+            loading={isLoading}
           />
-        </View>
-      </View>
+        </Pressable>
+      </TouchableOpacity>
     </Modal>
   );
 };
@@ -85,6 +210,10 @@ const styles = StyleSheet.create({
   },
   btn: {
     backgroundColor: colors.purple,
+    marginTop: scale(18),
+  },
+  btn1: {
+    backgroundColor: colors.borderGray,
     marginTop: scale(18),
   },
   btnTxt: {

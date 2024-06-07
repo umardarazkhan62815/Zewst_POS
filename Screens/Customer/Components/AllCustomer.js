@@ -5,29 +5,69 @@ import {
   View,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
 import FlexDirectionView from '../../../Components/FlexDirectionView';
 import Search from '../../../Components/Search';
 import CustomButton from '../../../Components/CustomButton';
 import {icons} from '../../../assets/icons';
-import {employee} from '../statics';
 import CustomerCard from './CustomerCard';
+import {useSelector} from 'react-redux';
 const AllCustomer = ({onAddPress, eyePress, onEditPress}) => {
-  const [digit, setDigit] = useState(1);
+  const customersList = useSelector(state => state?.customersList);
 
+  const [digit, setDigit] = useState(1);
+  const [data, setData] = useState([]);
+  const [search, setSearch] = useState('');
+  const [isloading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    console.log(customersList?.data?.customersData[0]);
+    if (
+      customersList &&
+      customersList?.data &&
+      customersList?.data?.customersData
+    ) {
+      setData(customersList?.data?.customersData);
+    }
+  }, [customersList]);
+
+  useEffect(() => {
+    if (customersList?.loading) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [customersList?.loading]);
+  const handleSearch = query => {
+    setSearch(query);
+    // console.log(
+    //   'customersList?.data?.customersData',
+    //   customersList?.data?.customersData[0],
+    // );
+    if (query.length > 0) {
+      const res = customersList?.data?.customersData.filter(item =>
+        item?.fullName.toLowerCase().includes(query.toLowerCase()),
+      );
+      setData(res);
+    } else {
+      setData(customersList?.data?.customersData);
+    }
+  };
   const EmptyList = () => {
     return (
       <View style={styles.emptyListContainer}>
-        <View style={styles.plusView}>
+        <TouchableOpacity style={styles.plusView} onPress={() => onAddPress()}>
           <Image source={icons.plus} style={styles.plusIcon} />
-        </View>
+        </TouchableOpacity>
         <CustomButton
           title={'Add New Customer'}
           style={styles.addBtn1}
           titleStyle={styles.addTxt1}
+          onPress={() => onAddPress()}
         />
       </View>
     );
@@ -38,7 +78,12 @@ const AllCustomer = ({onAddPress, eyePress, onEditPress}) => {
       <Text style={styles.infoTxt}>{'All Customers Information'}</Text>
       <View style={styles.container}>
         <FlexDirectionView Row style={styles.searchView}>
-          <Search iconStyle={styles.searchIcon} placeholder={'Search'} />
+          <Search
+            iconStyle={styles.searchIcon}
+            placeholder={'Search'}
+            value={search}
+            onChangeText={val => handleSearch(val)}
+          />
           <CustomButton
             title={'Add New Customer'}
             style={styles.addBtn}
@@ -59,7 +104,7 @@ const AllCustomer = ({onAddPress, eyePress, onEditPress}) => {
           <FlexDirectionView Row style={styles.userView}>
             <Text style={styles.nameTxt}>{'Customer name'}</Text>
             <View style={{flex: 1}} />
-            <Text style={styles.nameId}>{' Card number'}</Text>
+            <Text style={styles.nameId}>{'Number'}</Text>
 
             <Text style={styles.nameId}>{'Customer ID'}</Text>
             <Text style={styles.department}>{'Department'}</Text>
@@ -67,19 +112,24 @@ const AllCustomer = ({onAddPress, eyePress, onEditPress}) => {
             <Text style={styles.status}>{'Status'}</Text>
             <Text style={styles.action}>{'Action'}</Text>
           </FlexDirectionView>
-          <FlatList
-            data={employee}
-            renderItem={({item}) => (
-              <CustomerCard
-                item={item}
-                eyePress={() => eyePress()}
-                onEditPress={() => onEditPress()}
-              />
-            )}
-            keyExtractor={item => item.id}
-            showsVerticalScrollIndicator={false}
-            ListEmptyComponent={EmptyList}
-          />
+          {isloading ? (
+            <ActivityIndicator size={'large'} color={colors.purple} />
+          ) : (
+            <FlatList
+              data={data}
+              extraData={data}
+              renderItem={({item}) => (
+                <CustomerCard
+                  item={item}
+                  eyePress={() => eyePress(item)}
+                  onEditPress={() => onEditPress(item)}
+                />
+              )}
+              keyExtractor={item => item.id}
+              showsVerticalScrollIndicator={false}
+              ListEmptyComponent={EmptyList}
+            />
+          )}
         </View>
         <FlexDirectionView Row style={styles.footer}>
           <Text style={styles.showTxt}>{'Showing'}</Text>

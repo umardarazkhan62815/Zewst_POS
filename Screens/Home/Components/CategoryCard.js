@@ -13,18 +13,19 @@ const CategoryCard = ({
   cross,
   onCrossPress,
 }) => {
-  const pressHandle = () => {
-    selectedItem('Rolls');
-  };
+  // const pressHandle = () => {
+  //   selectedItem(item);
+  // };
   return type ? (
     <View style={styles.mainContainer1}>
-      <Text style={styles.title1}>{'title'}</Text>
-      <Text style={styles.itemTxt}>{'4 items'}</Text>
+      <Text style={styles.title1}>{item?.categoryName}</Text>
+      <Text
+        style={styles.itemTxt}>{`${item?.categoryTypes?.length} items`}</Text>
     </View>
   ) : (
     <TouchableOpacity
       style={[styles.container, style]}
-      onPress={() => pressHandle()}>
+      onPress={() => selectedItem(item)}>
       {cross ? (
         <TouchableOpacity
           style={styles.crossIcon}
@@ -36,10 +37,11 @@ const CategoryCard = ({
           />
         </TouchableOpacity>
       ) : null}
-      <Text style={styles.title}>{'title'}</Text>
+      <Text style={styles.title}>{item?.categoryName}</Text>
       <View style={styles.divider} />
       <View style={styles.progressView}>
-        <Text style={styles.itemTxt}>{'4 items'}</Text>
+        <Text
+          style={styles.itemTxt}>{`${item?.categoryTypes?.length} items`}</Text>
         <Text
           style={[
             styles.itemTxt,

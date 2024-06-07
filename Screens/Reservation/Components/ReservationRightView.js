@@ -11,13 +11,15 @@ import {DropdownPicker} from '../../../Components/DropDownPicker';
 import SeatCard from './SeatCard';
 import TimeCard from './TimeCard';
 import {images} from '../../../assets/images';
+import {useDispatch, useSelector} from 'react-redux';
+import {getReservationsAPI} from '../../../src/Redux/Slices/GetReservationSlice';
 
-const data = [
-  {id: '1', text: 'Item 1'},
-  {id: '2', text: 'Item 2'},
-  {id: '3', text: 'Item 3'},
-  {id: '4', text: 'Item 4'},
-];
+// const data = [
+//   {id: '1', text: 'Item 1'},
+//   {id: '2', text: 'Item 2'},
+//   {id: '3', text: 'Item 3'},
+//   {id: '4', text: 'Item 4'},
+// ];
 const dropDownOptions = ['Reserved slots', 'Reserve a slot'];
 
 const seatsdata = [
@@ -73,6 +75,10 @@ const occasionData = [
 ];
 
 const ReservationRightView = () => {
+  const dispatch = useDispatch();
+  const branchId = useSelector(state => state.menu);
+  const reservationList = useSelector(state => state.reservationList);
+  const [tableList, setTableList] = useState([]);
   const [selectedValue, setSelectedValue] = useState(dropDownOptions[0]);
   const [reserveOrder, setReserveOrder] = useState('');
   const [seats, setSeats] = useState('');
@@ -91,17 +97,44 @@ const ReservationRightView = () => {
       setEnable(false);
     }
   }, [occasion, seating]);
+
+  useEffect(() => {
+    console.log(
+      'branchId?.data?.posMenuItems?.brand?.branch?._id',
+      branchId?.data?.posMenuItems?.brand?.branch,
+    );
+    if (branchId && branchId?.data && branchId?.data?.posMenuItems) {
+      dispatch(
+        getReservationsAPI(
+          branchId?.data?.posMenuItems?.brand?.branch?.branchId,
+        ),
+      );
+    }
+  }, [branchId, dispatch]);
+
+  useEffect(() => {
+    console.log(
+      'reservationList',
+      JSON.stringify(
+        reservationList?.data?.slotsData?.brand?.branch?.openSlots,
+      ),
+      setTableList(reservationList?.data?.slotsData?.brand?.branch?.openSlots),
+    );
+  }, [reservationList]);
+
   return (
     <View style={styles.mainContainer}>
-      <DropdownPicker
-        options={dropDownOptions}
-        style={styles.reservedView}
-        dropStyle={styles.dropStyle}
-        textStyle={styles.reservedTxt}
-        selectedValue={selectedValue}
-        onSelect={val => setSelectedValue(val)}
-        tintColor={colors.black}
-      />
+      {reserveOrder === '' ? (
+        <DropdownPicker
+          options={dropDownOptions}
+          style={styles.reservedView}
+          dropStyle={styles.dropStyle}
+          textStyle={styles.reservedTxt}
+          selectedValue={selectedValue}
+          onSelect={val => setSelectedValue(val)}
+          tintColor={colors.black}
+        />
+      ) : null}
       {!isConfirmOrder ? (
         <>
           {selectedValue !== 'Reserved slots' ? (
@@ -109,7 +142,12 @@ const ReservationRightView = () => {
               <View style={styles.slotView}>
                 <Text style={styles.slotTxt}>{'View Available Slots'}</Text>
               </View>
-              <TouchableOpacity style={styles.slotView1} onPress={() => {}}>
+              <TouchableOpacity
+                style={styles.slotView1}
+                onPress={() => {
+                  setSeats('');
+                  setReserveOrder('');
+                }}>
                 <Text style={styles.slotTxt1}>{'START OVER'}</Text>
               </TouchableOpacity>
             </FlexDirectionView>
@@ -131,14 +169,14 @@ const ReservationRightView = () => {
               </FlexDirectionView>
               <View style={styles.flatListVew}>
                 <FlatList
-                  data={data}
+                  data={tableList}
                   renderItem={({item}) => (
                     <ReservationCard
                       item={item}
-                      onPress={() => {
+                      onPress={val => {
                         selectedValue === 'Reserved slots'
                           ? null
-                          : setReserveOrder('Reserved slots');
+                          : setReserveOrder(val);
                       }}
                     />
                   )}
@@ -153,6 +191,7 @@ const ReservationRightView = () => {
                   title={'Book a table'}
                   style={styles.btn}
                   titleStyle={styles.btnTxt}
+                  onPress={() => setReserveOrder('Reserved slots')}
                 />
               )}
             </>

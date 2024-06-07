@@ -1,59 +1,84 @@
+import React, {useEffect, useState} from 'react';
 import {
-  FlatList,
   Image,
   ImageBackground,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
+  Animated,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {images} from '../../assets/images';
 import {scale} from '../../utilities/scale';
-import {DropdownPicker} from '../../Components/DropDownPicker';
-import CustomButton from '../../Components/CustomButton';
 import CountButton from '../../Components/CountButton';
 import {colors} from '../../utilities/colors';
 import {icons} from '../../assets/icons';
+import {loginUser} from '../../src/Redux/Slices/LoginSlice';
+
 const Login = ({navigation}) => {
-  const [name, setName] = useState('');
+  const [shakeAnimation] = useState(new Animated.Value(0));
+  const dispatch = useDispatch();
+  const User = useSelector(state => state.login);
+  console.log('Error', User.error);
   const [code, setCode] = useState([]);
   let pinLength = 4;
-  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (code.length == 4) {
-      setTimeout(() => {
-        navigation.replace('Home');
-      }, 100);
+    if (code.length === 4) {
+      const number = parseInt(code.join(''), 10);
+      const data = {pin: number};
+      dispatch(loginUser(data));
+      // navigation.replace('Home');
     }
   }, [code]);
+
+  useEffect(() => {
+    const updateUserToken = async () => {
+      if (User.user?.message === 'POS logged in successfully') {
+        try {
+          await AsyncStorage.setItem('auth', JSON.stringify(User.user));
+          await AsyncStorage.setItem(
+            'Token',
+            JSON.stringify(User?.user?.token?.token),
+          );
+          console.log('token Stored', User.user.token.token);
+          navigation.replace('Home');
+        } catch (error) {
+          console.error('AsyncStorage Error:', error);
+        }
+      }
+    };
+    if (User.error) {
+      Animated.sequence([
+        Animated.timing(shakeAnimation, {
+          toValue: 10,
+          duration: 100,
+          useNativeDriver: true,
+        }),
+        Animated.timing(shakeAnimation, {
+          toValue: -10,
+          duration: 100,
+          useNativeDriver: true,
+        }),
+        Animated.timing(shakeAnimation, {
+          toValue: 10,
+          duration: 100,
+          useNativeDriver: true,
+        }),
+        Animated.timing(shakeAnimation, {
+          toValue: 0,
+          duration: 100,
+          useNativeDriver: true,
+        }),
+      ]).start();
+      setCode([]);
+    }
+    updateUserToken();
+  }, [User.user?.message, User?.error]);
+
   const handlePress = val => {
     setCode(prevCode => [...prevCode, val]);
-    // if (count < 3) {
-    //   if (code.length > 5) {
-    //   } else {
-    //     setCode(prevCode => {
-    //       const newCode = [...prevCode];
-    //       newCode[count] = val;
-    //       setCount(count + 1);
-
-    //       return newCode;
-    //     });
-    //   }
-    // } else {
-    //   setCode(prevCode => {
-    //     const newCode = [...prevCode];
-    //     newCode[count] = val;
-    //     setCount(count + 1);
-
-    //     return newCode;
-    //   });
-    //   setCount(0);
-    //   setCode([10, 10, 10, 10]);
-    //   setName('');
-    //   navigation.replace('Home');
-    // }
   };
 
   return (
@@ -86,17 +111,11 @@ const Login = ({navigation}) => {
       <View style={styles.rightSideView}>
         <View style={styles.subContainer}>
           <View>
-            {/* <Text style={styles.employeeTxt}>{'Select Employee'}</Text> */}
-            {/* <DropdownPicker
-              options={['Umar', 'Hadi']}
-              onSelect={item => {
-                setName(item);
-              }}
-              style={styles.dropDown}
-              selectedValue={name}
-            /> */}
-            {/* {name.length > 0 ? ( */}
-            <View style={styles.codeView}>
+            <Animated.View
+              style={[
+                styles.codeView,
+                {transform: [{translateX: shakeAnimation}]},
+              ]}>
               {[...Array(pinLength).keys()].map(index => {
                 const isSelected = index < code.length;
 
@@ -106,7 +125,7 @@ const Login = ({navigation}) => {
                   </View>
                 );
               })}
-            </View>
+            </Animated.View>
 
             <View style={[styles.row, {marginTop: scale(25)}]}>
               <CountButton value={1} onSelect={val => handlePress(val)} />

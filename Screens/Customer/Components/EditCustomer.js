@@ -1,5 +1,5 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
 import FlexDirectionView from '../../../Components/FlexDirectionView';
@@ -7,7 +7,81 @@ import {icons} from '../../../assets/icons';
 import EditText from '../../../Components/EditText';
 import {DropdownPicker} from '../../../Components/DropDownPicker';
 import CustomButton from '../../../Components/CustomButton';
-const EditCustomer = ({onCancelPress}) => {
+import {editCustomer} from '../../../src/APICalling/APIs';
+import {useDispatch, useSelector} from 'react-redux';
+import {getCustomersAPI} from '../../../src/Redux/Slices/GetCustomerSlice';
+import {isValidEmail} from '../../../utilities/Convertor';
+import Toast from 'react-native-toast-message';
+const EditCustomer = ({onCancelPress, item, isEdit}) => {
+  const dispatch = useDispatch();
+  let branchId = useSelector(state => state.menu);
+
+  const [fullName, setFullName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [address1, setAddress1] = useState('');
+  const [address2, setAddress2] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+  const [isEnable, setIsEnable] = useState(false);
+  const [isGuest, setIsGuest] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    setFullName(item?.fullName);
+    setPhone(item?.contact?.[0]?.contactNumber);
+    setEmail(item?.email);
+    setAddress1(item?.address[0]?.addressLine1);
+    setAddress2(item?.address[0]?.addressLine2);
+    setIsGuest(item?.guest);
+    setCity(item?.address[0]?.city);
+    setState(item?.address[0]?.state);
+    setPostalCode(item?.address[0]?.zipCode);
+  }, [item]);
+
+  useEffect(() => {
+    const isValid = isValidEmail(email);
+    if (phone !== '' && isValid) {
+      setIsEnable(true);
+    } else {
+      setIsEnable(false);
+    }
+  }, [email, phone]);
+  const onNextPress = async () => {
+    setIsLoading(true);
+    const data = {
+      id: item?._id,
+      fullName: fullName,
+      email: email,
+      contactNumber: phone,
+      addressLine1: address1,
+      addressLine2: address2,
+      zipCode: postalCode,
+      city: city,
+      State: state,
+      guest: isGuest,
+    };
+    try {
+      const res = await editCustomer(data);
+      console.log('RESult', res);
+      if (res?.message === 'Customer updated successfully!') {
+        setIsLoading(false);
+        Toast.show({
+          type: 'success',
+          text1: 'Zewst',
+          text2: 'Customer Updated Successfully',
+        });
+        dispatch(
+          getCustomersAPI(branchId?.data?.posMenuItems?.brand?.branch?._id),
+        );
+        onCancelPress();
+      }
+    } catch (error) {
+      setIsLoading(false);
+
+      console.log('Error', error.response.data);
+    }
+  };
   return (
     <View style={styles.mainContainer}>
       <FlexDirectionView Row>
@@ -26,42 +100,70 @@ const EditCustomer = ({onCancelPress}) => {
           <Image style={styles.camera} source={icons.camera} />
         </TouchableOpacity>
         <FlexDirectionView Row>
-          <EditText placeholder={'First Name'} style={styles.input} />
-          <EditText placeholder={'Last Name'} style={styles.input1} />
+          <EditText
+            placeholder={'full Name'}
+            style={styles.input}
+            value={fullName}
+            onChangeText={val => setFullName(val)}
+          />
+          {/* <EditText placeholder={'Last Name'} style={styles.input1} /> */}
         </FlexDirectionView>
         <FlexDirectionView Row style={styles.numberView}>
-          <EditText placeholder={'Mobile Number'} style={styles.input} />
-          <EditText placeholder={'Email Address'} style={styles.input1} />
+          <EditText
+            placeholder={'Mobile Number'}
+            style={styles.input}
+            value={phone}
+            onChangeText={val => setPhone(val)}
+          />
+          <EditText
+            placeholder={'Email Address'}
+            style={styles.input1}
+            value={email}
+            onChangeText={val => setEmail(val)}
+          />
         </FlexDirectionView>
 
         <FlexDirectionView Row style={styles.numberView}>
-          <EditText placeholder={'Address line 1'} style={styles.input} />
-          <EditText placeholder={'Address line 2'} style={styles.input1} />
+          <EditText
+            placeholder={'Address line 1'}
+            style={styles.input}
+            value={address1}
+            onChangeText={val => setAddress1(val)}
+          />
+          <EditText
+            placeholder={'Address line 2'}
+            style={styles.input1}
+            value={address2}
+            onChangeText={val => setAddress2(val)}
+          />
         </FlexDirectionView>
         <View style={styles.numberView1}>
           <DropdownPicker
-            options={['Status1', 'Status2']}
-            onSelect={val => console.log(val)}
+            options={['Guj', 'Lah']}
+            onSelect={val => setCity(val)}
             style={styles.dropDownB}
             valStyle={styles.valStyle}
             placeholder={'City'}
             dropStyle={styles.flatList}
+            selectedValue={city}
           />
           <DropdownPicker
-            options={['Status1', 'Status2']}
-            onSelect={val => console.log(val)}
+            options={['puj', 'Sindh']}
+            onSelect={val => setState(val)}
             style={styles.dropDownB}
             valStyle={styles.valStyle}
             placeholder={'State'}
             dropStyle={styles.flatList}
+            selectedValue={state}
           />
           <DropdownPicker
-            options={['Status1', 'Status2']}
-            onSelect={val => console.log(val)}
+            options={['123', '1234']}
+            onSelect={val => setPostalCode(val)}
             style={[styles.dropDownB, {marginRight: 0}]}
             valStyle={styles.valStyle}
             placeholder={'Code'}
             dropStyle={styles.flatList}
+            selectedValue={postalCode}
           />
         </View>
       </View>
@@ -75,12 +177,18 @@ const EditCustomer = ({onCancelPress}) => {
           titleStyle={styles.cancelTxt}
           onPress={() => onCancelPress()}
         />
-        <CustomButton
-          title={'Next'}
-          style={styles.nextBtn}
-          titleStyle={styles.nextTxt}
-          onPress={() => onCancelPress()}
-        />
+        {isEdit ? (
+          <CustomButton
+            loading={isLoading}
+            title={'Next'}
+            style={isEnable ? styles.nextBtn : styles.nextBtn1}
+            titleStyle={styles.nextTxt}
+            onPress={() => {
+              console.log('Pressed', isEnable);
+              isEnable ? onNextPress() : null;
+            }}
+          />
+        ) : null}
       </View>
     </View>
   );
@@ -241,6 +349,11 @@ const styles = StyleSheet.create({
     width: scale(112),
     height: scale(61),
     backgroundColor: colors.purple,
+  },
+  nextBtn1: {
+    width: scale(112),
+    height: scale(61),
+    backgroundColor: colors.borderGray,
   },
   nextTxt: {
     color: colors.white,

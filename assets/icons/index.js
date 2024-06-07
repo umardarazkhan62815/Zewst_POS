@@ -115,4 +115,8 @@ export const icons = {
   PickCall: require('./PickCall.png'),
   loudSpeaker: require('./loudSpeaker.png'),
   playPause: require('./playPause.png'),
+  cashRegister: require('./cash_Register.png'),
+  orderOutline: require('./orderOutline.png'),
+  shiftActivity: require('./shiftAcivity.png'),
+  overView1: require('./overView1.png'),
 };

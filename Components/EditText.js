@@ -3,13 +3,15 @@ import React, {cloneElement} from 'react';
 import {scale} from '../utilities/scale';
 import {colors} from '../utilities/colors';
 
-const EditText = ({style, placeholder}) => {
+const EditText = ({style, placeholder, value, onChangeText}) => {
   return (
     <View style={[styles.mainContainer, style]}>
       <TextInput
         placeholder={placeholder}
         style={styles.input}
         placeholderTextColor={'#A2A1A8CC'}
+        value={value}
+        onChangeText={val => onChangeText(val)}
       />
     </View>
   );

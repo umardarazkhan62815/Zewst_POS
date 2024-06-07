@@ -1,5 +1,17 @@
-import {combineReducers} from '@reduxjs/toolkit';
-
-const rootReducer = combineReducers({});
-
-export default rootReducer;
+import {configureStore} from '@reduxjs/toolkit';
+import LoginReducer from './Slices/LoginSlice';
+import MenuReducer from './Slices/MenuSlice';
+import OrderListReducer from './Slices/GetOrderSlice';
+import CustomerListReducer from './Slices/GetCustomerSlice';
+import ReservationListReducer from './Slices/GetReservationSlice';
+import CreateOrderReducer from './Slices/CreateOrderSlice';
+export const store = configureStore({
+  reducer: {
+    login: LoginReducer,
+    menu: MenuReducer,
+    ordersList: OrderListReducer,
+    customersList: CustomerListReducer,
+    reservationList: ReservationListReducer,
+    createOrder: CreateOrderReducer,
+  },
+});

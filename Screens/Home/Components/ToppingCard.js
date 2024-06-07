@@ -1,26 +1,75 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
 import {icons} from '../../../assets/icons';
+import {
+  addOrder,
+  removeOrder,
+} from '../../../src/Redux/Slices/CreateOrderSlice';
+import {useDispatch, useSelector} from 'react-redux';
 
-const ToppingCard = ({title, price, setTopping}) => {
+const ToppingCard = ({item, setTopping, product}) => {
+  const dispatch = useDispatch();
+  // console.log('Product', product?.groups);
+  // console.log('Item', item);
   const [quantity, setQuantity] = useState(0);
+  const order = useSelector(state => state.createOrder);
+
   const handlePress = () => {
     setTopping('');
+  };
+
+  useEffect(() => {
+    if (order && order.orders) {
+      let totalQuantity = 0;
+
+      order.orders.forEach(orderC => {
+        if (orderC?.modifier?._id === item._id) {
+          totalQuantity += orderC.quantity;
+        }
+      });
+      setQuantity(totalQuantity);
+    }
+  }, [order]);
+  const handlePlusPress = () => {
+    product?.groups.map(group => {
+      if (group?.groupName === 'BASE') {
+      } else {
+        group?.modifiers.map(modifier => {
+          if (modifier === item) {
+            const data = {order: product, modifier: item};
+            dispatch(addOrder(data));
+          }
+        });
+      }
+    });
+  };
+  const handleMinusPress = () => {
+    product?.groups.map(group => {
+      if (group?.groupName === 'BASE') {
+      } else {
+        group?.modifiers.map(modifier => {
+          if (modifier === item) {
+            const data = {order: product, modifier: item};
+            dispatch(removeOrder(data));
+          }
+        });
+      }
+    });
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.itemLeftView}>
-        <Text style={styles.title}>{'Extra Cheese'}</Text>
-        <Text style={styles.price}>{'$1'}</Text>
+        <Text style={styles.title}>{item?.modifier}</Text>
+        <Text style={styles.price}>{`$${item?.additionalPrice}`}</Text>
       </View>
       <View style={styles.quantityContainer}>
         {quantity > 0 ? (
           <TouchableOpacity
             style={styles.button}
-            onPress={() => setQuantity(quantity - 1)}>
+            onPress={() => handleMinusPress()}>
             <Image
               style={styles.plus}
               source={icons.minus}
@@ -35,7 +84,7 @@ const ToppingCard = ({title, price, setTopping}) => {
         }${quantity}`}</Text>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => setQuantity(quantity + 1)}>
+          onPress={() => handlePlusPress()}>
           <Image style={styles.plus} source={icons.plus} resizeMode="center" />
         </TouchableOpacity>
       </View>

@@ -1,9 +1,25 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {scale} from '../utilities/scale';
 import {colors} from '../utilities/colors';
 
-const CustomButton = ({style, titleStyle, title, onPress, iconStyle, icon}) => {
+const CustomButton = ({
+  style,
+  titleStyle,
+  title,
+  onPress,
+  iconStyle,
+  icon,
+  loading,
+  color,
+}) => {
   return (
     <TouchableOpacity onPress={onPress} style={[styles.mainContainer, style]}>
       {icon ? (
@@ -13,7 +29,14 @@ const CustomButton = ({style, titleStyle, title, onPress, iconStyle, icon}) => {
           resizeMode="center"
         />
       ) : null}
-      <Text style={[styles.title, titleStyle]}>{title}</Text>
+      {loading ? (
+        <ActivityIndicator
+          size={'small'}
+          color={color ? color : colors.white}
+        />
+      ) : (
+        <Text style={[styles.title, titleStyle]}>{title}</Text>
+      )}
     </TouchableOpacity>
   );
 };

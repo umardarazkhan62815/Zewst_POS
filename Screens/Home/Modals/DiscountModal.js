@@ -7,6 +7,7 @@ import CustomButton from '../../../Components/CustomButton';
 
 const DiscountModal = ({visible, setVisible}) => {
   const [isAmount, setIsAmount] = useState(false);
+  const [discount, setDiscount] = useState(0);
   return (
     <Modal
       animationType="slide"
@@ -40,12 +41,14 @@ const DiscountModal = ({visible, setVisible}) => {
             placeholder={isAmount ? 'Enter amount' : 'Enter Discount'}
             style={styles.input}
             placeholderTextColor={'#A2A1A8'}
+            onChangeText={val => setDiscount(val)}
+            value={discount}
           />
           <CustomButton
             title={'Apply discount'}
             style={styles.applyBtn}
             titleStyle={styles.amountTxt}
-            onPress={() => setVisible()}
+            onPress={() => setVisible(discount, isAmount)}
           />
         </View>
       </View>

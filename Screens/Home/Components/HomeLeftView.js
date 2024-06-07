@@ -7,10 +7,13 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {icons} from '../../../assets/icons';
 import {colors} from '../../../utilities/colors';
 import {scale} from '../../../utilities/scale';
 import FlexDirectionView from '../../../Components/FlexDirectionView';
+import {useDispatch, useSelector} from 'react-redux';
+import {dateToTime} from '../../../utilities/Convertor';
 
 const DATA = [
   {id: '1', title: 'Item 1'},
@@ -26,26 +29,32 @@ const HomeLeftView = ({
   transctionPress,
   screen,
 }) => {
+  const dispatch = useDispatch();
+  const ordersData = useSelector(state => state.ordersList);
+  // console.log('ordersData', ordersData);
+
   const [logoutMenu, setLogoutMenu] = useState([
     {icon: icons.attendence, selected: true, name: 'home'},
     {icon: icons.cashCircle, selected: false, name: 'transcation'},
     {icon: icons.window, selected: false, name: ''},
     {icon: icons.history, selected: false, name: ''},
-    {icon: icons.customer, selected: false, name: 'customer'},
+    {icon: icons.chat, selected: false, name: 'customer'},
     {icon: icons.call, selected: false, name: ''},
-    {icon: icons.setting, selected: false, name: 'setting'},
 
     {icon: icons.dropDown, selected: false, name: 'more'},
-    {icon: icons.reserve, selected: false, name: 'reserve'},
-    {icon: icons.time, selected: false, name: 'food'},
-    {icon: icons.setting, selected: false, name: 'report'},
-    {icon: icons.addProfile, selected: false, name: 'employee'},
+    {icon: icons.cashRegister, selected: false, name: 'reserve'},
+    {icon: icons.orderOutline, selected: false, name: 'food'},
+    {icon: icons.customer, selected: false, name: 'employee'},
+    {icon: icons.overView1, selected: false, name: 'report'},
+
+    {icon: icons.settingn, selected: false, name: 'setting'},
 
     {icon: icons.logout, selected: false, name: 'logout'},
   ]);
   const [isMore, setIsMore] = useState(false);
   const [isShowOrder, setIsShowOrder] = useState(true);
-
+  const [ordersList, setOrdersList] = useState([]);
+  const [type, setType] = useState(0);
   useEffect(() => {
     logoutMenu.map(item => {
       if (item.name === screen) {
@@ -53,7 +62,14 @@ const HomeLeftView = ({
       }
     });
   }, [screen]);
-  const menuPress = selectedItem => {
+
+  useEffect(() => {
+    if (ordersData && ordersData?.data && ordersData?.data?.ordersData) {
+      console.log('Order Length', ordersData?.data?.ordersData?.length);
+      setOrdersList(ordersData?.data?.ordersData);
+    }
+  }, [ordersData]);
+  const menuPress = async selectedItem => {
     const updatedMenuItems = logoutMenu.map(item =>
       item.name === selectedItem.name
         ? {...item, selected: true}
@@ -61,6 +77,12 @@ const HomeLeftView = ({
     );
     setLogoutMenu(updatedMenuItems);
     if (selectedItem.name === 'logout') {
+      // try {
+      //   await AsyncStorage.removeItem('auth');
+      //   navigation.replace('Login');
+      // } catch (error) {
+      //   console.log('Async_Remove_Error', error);
+      // }
       logoutPress();
     } else if (selectedItem?.name === 'transcation') {
       transctionPress('transcation');
@@ -83,6 +105,11 @@ const HomeLeftView = ({
     }
   };
   const renderItem = ({item}) => {
+    // console.log('Item', item?.customer?.fullName);
+    let firstName = null;
+    if (item?.customer?.fullName) {
+      firstName = item?.customer?.fullName.split(' ')[0];
+    }
     return (
       <View style={styles.orderItem}>
         <FlexDirectionView Row spaceBetween style={styles.topView}>
@@ -93,7 +120,7 @@ const HomeLeftView = ({
               resizeMode="center"
             />
             <View>
-              <Text style={styles.timeTxt}>{'18:20 PM'}</Text>
+              <Text style={styles.timeTxt}>{dateToTime(item?.orderedOn)}</Text>
               <Text style={styles.startTime}>{'(00:45)'}</Text>
             </View>
           </View>
@@ -126,15 +153,22 @@ const HomeLeftView = ({
         <TouchableOpacity style={styles.readyBtn}>
           <Image
             style={styles.tickIcon}
-            source={icons.tick}
+            source={item?.KdsStatus === 'PENDING' ? icons.time : icons.tick}
             resizeMode="center"
           />
-          <Text style={styles.readyTxt}>{'In progress'}</Text>
+
+          <Text style={styles.readyTxt}>{item?.KdsStatus}</Text>
         </TouchableOpacity>
         <View style={styles.itemSubView}>
           <View style={styles.itemIconView}>
             <Image
-              source={icons.dine}
+              source={
+                item?.type === 'DELIVERY'
+                  ? icons.delivery
+                  : item?.type === 'TAKE_AWAY'
+                  ? icons.takeaway
+                  : icons.dine
+              }
               style={styles.itemIcon}
               resizeMode="cover"
             />
@@ -146,9 +180,12 @@ const HomeLeftView = ({
                 <Text style={{color: 'red'}}>{'(not paid)'}</Text>
               </Text>
             ) : null}
-            <Text style={styles.nameTxt}>{'Jessica S.'}</Text>
+            <Text style={styles.nameTxt}>
+              {firstName ? firstName : 'No Name'}
+            </Text>
             <View style={styles.itemRow}>
-              <Text style={styles.itemTxt}>{'2 items'}</Text>
+              <Text
+                style={styles.itemTxt}>{`${item?.items.length} items`}</Text>
               <Image
                 source={icons.rightArrow}
                 style={styles.farwardArrow}
@@ -165,6 +202,23 @@ const HomeLeftView = ({
         </View>
       </View>
     );
+  };
+
+  const filterHandle = filter => {
+    setType(filter);
+    if (filter === 0) {
+      setOrdersList(ordersData?.data?.ordersData);
+    } else if (filter === 1) {
+      const filter1 = ordersData?.data?.ordersData.filter(
+        item => item?.KdsStatus === 'COMPLETED',
+      );
+      setOrdersList(filter1);
+    } else if (filter === 2) {
+      const filter2 = ordersData?.data?.ordersData.filter(
+        item => item?.KdsStatus === 'PENDING',
+      );
+      setOrdersList(filter2);
+    }
   };
   return (
     <View style={isShowOrder ? styles.leftView : styles.leftView1}>
@@ -203,7 +257,8 @@ const HomeLeftView = ({
                 {(item?.name === 'reserve' ||
                   item?.name === 'food' ||
                   item?.name === 'report' ||
-                  item?.name === 'employee') &&
+                  item?.name === 'employee' ||
+                  item?.name === 'setting') &&
                 !isMore ? null : (
                   <View
                     style={[
@@ -290,24 +345,34 @@ const HomeLeftView = ({
                 </View>
                 <View style={styles.statusTxtView}>
                   <TouchableOpacity
-                    style={[styles.allbtn, {borderBottomColor: colors.green}]}>
-                    <Text style={[styles.allTxt, {color: colors.black}]}>
+                    style={[styles.allbtn, {borderBottomColor: colors.green}]}
+                    onPress={() => filterHandle(0)}>
+                    <Text style={type === 0 ? styles?.allTxt1 : styles.allTxt}>
                       {'All'}
                     </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.allbtn}>
-                    <Text style={styles.allTxt}>{'Ready to Pick'}</Text>
+                  <TouchableOpacity
+                    style={styles.allbtn}
+                    onPress={() => filterHandle(1)}>
+                    <Text style={type === 1 ? styles?.allTxt1 : styles.allTxt}>
+                      {'Ready to Pick'}
+                    </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.allbtn}>
-                    <Text style={styles.allTxt}>{'In Progress'}</Text>
+                  <TouchableOpacity
+                    style={styles.allbtn}
+                    onPress={() => filterHandle(2)}>
+                    <Text style={type === 2 ? styles?.allTxt1 : styles.allTxt}>
+                      {'In Progress'}
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>
               <View style={styles.flatListView}>
                 <FlatList
-                  data={DATA}
+                  data={ordersList}
                   renderItem={renderItem}
                   keyExtractor={item => item.id}
+                  showsVerticalScrollIndicator={false}
                 />
               </View>
             </View>
@@ -412,7 +477,7 @@ const styles = StyleSheet.create({
   },
   openOrderView: {
     borderColor: colors.borderGray,
-    borderWidth: 1,
+    // borderWidth: 1,
   },
   orderTypea: {
     paddingHorizontal: scale(20),
@@ -447,6 +512,15 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     lineHeight: scale(18),
   },
+
+  allTxt1: {
+    fontWeight: '500',
+    fontSize: scale(12),
+    color: '#000000',
+    textDecorationLine: 'underline',
+    lineHeight: scale(18),
+  },
+
   allbtn: {
     borderBottomWidth: 1,
     borderBottomColor: '#B3B3B3',
@@ -634,5 +708,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.purpleLight,
     paddingTop: scale(17),
     paddingHorizontal: scale(12),
+    maxHeight: '86%',
   },
 });

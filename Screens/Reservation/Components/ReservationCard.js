@@ -5,9 +5,9 @@ import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
 import FlexDirectionView from '../../../Components/FlexDirectionView';
 
-const ReservationCard = ({onPress}) => {
+const ReservationCard = ({onPress, item}) => {
   return (
-    <TouchableOpacity style={styles.container} onPress={() => onPress()}>
+    <TouchableOpacity style={styles.container} onPress={() => onPress(item)}>
       <View style={styles.dateContainer}>
         <Image
           style={styles.calender}
@@ -18,11 +18,11 @@ const ReservationCard = ({onPress}) => {
       </View>
       <View style={styles.cardContainer}>
         <View style={styles.circle}>
-          <Text style={styles.circleText}>5</Text>
+          <Text style={styles.circleText}>{item?.id}</Text>
         </View>
         <View>
           <View style={styles.infoContainer}>
-            <Text style={styles.infoText}>12 Seats - Table 5</Text>
+            <Text style={styles.infoText}>{`12 Seats - ${item?.name}`} </Text>
           </View>
           <Text style={styles.seatingTxt}>
             {'Seating:'}

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -19,38 +19,125 @@ import DiscountModal from '../Modals/DiscountModal';
 import {images} from '../../../assets/images';
 import CallModal from '../Modals/CallModal';
 import AddressModal from '../Modals/AddressModal';
+import {useDispatch, useSelector} from 'react-redux';
+import {createOrder} from '../../../src/APICalling/APIs';
+import Toast from 'react-native-toast-message';
+import {resetOrder} from '../../../src/Redux/Slices/CreateOrderSlice';
 
 const OrderDetails = ({navigation, addCustomerPress}) => {
+  const dispatch = useDispatch();
+  const orderList = useSelector(state => state.createOrder);
+  const menu = useSelector(state => state.menu);
+  // console.log(
+  //   'menu>>>',
+  //   JSON.stringify(menu?.data?.posMenuItems?.brand?.branch?.tax),
+  // );
   const [visible, setVisible] = useState(false);
   const [isAttend, setIsAttend] = useState(false);
   const [isCall, setIsCall] = useState(false);
   const [isAddress, setIsAddress] = useState(false);
-  const data = [
-    {
-      id: '1',
-      title: 'Goat Nihari',
-      price: '$12.95',
-      detail: 'Ginger',
-      extraPrice: '$1.00',
-      note: 'Please make the Nihari less oily',
-    },
-    {
-      id: '1',
-      title: 'Goat Nihari',
-      price: '$12.95',
-      detail: 'Ginger',
-      extraPrice: '$1.00',
-      note: 'Please make the Nihari less oily',
-    },
-    {
-      id: '1',
-      title: 'Goat Nihari',
-      price: '$12.95',
-      detail: 'Ginger',
-      extraPrice: '$1.00',
-      note: 'Please make the Nihari less oily',
-    },
-  ];
+  const [total, setTotal] = useState(0);
+  const [subTotal, setSubTotal] = useState(0);
+  const [tax, setTax] = useState(0);
+  const [data, setData] = useState([]);
+  const [discount, setDiscount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const transformOrders = orders => {
+    return orders.map(orderC => {
+      const {order, modifier, quantity} = orderC;
+      return {
+        id: order._id,
+        itemId: order._id,
+        item: order.item,
+        quantity: quantity,
+        price: order.price,
+        total:
+          (order.price + (modifier ? modifier.additionalPrice : 0)) * quantity,
+        modifiers: [
+          {
+            modifierId: modifier ? modifier._id : null,
+            quantity: 1,
+            unitPrice: modifier ? modifier.additionalPrice : 0,
+            total: modifier ? modifier.additionalPrice : 0,
+          },
+        ],
+        unitPrice: order.price,
+      };
+    });
+  };
+
+  const onCheckOutPress = async () => {
+    if (data.length > 0) {
+      setIsLoading(true);
+      const transformedOrders = await transformOrders(data);
+
+      const obj = {
+        subTotal: subTotal,
+        discount: discount,
+        tax: tax,
+        total: total,
+        brand: menu?.data?.posMenuItems?.brand?._id,
+        branch: menu?.data?.posMenuItems?.brand?.branch?._id,
+        items: transformedOrders,
+        customer: '64dd1e24c603915232636360',
+        orderVia: 'ZEWST_APP',
+        type: 'TAKE_AWAY',
+        orderRoute: 'BRANCH',
+        tax_charges: 0.86,
+        zewst_charges: 0.39,
+        isGuestCheckout: false,
+      };
+      try {
+        const result = await createOrder(obj);
+        console.log('results', result);
+        if (result?.message === undefined) {
+          setIsLoading(false);
+          Toast.show({
+            type: 'success',
+            text1: 'Zewst',
+            text2: 'Order created successfully',
+          });
+          setData([]);
+          dispatch(resetOrder([]));
+          navigation.navigate('Payment');
+        }
+      } catch (error) {
+        setIsLoading(false);
+      }
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: 'Zewst',
+        text2: 'Please add at Least on Item.',
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (orderList && orderList?.orders.length > 0) {
+      setData(orderList?.orders);
+      let totalPrice = 0;
+
+      orderList.orders.forEach(orderC => {
+        const itemPrice = orderC.order.price;
+        const additionalPrice = orderC.modifier
+          ? orderC.modifier.additionalPrice
+          : 0;
+        const quantity = orderC.quantity;
+        const itemTotal = (itemPrice + additionalPrice) * quantity;
+
+        totalPrice += itemTotal;
+      });
+      const taxAmount =
+        (totalPrice / 100) * menu?.data?.posMenuItems?.brand?.branch?.tax;
+      setTax(taxAmount);
+      setTotal(totalPrice + taxAmount);
+      setSubTotal(totalPrice);
+    } else {
+      setData([]);
+    }
+  }, [orderList]);
 
   return (
     <View style={styles.mainContainer}>
@@ -119,16 +206,23 @@ const OrderDetails = ({navigation, addCustomerPress}) => {
       />
       <View style={styles.footer}>
         <View style={styles.row}>
-          <Text style={styles.detailText}>Tax 5.25%</Text>
-          <Text style={styles.detailText}>$2.67</Text>
+          <Text
+            style={
+              styles.detailText
+            }>{`Tax ${menu?.data?.posMenuItems?.brand?.branch?.tax}%`}</Text>
+          <Text style={styles.detailText}>{tax.toFixed(2)}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.detailText}>Discount</Text>
+          <Text style={styles.detailText}>{`$${discount}`}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.detailText}>{'subTotal'}</Text>
-          <Text style={styles.detailText}>$48.67</Text>
+          <Text style={styles.detailText}>{`$${subTotal}`}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.totalText}>{'Total'}</Text>
-          <Text style={styles.totalText}>$51.67</Text>
+          <Text style={styles.totalText}>{`$${total}`}</Text>
         </View>
         <FlexDirectionView Row>
           {isAttend ? (
@@ -154,9 +248,11 @@ const OrderDetails = ({navigation, addCustomerPress}) => {
             title={'Checkout'}
             style={styles.checkoutButton}
             titleStyle={styles.checkoutButtonText}
-            onPress={() => navigation.navigate('Payment')}
+            onPress={() => onCheckOutPress()}
             icon={icons.check}
             iconStyle={styles.tick}
+            loading={isLoading}
+            color={colors.purple}
           />
           {isAttend ? null : (
             <CustomButton
@@ -170,7 +266,15 @@ const OrderDetails = ({navigation, addCustomerPress}) => {
           )}
         </FlexDirectionView>
       </View>
-      <DiscountModal visible={visible} setVisible={() => setVisible(false)} />
+      <DiscountModal
+        visible={visible}
+        setVisible={(val, isamount) => {
+          // console.log('val', val, isamount);
+          setDiscount(val);
+          setVisible(false);
+          setTotal(total - discount);
+        }}
+      />
     </View>
   );
 };

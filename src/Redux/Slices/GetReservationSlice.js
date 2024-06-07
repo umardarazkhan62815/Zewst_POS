@@ -1,19 +1,18 @@
-// loginSlice.js
+// getReservationSlices.js
 
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import {loginApi} from '../../APICalling/APIs';
-
+import {getReservation} from '../../APICalling/APIs';
 const initialState = {
-  user: null,
+  data: null,
   loading: false,
   error: false,
 };
 
-export const loginUser = createAsyncThunk(
-  'login/loginUser',
+export const getReservationsAPI = createAsyncThunk(
+  'get/reservation',
   async (credentials, {rejectWithValue}) => {
     try {
-      const response = await loginApi(credentials); //login API function
+      const response = await getReservation(credentials);
       return response;
     } catch (error) {
       return rejectWithValue(error);
@@ -22,22 +21,22 @@ export const loginUser = createAsyncThunk(
 );
 
 // Define the auth slice
-const loginSlice = createSlice({
-  name: 'login',
+const getReservationSlices = createSlice({
+  name: 'menu',
   initialState,
 
   extraReducers: builder => {
     builder
-      .addCase(loginUser.pending, state => {
+      .addCase(getReservationsAPI.pending, state => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(loginUser.fulfilled, (state, action) => {
+      .addCase(getReservationsAPI.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.data = action.payload;
         state.error = null;
       })
-      .addCase(loginUser.rejected, (state, action) => {
+      .addCase(getReservationsAPI.rejected, (state, action) => {
         state.loading = false;
         state.error = true;
       });
@@ -45,4 +44,4 @@ const loginSlice = createSlice({
 });
 
 // Export the reducer and actions
-export default loginSlice.reducer;
+export default getReservationSlices.reducer;

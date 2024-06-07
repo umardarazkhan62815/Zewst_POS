@@ -3,7 +3,7 @@ import React from 'react';
 import {icons} from '../assets/icons';
 import {scale} from '../utilities/scale';
 import {colors} from '../utilities/colors';
-const Search = ({placeholder, iconStyle}) => {
+const Search = ({placeholder, iconStyle, value, onChangeText}) => {
   return (
     <View style={styles.mainContainer}>
       <Image
@@ -15,6 +15,8 @@ const Search = ({placeholder, iconStyle}) => {
         placeholder={placeholder}
         style={styles.input}
         placeholderTextColor={'#92929D'}
+        value={value}
+        onChangeText={onChangeText}
       />
     </View>
   );

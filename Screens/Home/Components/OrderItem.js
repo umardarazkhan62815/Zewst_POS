@@ -3,29 +3,41 @@ import React, {useState} from 'react';
 import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
 const OrderItem = ({item}) => {
+  let price = 0;
+
+  if (item?.modifier?.additionalPrice > 0) {
+    price =
+      (item?.modifier?.additionalPrice + item?.order?.price) * item?.quantity;
+  } else {
+    price = item?.order?.price * item?.quantity;
+  }
   const [show, setShow] = useState(false);
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.header} onPress={() => setShow(!show)}>
-        <Text style={styles.count}>{'01'}</Text>
-        <Text style={styles.title}>{'Halwa Puri'}</Text>
+        <Text style={styles.count}>{`${item?.quantity < 10 ? '0' : ''}${
+          item?.quantity
+        }`}</Text>
+        <Text style={styles.title}>{item?.order?.item}</Text>
         <View style={styles.p2View}>
           <Text style={styles.p2}>{'P2'}</Text>
         </View>
         <View style={{flex: 1}} />
 
-        <Text style={styles.price}>{'$12.95'}</Text>
+        <Text style={styles.price}>{`$${price}`}</Text>
       </TouchableOpacity>
       {show && (
         <View style={styles.detailsContainer}>
           <View style={styles.detailItem}>
-            <Text style={styles.detailText}>{'Ginger'}</Text>
+            <Text style={styles.detailText}>{item?.modifier?.modifier}</Text>
             <Text style={[styles.detailText, {color: colors.black}]}>
-              {'Remove'}
+              {/* {'Remove'} */}
             </Text>
-            <Text style={styles.detailText}>${'$1.00'}</Text>
+            <Text style={styles.detailText}>
+              ${item?.modifier?.additionalPrice}
+            </Text>
           </View>
-          <Text
+          {/* <Text
             style={[
               styles.detailText,
               {color: colors.black, paddingTop: scale(19)},
@@ -34,7 +46,7 @@ const OrderItem = ({item}) => {
           </Text>
           <Text style={styles.noteTxt}>
             {'Please make the Nihari less oily'}
-          </Text>
+          </Text> */}
         </View>
       )}
     </View>

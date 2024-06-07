@@ -7,6 +7,8 @@ import {images} from '../../../assets/images';
 import {colors} from '../../../utilities/colors';
 import {icons} from '../../../assets/icons';
 const CustomerCard = ({item, eyePress, onEditPress}) => {
+  const name = item?.fullName.split(' ')[0];
+  const lastFour = item?._id.slice(-4);
   return (
     <FlexDirectionView Row style={styles.mainContainer}>
       <Image
@@ -14,18 +16,18 @@ const CustomerCard = ({item, eyePress, onEditPress}) => {
         style={styles.profile}
         resizeMode="center"
       />
-      <Text style={styles.nameTxt}>{item?.name}</Text>
+      <Text style={styles.nameTxt}>{name}</Text>
       <View style={{flex: 1}} />
-      <Text style={styles.nameId}>{'..........  8785'}</Text>
+      <Text style={styles.nameId}>{item?.contact?.[0]?.contactNumber}</Text>
 
-      <Text style={styles.nameId}>{'345321231'}</Text>
+      <Text style={styles.nameId}>{'.... ....' + lastFour}</Text>
       <Text style={styles.department}>{'Design'}</Text>
       <Text style={styles.role}>{'UI/UX Designer'}</Text>
       <View style={styles.statusView}>
-        <Text style={styles.status}>{'Permanent'}</Text>
+        <Text style={styles.status}>{item?.active ? 'Active' : 'Disable'}</Text>
       </View>
       <FlexDirectionView Row spaceBetween style={styles.action}>
-        <TouchableOpacity onPress={() => eyePress()}>
+        <TouchableOpacity onPress={() => eyePress(item)}>
           <Image source={icons.eye} style={styles.delete} resizeMode="center" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => onEditPress()}>

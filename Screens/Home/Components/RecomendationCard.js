@@ -1,20 +1,43 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
 import {icons} from '../../../assets/icons';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  addOrder,
+  removeOrder,
+} from '../../../src/Redux/Slices/CreateOrderSlice';
 
-const RecomendationCard = ({title, price, setOrder}) => {
+const RecomendationCard = ({item, setOrder}) => {
+  const dispatch = useDispatch();
+  const order = useSelector(state => state.createOrder);
+  // console.log('Order', item);
   const [quantity, setQuantity] = useState(0);
   const handlePress = () => {
-    setOrder('http');
+    setOrder(item);
   };
+  useEffect(() => {
+    if (order && order.orders) {
+      let totalQuantity = 0;
+
+      order.orders.forEach(orderC => {
+        if (orderC.order._id === item._id) {
+          totalQuantity += orderC.quantity;
+        }
+      });
+
+      setQuantity(totalQuantity);
+    }
+  }, [order]);
+
   return (
     <TouchableOpacity onPress={() => handlePress()} style={styles.container}>
-      <Text style={styles.discount}>{'40% Discount Available'}</Text>
-
-      <Text style={styles.title}>{'Lamb Seekh Kabab Roll'}</Text>
-      <Text style={styles.price}>{'$12.95'}</Text>
+      {item?.discount ? (
+        <Text style={styles.discount}>{'40% Discount Available'}</Text>
+      ) : null}
+      <Text style={styles.title}>{item?.item}</Text>
+      <Text style={styles.price}>{`$${item?.price}`}</Text>
 
       <View style={styles.itemLeftView}>
         <Image
@@ -28,7 +51,11 @@ const RecomendationCard = ({title, price, setOrder}) => {
         {quantity > 0 ? (
           <TouchableOpacity
             style={styles.button}
-            onPress={() => setQuantity(quantity - 1)}>
+            onPress={() => {
+              const data = {order: item, modifier: null};
+              dispatch(removeOrder(data));
+              handlePress();
+            }}>
             <Image
               style={styles.plus}
               source={icons.minus}
@@ -43,7 +70,18 @@ const RecomendationCard = ({title, price, setOrder}) => {
         </Text>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => setQuantity(quantity + 1)}>
+          onPress={() => {
+            if (item?.groups?.length > 1) {
+              // setQuantity(quantity + 1);
+              // dispatch(addOrder(item));
+              handlePress();
+            } else {
+              // setQuantity(quantity + 1);
+              const data = {order: item, modifier: null};
+              dispatch(addOrder(data));
+              handlePress();
+            }
+          }}>
           <Image style={styles.plus} source={icons.plus} resizeMode="center" />
         </TouchableOpacity>
       </View>

@@ -27,8 +27,14 @@ import Employee from '../Employee/Employee';
 import Setting from '../Setting/Setting';
 import CallModal from './Modals/CallModal';
 import Customer from '../Customer/Customer';
+import {useDispatch, useSelector} from 'react-redux';
+import {menuAPI} from '../../src/Redux/Slices/MenuSlice';
+import {getOrdersAPI} from '../../src/Redux/Slices/GetOrderSlice';
 
 const Home = ({navigation}) => {
+  const dispatch = useDispatch();
+  const branchId = useSelector(state => state.menu);
+  // console.log('BranchId', branchId);
   const [statusModalvisible, setStatusModalvisible] = useState(false);
   const [endShifModalVisible, setEndShifModalVisible] = useState(false);
   const [closeRestModalVisible, setCloseRestModalVisible] = useState(false);
@@ -49,6 +55,16 @@ const Home = ({navigation}) => {
       backHandler.remove();
     };
   }, []);
+
+  useEffect(() => {
+    dispatch(menuAPI());
+  }, []);
+
+  useEffect(() => {
+    if (branchId && branchId?.data && branchId?.data?.posMenuItems) {
+      dispatch(getOrdersAPI(branchId?.data?.posMenuItems?.brand?.branch?._id));
+    }
+  }, [branchId]);
   return (
     <View style={styles.mainContainer}>
       <StatusBar backgroundColor={colors.purpleLight} barStyle="dark-content" />

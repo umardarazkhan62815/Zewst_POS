@@ -6,6 +6,7 @@ import {
   Image,
   ScrollView,
   BackHandler,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {icons} from '../../../assets/icons';
@@ -15,6 +16,8 @@ import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
 import {Dimensions} from 'react-native';
 import ToppingCard from './ToppingCard';
+import {useSelector} from 'react-redux';
+import FlexDirectionView from '../../../Components/FlexDirectionView';
 const companies = [
   {id: '1', icon: 'ios-home', text: 'Home'},
   {id: '2', icon: 'ios-settings', text: 'Settings'},
@@ -22,39 +25,40 @@ const companies = [
   {id: '4', icon: 'ios-notifications', text: 'Notifications'},
   {id: '5', icon: 'ios-mail', text: 'Messages'},
 
-  {id: '1', icon: 'ios-home', text: 'Home'},
-  {id: '2', icon: 'ios-settings', text: 'Settings'},
-  {id: '3', icon: 'ios-person', text: 'Profile'},
-  {id: '4', icon: 'ios-notifications', text: 'Notifications'},
-  {id: '5', icon: 'ios-mail', text: 'Messages'},
+  {id: '6', icon: 'ios-home', text: 'Home'},
+  {id: '7', icon: 'ios-settings', text: 'Settings'},
+  {id: '8', icon: 'ios-person', text: 'Profile'},
+  {id: '9', icon: 'ios-notifications', text: 'Notifications'},
+  {id: '10', icon: 'ios-mail', text: 'Messages'},
 ];
 const HomeMiddleView = () => {
-  const screenHeight = Dimensions.get('window').height / 2;
-
+  const menu = useSelector(state => state.menu);
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [categories, setCategories] = useState([]);
+  const [categoriesTypes, setCategoriesTypes] = useState([]);
+  const [groups, setGroups] = useState([]);
+
   const [topping, setTopping] = useState('');
   const [order, setOrder] = useState('');
 
   useEffect(() => {
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      () => {
-        console.log('BackPresed');
-        if (selectedCategory !== '') {
-          setSelectedCategory('');
-        }
-        return true;
-      },
-    );
+    updateCategories();
+  }, [menu]);
 
-    return () => {
-      backHandler.remove();
-    };
-  }, []);
+  const updateCategories = () => {
+    const branchCategories =
+      menu?.data?.posMenuItems?.brand?.branch?.categories;
+    if (branchCategories !== undefined) {
+      setCategories(branchCategories);
+    }
+  };
+
+  const screenHeight = Dimensions.get('window').height / 2;
+
   const renderCompnies = ({item}) => (
     <View style={styles.companyItem}>
       <Image style={styles.clogo} source={icons.clogo} resizeMode="center" />
-      <Text style={styles.companyTxt}>{'text'}</Text>
+      <Text style={styles.companyTxt}>{'Some'}</Text>
     </View>
   );
   return (
@@ -70,21 +74,34 @@ const HomeMiddleView = () => {
       </View>
 
       <View style={{maxHeight: screenHeight}}>
-        <Text style={styles.categoryTxt}>{'Categories'}</Text>
+        <FlexDirectionView Row>
+          <Text style={styles.categoryTxt}>{'Categories'}</Text>
+          {menu?.loading ? (
+            <ActivityIndicator size={'small'} color={colors.purple} />
+          ) : null}
+        </FlexDirectionView>
         {selectedCategory !== '' ? (
           <CategoryCard
+            item={selectedCategory}
             style={{width: scale(286)}}
             selectedItem={val => console.log(val)}
             cross
-            onCrossPress={() => setSelectedCategory('')}
+            onCrossPress={() => {
+              setGroups([]);
+              setOrder('');
+              setSelectedCategory('');
+            }}
           />
         ) : null}
         <FlatList
-          data={companies}
+          data={categories}
           renderItem={({item}) => (
             <CategoryCard
               item={item}
-              selectedItem={val => setSelectedCategory(val)}
+              selectedItem={val => {
+                setCategoriesTypes(val?.categoryTypes);
+                setSelectedCategory(val);
+              }}
               type={selectedCategory !== '' ? true : false}
             />
           )}
@@ -94,40 +111,59 @@ const HomeMiddleView = () => {
       </View>
       {selectedCategory !== '' ? (
         <>
-          <View>
-            <Text style={styles.categoryTxt}>{selectedCategory}</Text>
-            <FlatList
-              data={companies.slice(0, 8)}
-              renderItem={({item}) => (
-                <RecomendationCard
-                  item={item}
-                  setOrder={val => {
-                    setOrder(val);
-                  }}
+          {categoriesTypes.map(item => {
+            return (
+              <View>
+                {item?.items?.length > 0 ? (
+                  <Text style={styles.categoryTxt}>
+                    {item?.categoryTypeName}
+                  </Text>
+                ) : null}
+                <FlatList
+                  data={item?.items}
+                  renderItem={({item: _item}) => (
+                    <RecomendationCard
+                      item={_item}
+                      setOrder={val => {
+                        setOrder(val);
+                        if (val?.groups.length > 0) {
+                          setGroups(val?.groups.slice(1, val?.groups.length));
+                        }
+                      }}
+                    />
+                  )}
+                  showsHorizontalScrollIndicator={false}
+                  horizontal
+                  contentContainerStyle={{gap: scale(20)}}
                 />
-              )}
-              numColumns={4}
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={{gap: scale(20)}}
-            />
-          </View>
-          {selectedCategory !== '' && order !== '' ? (
+              </View>
+            );
+          })}
+          {selectedCategory !== '' && groups?.length > 0 ? (
             <View>
-              <Text style={styles.categoryTxt}>{'Toppings'}</Text>
-              <FlatList
-                data={companies}
-                renderItem={({item}) => (
-                  <ToppingCard
-                    item={item}
-                    setTopping={val => setTopping(val)}
-                  />
-                )}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-              />
+              {groups.map(group => {
+                // console.log('Groups', group);
+                return (
+                  <View key={group._id}>
+                    <Text style={styles.categoryTxt}>{group?.groupName}</Text>
+                    <FlatList
+                      data={group.modifiers}
+                      renderItem={({item}) => (
+                        <ToppingCard
+                          item={item}
+                          setTopping={val => setTopping(val)}
+                          product={order}
+                        />
+                      )}
+                      horizontal
+                      showsHorizontalScrollIndicator={false}
+                    />
+                  </View>
+                );
+              })}
             </View>
           ) : null}
-          <View style={{paddingBottom: scale(50)}}>
+          {/* <View style={{paddingBottom: scale(50)}}>
             <Text style={styles.categoryTxt}>{'Add on'}</Text>
             <FlatList
               data={companies}
@@ -142,11 +178,11 @@ const HomeMiddleView = () => {
               horizontal
               showsHorizontalScrollIndicator={false}
             />
-          </View>
+          </View> */}
         </>
       ) : (
         <View>
-          <Text style={styles.categoryTxt}>{'Recommendation'}</Text>
+          {/* <Text style={styles.categoryTxt}>{'Recommendation'}</Text>
           <FlatList
             data={companies}
             renderItem={({item}) => (
@@ -159,7 +195,7 @@ const HomeMiddleView = () => {
             )}
             horizontal
             showsHorizontalScrollIndicator={false}
-          />
+          /> */}
         </View>
       )}
     </ScrollView>
