@@ -6,7 +6,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
 import FlexDirectionView from '../../../Components/FlexDirectionView';
@@ -15,8 +15,28 @@ import CustomButton from '../../../Components/CustomButton';
 import {icons} from '../../../assets/icons';
 import {employee} from '../statics';
 import EmployCard from './EmployCard';
+import {useDispatch, useSelector} from 'react-redux';
+import {getEmployeeAPI} from '../../../src/Redux/Slices/getEmployeeSlice';
+
 const AllEmployee = ({onAddPress, eyePress}) => {
+  const branchId = useSelector(state => state.menu);
+  const employeeList = useSelector(state => state.employeeList);
+  // console.log('EmployeeList', employeeList?.data?.employees);
+  const dispatch = useDispatch();
   const [digit, setDigit] = useState(1);
+  const [employees, setEmployees] = useState([]);
+
+  useEffect(() => {
+    if (branchId && branchId?.data && branchId?.data?.posMenuItems) {
+      dispatch(getEmployeeAPI(branchId?.data?.posMenuItems?.id));
+    }
+  }, [branchId]);
+
+  useEffect(() => {
+    if (employeeList && employeeList?.data && employeeList?.data?.employees) {
+      setEmployees(employeeList?.data?.employees);
+    }
+  }, [employeeList]);
 
   const EmptyList = () => {
     return (
@@ -66,12 +86,12 @@ const AllEmployee = ({onAddPress, eyePress}) => {
             <Text style={styles.action}>{'Action'}</Text>
           </FlexDirectionView>
           <FlatList
-            data={employee}
+            data={employees}
             renderItem={({item}) => (
               <EmployCard
                 item={item}
-                eyePress={() => eyePress()}
-                onEditPress={() => onAddPress()}
+                eyePress={val => eyePress(val)}
+                onEditPress={val => onAddPress(val)}
               />
             )}
             keyExtractor={item => item.id}

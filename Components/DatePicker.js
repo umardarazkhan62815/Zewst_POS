@@ -13,12 +13,12 @@ import {icons} from '../assets/icons';
 import {scale} from '../utilities/scale';
 import {colors} from '../utilities/colors';
 
-const CustomDatePicker = ({style, placeHolder}) => {
-  const [date, setDate] = useState(null);
+const CustomDatePicker = ({style, placeHolder, selectedDate, date}) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleDateChange = newDate => {
-    setDate(newDate);
+    console.log('NewDAte', newDate);
+    selectedDate(newDate);
   };
 
   const handlePress = () => {
@@ -26,6 +26,9 @@ const CustomDatePicker = ({style, placeHolder}) => {
   };
 
   const handleDone = () => {
+    if (date === '') {
+      selectedDate(new Date());
+    }
     setShowDatePicker(false);
   };
 

@@ -23,6 +23,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {createOrder} from '../../../src/APICalling/APIs';
 import Toast from 'react-native-toast-message';
 import {resetOrder} from '../../../src/Redux/Slices/CreateOrderSlice';
+import UserSelectionModal from '../Modals/UserSelectionModal';
 
 const OrderDetails = ({navigation, addCustomerPress}) => {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ const OrderDetails = ({navigation, addCustomerPress}) => {
   //   'menu>>>',
   //   JSON.stringify(menu?.data?.posMenuItems?.brand?.branch?.tax),
   // );
+  const [isUser, setIsUser] = useState(false);
   const [visible, setVisible] = useState(false);
   const [isAttend, setIsAttend] = useState(false);
   const [isCall, setIsCall] = useState(false);
@@ -39,6 +41,8 @@ const OrderDetails = ({navigation, addCustomerPress}) => {
   const [total, setTotal] = useState(0);
   const [subTotal, setSubTotal] = useState(0);
   const [tax, setTax] = useState(0);
+  const [zewstCharges, setZewstCharges] = useState(0);
+
   const [data, setData] = useState([]);
   const [discount, setDiscount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -80,13 +84,13 @@ const OrderDetails = ({navigation, addCustomerPress}) => {
         brand: menu?.data?.posMenuItems?.brand?._id,
         branch: menu?.data?.posMenuItems?.brand?.branch?._id,
         items: transformedOrders,
-        customer: '64dd1e24c603915232636360',
+        customer: orderList?.user ? orderList.user._id : '',
         orderVia: 'ZEWST_APP',
         type: 'TAKE_AWAY',
         orderRoute: 'BRANCH',
-        tax_charges: 0.86,
-        zewst_charges: 0.39,
-        isGuestCheckout: false,
+        tax_charges: 0.0,
+        zewst_charges: zewstCharges,
+        isGuestCheckout: orderList?.user ? orderList.user.guest : true,
       };
       try {
         const result = await createOrder(obj);
@@ -131,8 +135,10 @@ const OrderDetails = ({navigation, addCustomerPress}) => {
       });
       const taxAmount =
         (totalPrice / 100) * menu?.data?.posMenuItems?.brand?.branch?.tax;
+      const zCharge = (totalPrice / 100) * 3 + taxAmount;
+      setZewstCharges(zCharge);
       setTax(taxAmount);
-      setTotal(totalPrice + taxAmount);
+      setTotal(totalPrice + taxAmount + zCharge);
       setSubTotal(totalPrice);
     } else {
       setData([]);
@@ -141,7 +147,18 @@ const OrderDetails = ({navigation, addCustomerPress}) => {
 
   return (
     <View style={styles.mainContainer}>
+      <UserSelectionModal
+        visible={isUser}
+        setVisible={() => {
+          setIsUser(false);
+        }}
+        onAddPress={() => addCustomerPress()}
+      />
       <Text style={styles.orderId}>{'Order#215'}</Text>
+      <Text style={styles.orderId}>
+        {orderList?.user?.fullName.split(' ')[0]}
+      </Text>
+
       <CallModal
         visible={isCall}
         setVisible={val => {
@@ -155,7 +172,9 @@ const OrderDetails = ({navigation, addCustomerPress}) => {
       />
       <AddressModal
         visible={isAddress}
-        setVisible={() => setIsAddress(false)}
+        setVisible={() => {
+          setIsAddress(false);
+        }}
       />
       {isAttend ? (
         <View style={styles.centeredView}>
@@ -189,7 +208,7 @@ const OrderDetails = ({navigation, addCustomerPress}) => {
       ) : (
         <TouchableOpacity
           style={styles.addCustomerView}
-          onPress={() => addCustomerPress()}>
+          onPress={() => setIsUser(true)}>
           <Image
             source={icons.addProfile}
             style={styles.profile}
@@ -211,6 +230,10 @@ const OrderDetails = ({navigation, addCustomerPress}) => {
               styles.detailText
             }>{`Tax ${menu?.data?.posMenuItems?.brand?.branch?.tax}%`}</Text>
           <Text style={styles.detailText}>{tax.toFixed(2)}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.detailText}>{`Zewst Charges`}</Text>
+          <Text style={styles.detailText}>{zewstCharges.toFixed(2)}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.detailText}>Discount</Text>

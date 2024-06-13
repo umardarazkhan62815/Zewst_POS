@@ -4,10 +4,10 @@ import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
 import {icons} from '../../../assets/icons';
 
-const DownloadCard = ({name, style}) => {
+const DownloadCard = ({item, style}) => {
   return (
     <View style={[styles.mainContainer, style]}>
-      <Text style={styles.nameTxt}>{name}</Text>
+      <Text style={styles.nameTxt}>{item?.key}</Text>
       <View style={{flex: 1}} />
       <Image style={styles.eyeIcon} source={icons.eye} resizeMode="center" />
       <Image

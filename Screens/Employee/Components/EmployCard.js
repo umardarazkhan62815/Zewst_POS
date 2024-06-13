@@ -7,6 +7,7 @@ import {images} from '../../../assets/images';
 import {colors} from '../../../utilities/colors';
 import {icons} from '../../../assets/icons';
 const EmployCard = ({item, eyePress, onEditPress}) => {
+  // console.log('item>>>', item);
   return (
     <FlexDirectionView Row style={styles.mainContainer}>
       <Image
@@ -14,19 +15,20 @@ const EmployCard = ({item, eyePress, onEditPress}) => {
         style={styles.profile}
         resizeMode="center"
       />
-      <Text style={styles.nameTxt}>{item?.name}</Text>
+      <Text
+        style={styles.nameTxt}>{`${item?.first_name} ${item?.last_name}`}</Text>
       <View style={{flex: 1}} />
-      <Text style={styles.nameId}>{'345321231'}</Text>
-      <Text style={styles.department}>{'Design'}</Text>
-      <Text style={styles.role}>{'UI/UX Designer'}</Text>
+      <Text style={styles.nameId}>{item?.employee_id}</Text>
+      <Text style={styles.department}>{item?.department}</Text>
+      <Text style={styles.role}>{item?.role}</Text>
       <View style={styles.statusView}>
-        <Text style={styles.status}>{'Permanent'}</Text>
+        <Text style={styles.status}>{item?.employee_status}</Text>
       </View>
       <FlexDirectionView Row spaceBetween style={styles.action}>
-        <TouchableOpacity onPress={() => eyePress()}>
+        <TouchableOpacity onPress={() => eyePress(item)}>
           <Image source={icons.eye} style={styles.delete} resizeMode="center" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => onEditPress()}>
+        <TouchableOpacity onPress={() => onEditPress(item)}>
           <Image
             source={icons.edit1}
             style={styles.delete}
@@ -94,7 +96,7 @@ const styles = StyleSheet.create({
     fontSize: scale(14),
     lineHeight: scale(20),
     backgroundColor: colors.purpleLight,
-    width: scale(89),
+    width: scale(100),
     textAlign: 'center',
     paddingVertical: scale(4),
   },

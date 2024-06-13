@@ -1,5 +1,5 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {scale} from '../../../utilities/scale';
 import {colors} from '../../../utilities/colors';
 import FlexDirectionView from '../../../Components/FlexDirectionView';
@@ -10,9 +10,46 @@ import {profileSteps} from '../statics';
 import PersonalInfoCard from './PersonalInfoCard';
 import AttendanceCard from './AttendanceCard';
 import RoleCard from './RoleCard';
+import {
+  getEmployeeDetails,
+  getEmployeeDocs,
+} from '../../../src/APICalling/APIs';
 
-const ProfileCard = ({onEditPress}) => {
+const ProfileCard = ({onEditPress, data}) => {
   const [type, setType] = useState(profileSteps[0]);
+  const [user, setUser] = useState('');
+  const [userDocs, setUserDocs] = useState('');
+
+  useEffect(() => {
+    if (data && data?.id) {
+      getDetails(data?.id);
+      getDocs(data?.id);
+    }
+  }, [data]);
+
+  const getDetails = async id => {
+    try {
+      const res = await getEmployeeDetails(id);
+      // console.log('getEmployeeDetails Result', res);
+      if (res?.message === 'Employee added successfully') {
+        setUser(res?.employeeDetails);
+      }
+    } catch (error) {
+      console.log('getDetails-Error', error);
+    }
+  };
+
+  const getDocs = async id => {
+    try {
+      const res = await getEmployeeDocs(id);
+      // console.log('getEmployeeDocs Result', res);
+      if (res?.message === 'Employee docs found successfully') {
+        setUserDocs(res?.docs);
+      }
+    } catch (error) {
+      console.log('getDocs-Error', error);
+    }
+  };
   return (
     <View style={styles.mainContainer}>
       <View style={styles.profileView}>
@@ -22,10 +59,12 @@ const ProfileCard = ({onEditPress}) => {
           resizeMode="center"
         />
         <View style={styles.nameView}>
-          <Text style={styles.name}>{'Brooklyn Simmons'}</Text>
+          <Text style={styles.name}>
+            {user?.first_name + ' ' + user?.last_name}
+          </Text>
           <FlexDirectionView Row>
             <Image source={icons.bag} style={styles.bag} resizeMode="center" />
-            <Text style={styles.status}>{'Project Manager'}</Text>
+            <Text style={styles.status}>{user?.role}</Text>
           </FlexDirectionView>
           <FlexDirectionView Row style={styles.emailView}>
             <Image
@@ -33,18 +72,18 @@ const ProfileCard = ({onEditPress}) => {
               style={styles.bag}
               resizeMode="center"
             />
-            <Text style={styles.status}>{'brooklyn.s@example.com'}</Text>
+            <Text style={styles.status}>{user?.email}</Text>
           </FlexDirectionView>
         </View>
 
         <View style={{flex: 1}} />
-        <CustomButton
+        {/* <CustomButton
           title={'Edit Profile'}
           style={styles.editBtn}
           icon={icons.edit1}
           iconStyle={styles.iconEdit}
           onPress={() => onEditPress()}
-        />
+        /> */}
       </View>
       <View style={styles.container}>
         <View style={styles.attendenceView}>
@@ -66,7 +105,7 @@ const ProfileCard = ({onEditPress}) => {
         </View>
         <View style={{flex: 1}}>
           {type === profileSteps[0] ? (
-            <PersonalInfoCard />
+            <PersonalInfoCard user={user} docs={userDocs} />
           ) : type === profileSteps[1] ? (
             <AttendanceCard />
           ) : (

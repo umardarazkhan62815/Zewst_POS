@@ -3,6 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
   orders: [],
+  user: null,
 };
 const areOrdersEqual = (order1, order2) => {
   if (order1.order._id !== order2.order._id) {
@@ -56,9 +57,15 @@ const createOrderSlice = createSlice({
       console.log('action.payload', action.payload);
       state.orders = action.payload;
     },
+    addUser: (state, action) => {
+      console.log('Select.User', action.payload);
+
+      state.user = action.payload;
+    },
   },
 });
 
-export const {addOrder, removeOrder, resetOrder} = createOrderSlice.actions;
+export const {addOrder, removeOrder, resetOrder, addUser} =
+  createOrderSlice.actions;
 
 export default createOrderSlice.reducer;

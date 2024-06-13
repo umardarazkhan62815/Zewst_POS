@@ -30,6 +30,7 @@ import Customer from '../Customer/Customer';
 import {useDispatch, useSelector} from 'react-redux';
 import {menuAPI} from '../../src/Redux/Slices/MenuSlice';
 import {getOrdersAPI} from '../../src/Redux/Slices/GetOrderSlice';
+import {getCustomersAPI} from '../../src/Redux/Slices/GetCustomerSlice';
 
 const Home = ({navigation}) => {
   const dispatch = useDispatch();
@@ -63,6 +64,9 @@ const Home = ({navigation}) => {
   useEffect(() => {
     if (branchId && branchId?.data && branchId?.data?.posMenuItems) {
       dispatch(getOrdersAPI(branchId?.data?.posMenuItems?.brand?.branch?._id));
+      dispatch(
+        getCustomersAPI(branchId?.data?.posMenuItems?.brand?.branch?._id),
+      );
     }
   }, [branchId]);
   return (

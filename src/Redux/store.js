@@ -5,6 +5,7 @@ import OrderListReducer from './Slices/GetOrderSlice';
 import CustomerListReducer from './Slices/GetCustomerSlice';
 import ReservationListReducer from './Slices/GetReservationSlice';
 import CreateOrderReducer from './Slices/CreateOrderSlice';
+import EmployeeListReducer from './Slices/getEmployeeSlice';
 export const store = configureStore({
   reducer: {
     login: LoginReducer,
@@ -13,5 +14,6 @@ export const store = configureStore({
     customersList: CustomerListReducer,
     reservationList: ReservationListReducer,
     createOrder: CreateOrderReducer,
+    employeeList: EmployeeListReducer,
   },
 });

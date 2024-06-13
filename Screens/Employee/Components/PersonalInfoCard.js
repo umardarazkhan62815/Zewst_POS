@@ -1,5 +1,5 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {steps} from '../statics';
 import {Image} from '@rneui/base/dist/Image/Image';
 import {scale} from '../../../utilities/scale';
@@ -8,8 +8,24 @@ import InfoCard from './InfoCard';
 import FlexDirectionView from '../../../Components/FlexDirectionView';
 import DownloadCard from './DownloadCard';
 
-const PersonalInfoCard = () => {
+const PersonalInfoCard = ({user, docs}) => {
+  const [documentList, setDocumentList] = useState([]);
   const [step, setStep] = useState(steps[0]);
+  const [workingDays, setWorkingDays] = useState(0);
+
+  useEffect(() => {
+    if (user?.working_days) {
+      const days = Object.values(user.working_days).filter(
+        day => day === true,
+      ).length;
+      setWorkingDays(days);
+    }
+  }, [user]);
+  useEffect(() => {
+    if (docs) {
+      setDocumentList(docs);
+    }
+  }, [docs]);
   return (
     <View style={styles.mainContainer}>
       <View style={styles.container}>
@@ -33,37 +49,37 @@ const PersonalInfoCard = () => {
       {step === steps[0] ? (
         <>
           <FlexDirectionView Row>
-            <InfoCard title={'First Name'} name={'Brooklyn'} />
+            <InfoCard title={'First Name'} name={user?.first_name} />
             <InfoCard
               title={'Last Name'}
-              name={'Simmons'}
+              name={user?.last_name}
               style={styles.cardView}
             />
           </FlexDirectionView>
 
           <FlexDirectionView Row>
-            <InfoCard title={'Mobile Number'} name={'(702) 555-0122'} />
+            <InfoCard title={'Mobile Number'} name={user?.phone_number} />
             <InfoCard
               title={'Email Address'}
-              name={'brooklyn.s@example.com'}
+              name={user?.email}
               style={styles.cardView}
             />
           </FlexDirectionView>
 
           <FlexDirectionView Row>
-            <InfoCard title={'Date of Birth'} name={'July 14, 1995'} />
+            <InfoCard title={'Date of Birth'} name={user?.dob} />
             <InfoCard
               title={'Marital Status'}
-              name={'Married'}
+              name={user?.marital_status}
               style={styles.cardView}
             />
           </FlexDirectionView>
 
           <FlexDirectionView Row>
-            <InfoCard title={'Gender'} name={'Female'} />
+            <InfoCard title={'Gender'} name={user?.gender} />
             <InfoCard
               title={'Nationality'}
-              name={'America'}
+              name={user?.nationality}
               style={styles.cardView}
             />
           </FlexDirectionView>
@@ -71,20 +87,20 @@ const PersonalInfoCard = () => {
           <FlexDirectionView Row>
             <InfoCard
               title={'Address'}
-              name={'2464 Royal Ln. Mesa, New Jersey'}
+              name={user?.address?.line1 + ' ' + user?.address?.line2}
             />
             <InfoCard
               title={'City'}
-              name={'California'}
+              name={user?.city}
               style={styles.cardView}
             />
           </FlexDirectionView>
 
           <FlexDirectionView Row>
-            <InfoCard title={'State'} name={'United State'} />
+            <InfoCard title={'State'} name={user?.state} />
             <InfoCard
               title={'Zip Code'}
-              name={'35624'}
+              name={user?.postal_code}
               style={styles.cardView}
             />
           </FlexDirectionView>
@@ -92,27 +108,30 @@ const PersonalInfoCard = () => {
       ) : step === steps[1] ? (
         <>
           <FlexDirectionView Row>
-            <InfoCard title={'Employee ID'} name={'879912390'} />
+            <InfoCard title={'Employee ID'} name={user?.employee_id} />
           </FlexDirectionView>
 
           <FlexDirectionView Row>
-            <InfoCard title={'Department'} name={'Project Manager'} />
+            <InfoCard title={'Department'} name={user?.department} />
             <InfoCard
               title={'Designation'}
-              name={'Project Manager'}
+              name={user?.role}
               style={styles.cardView}
             />
           </FlexDirectionView>
 
           <FlexDirectionView Row>
-            <InfoCard title={'Employment status'} name={'Permanent'} />
+            <InfoCard
+              title={'Employment status'}
+              name={user?.employee_status}
+            />
           </FlexDirectionView>
 
           <FlexDirectionView Row>
-            <InfoCard title={'Working Days'} name={'5 Days'} />
+            <InfoCard title={'Working Days'} name={`${workingDays} Days`} />
             <InfoCard
               title={'Joining Date'}
-              name={'July 10, 2022'}
+              name={user?.dob}
               style={styles.cardView}
             />
           </FlexDirectionView>
@@ -125,30 +144,24 @@ const PersonalInfoCard = () => {
           </FlexDirectionView>
         </>
       ) : (
-        <>
-          <FlexDirectionView Row>
-            <DownloadCard name={'Appointment Letter.pdf'} />
-            <DownloadCard
-              name={'Appointment Letter.pdf'}
-              style={{marginLeft: scale(25)}}
-            />
-          </FlexDirectionView>
-
-          <FlexDirectionView Row>
-            <DownloadCard name={'Appointment Letter.pdf'} />
-            <DownloadCard
-              name={'Appointment Letter.pdf'}
-              style={{marginLeft: scale(25)}}
-            />
-          </FlexDirectionView>
-          <FlexDirectionView Row>
-            <DownloadCard name={'Appointment Letter.pdf'} />
-            <DownloadCard
-              name={'Appointment Letter.pdf'}
-              style={{marginLeft: scale(25)}}
-            />
-          </FlexDirectionView>
-        </>
+        <View>
+          <FlatList
+            data={documentList}
+            renderItem={({item}) => <DownloadCard item={item} />}
+            keyExtractor={item => item.id}
+            numColumns={2}
+            contentContainerStyle={{paddingHorizontal: scale(10)}}
+            columnWrapperStyle={{justifyContent: 'space-between'}}
+            initialNumToRender={10}
+            maxToRenderPerBatch={10}
+            windowSize={5}
+            ListEmptyComponent={() => (
+              <View style={styles.emptyView}>
+                <Text style={styles.emptyTxt}>{'No documents available'}</Text>
+              </View>
+            )}
+          />
+        </View>
       )}
     </View>
   );
@@ -204,5 +217,15 @@ const styles = StyleSheet.create({
   },
   cardView: {
     marginLeft: scale(25),
+  },
+  emptyView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: scale(30),
+  },
+  emptyTxt: {
+    color: colors.black,
+    fontSize: scale(24),
+    fontWeight: '500',
   },
 });
