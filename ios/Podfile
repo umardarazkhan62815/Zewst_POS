@@ -13,13 +13,13 @@ if linkage != nil
 end
 
 target 'Zewst_POS' do
-  # config = use_native_modules!
+  config = use_native_modules!
 
   # Flags change depending on the env values.
   flags = get_default_flags()
 
   use_react_native!(
-    # :path => config[:reactNativePath],
+    :path => config[:reactNativePath],
     # Hermes is now enabled by default. Disable by setting this flag to false.
     # Upcoming versions of React Native may rely on get_default_flags(), but
     # we make it explicit here to aid in the React Native upgrade process.
